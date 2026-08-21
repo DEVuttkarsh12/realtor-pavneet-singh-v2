@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PropertyDetail } from "../../components/InnerPages";
 import { properties } from "../../data";
+import { getSiteUrl } from "../../site-url";
 
 export function generateStaticParams() {
   return properties.map((property) => ({ property: property.slug }));
@@ -17,7 +18,7 @@ export async function generateMetadata({
   if (!property) return {};
   const title = `${property.title} | Pavneet Singh`;
   const description = `${property.location}. ${property.summary}`;
-  const image = `https://pavneet-singh-realtor1.vercel.app${property.image}`;
+  const image = new URL(property.image, getSiteUrl()).toString();
   return {
     title,
     description,

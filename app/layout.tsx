@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import { getSiteUrl } from "./site-url";
 import "./globals.css";
 
+const siteUrl = getSiteUrl();
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://pavneet-singh-realtor.criyx-ai.chatgpt.site"),
+  metadataBase: siteUrl,
   title: "Pavneet Singh | Nova Scotia Realtor",
   description:
     "Residential, investment, commercial, land, and relocation guidance across Nova Scotia with Pavneet Singh, REALTOR®.",
@@ -25,7 +28,7 @@ export const metadata: Metadata = {
       "Your next move, made with clarity. Real estate guidance across Nova Scotia.",
     type: "website",
     locale: "en_CA",
-    url: "https://pavneet-singh-realtor.criyx-ai.chatgpt.site",
+    url: siteUrl,
     siteName: "Pavneet Singh Real Estate",
     images: [
       {
