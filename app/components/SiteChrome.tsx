@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState, type ReactNode } from "react";
 import { navItems, site } from "../data";
 
@@ -153,7 +154,7 @@ export function SiteChrome({
       <header
         className={`site-header ${darkHeader ? "on-hero" : ""} ${scrolled ? "is-scrolled" : ""}`}
       >
-        <a className="brand" href="/" aria-label="Pavneet Singh home">
+        <Link className="brand" href="/" aria-label="Pavneet Singh home">
           <span className="brand-mark" aria-hidden="true">
             <img src="/images/pavneet-logo-nav.webp" alt="" />
           </span>
@@ -161,17 +162,17 @@ export function SiteChrome({
             <strong>Pavneet Singh</strong>
             <small>Nova Scotia REALTOR®</small>
           </span>
-        </a>
+        </Link>
 
         <nav className="desktop-nav" aria-label="Primary navigation">
           {navItems.map((item) => (
-            <a href={item.href} key={item.href}>{item.label}</a>
+            <Link href={item.href} key={item.href}>{item.label}</Link>
           ))}
         </nav>
 
-        <a className="header-contact" href="/contact" data-magnetic>
+        <Link className="header-contact" href="/contact" data-magnetic>
           Private consultation <ArrowUpRight />
-        </a>
+        </Link>
 
         <button
           type="button"
@@ -189,13 +190,13 @@ export function SiteChrome({
         <div className="mobile-menu-inner">
           <p>Navigate</p>
           {navItems.map((item, index) => (
-            <a href={item.href} key={item.href} onClick={() => setMenuOpen(false)}>
+            <Link href={item.href} key={item.href} onClick={() => setMenuOpen(false)}>
               <span>0{index + 1}</span>{item.label}<ArrowUpRight />
-            </a>
+            </Link>
           ))}
-          <a className="mobile-menu-cta" href="/contact" onClick={() => setMenuOpen(false)}>
+          <Link className="mobile-menu-cta" href="/contact" onClick={() => setMenuOpen(false)}>
             Request a consultation <ArrowUpRight />
-          </a>
+          </Link>
           <div className="mobile-menu-contact">
             <a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a>
             <a href={`mailto:${site.email}`}>{site.email}</a>
@@ -211,9 +212,9 @@ export function SiteChrome({
           <div className="footer-pitch reveal">
             <p className="eyebrow light">Your next move</p>
             <h2>Let&apos;s make it a <em>confident one.</em></h2>
-            <a className="circle-link" href="/contact" aria-label="Request a private consultation" data-magnetic>
+            <Link className="circle-link" href="/contact" aria-label="Request a private consultation" data-magnetic>
               <span>Request<br />a consultation</span><ArrowUpRight />
-            </a>
+            </Link>
           </div>
           <div className="footer-info reveal reveal-delay">
             <div>
@@ -236,8 +237,8 @@ export function SiteChrome({
           <span>© 2026 Pavneet Singh</span>
           <span>REALTOR® | Sutton Group Professional Realty</span>
           <div>
-            <a href="/privacy-policy">Privacy</a>
-            <a href="/terms">Terms</a>
+            <Link href="/privacy-policy">Privacy</Link>
+            <Link href="/terms">Terms</Link>
           </div>
         </div>
         <div className="footer-disclaimer shell">

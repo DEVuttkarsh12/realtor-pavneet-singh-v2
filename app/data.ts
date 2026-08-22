@@ -15,6 +15,7 @@ export const navItems = [
   { label: "Advisory", href: "/services" },
   { label: "Neighbourhoods", href: "/neighbourhoods" },
   { label: "Guides", href: "/guides" },
+  { label: "Insights", href: "/blog" },
 ];
 
 export const journeys = [
@@ -229,6 +230,138 @@ export const sellerSteps = [
   ["07", "Close with confidence", "Finalize documents, transfer ownership, and coordinate the transition into whatever comes next."],
 ] as const;
 
+export type BlogPost = {
+  slug: string;
+  category: string;
+  title: string;
+  date: string;
+  readTime: string;
+  image: string;
+  excerpt: string;
+  takeaways: string[];
+  sections: Array<{
+    heading: string;
+    body: string[];
+  }>;
+};
+
+export const blogPosts: BlogPost[] = [
+  {
+    slug: "nova-scotia-home-buying-costs",
+    category: "Buyers",
+    title: "Nova Scotia home buying costs to plan before the search",
+    date: "August 22, 2026",
+    readTime: "4 min read",
+    image: "/images/interior-kitchen.jpg",
+    excerpt:
+      "A stronger home search starts with the full ownership budget, not only the down payment or monthly mortgage payment.",
+    takeaways: [
+      "Plan for deposit, inspection, legal fees, tax adjustments, insurance, moving, and near-term repairs.",
+      "Use pre-approval as a strategy tool, not just a price ceiling.",
+      "Compare properties by total monthly reality and future fit.",
+    ],
+    sections: [
+      {
+        heading: "Start with the complete budget",
+        body: [
+          "The purchase price is only one part of the decision. Buyers should account for the deposit, down payment, inspection, legal work, title-related costs, adjustments, insurance, utilities, maintenance, and the move itself.",
+          "A clear budget also protects the search. When the comfortable monthly number is known early, the shortlist can focus on homes that still make sense after closing day.",
+        ],
+      },
+      {
+        heading: "Use financing clarity before viewings",
+        body: [
+          "A pre-approval gives buyers a cleaner view of purchasing power, but it should also start a practical conversation about payments, rates, cash flow, and timing.",
+          "That context makes offer decisions easier because the tradeoffs are already understood before a competitive property appears.",
+        ],
+      },
+      {
+        heading: "Compare homes beyond the first impression",
+        body: [
+          "Condition, commute, community fit, utilities, likely repairs, resale context, and long-term lifestyle should be reviewed together.",
+          "The best purchase is not only the home that looks right today. It is the property that remains workable after the full cost and the future plan are considered.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "prepare-your-property-before-listing",
+    category: "Sellers",
+    title: "How to prepare your property before listing in Nova Scotia",
+    date: "August 22, 2026",
+    readTime: "5 min read",
+    image: "/images/home-exterior.jpg",
+    excerpt:
+      "Preparation works best when presentation, pricing, launch timing, and negotiation strategy are planned as one sequence.",
+    takeaways: [
+      "Focus first on issues that shape buyer confidence.",
+      "Price strategy should reflect comparable sales, active competition, condition, and timing.",
+      "Launch materials need to make the strongest features easy to understand quickly.",
+    ],
+    sections: [
+      {
+        heading: "Prioritize confidence-building work",
+        body: [
+          "Not every improvement produces the same return. Sellers should focus on the repairs, cleaning, decluttering, and presentation choices that reduce buyer hesitation and make the property easier to understand.",
+          "Small details can matter when they support a broader first impression of care and readiness.",
+        ],
+      },
+      {
+        heading: "Connect price to positioning",
+        body: [
+          "Pricing is not just a number. It is the market position created by recent comparable sales, current competition, property condition, showing feedback, and the seller's timeline.",
+          "A disciplined pricing conversation helps protect leverage because the launch strategy is based on evidence rather than hope.",
+        ],
+      },
+      {
+        heading: "Launch with a complete story",
+        body: [
+          "Photography, copy, showing preparation, digital exposure, and REALTOR® outreach should work together.",
+          "When buyers can quickly understand the value, the property is better positioned to attract serious attention and stronger conversations.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "choosing-a-nova-scotia-community",
+    category: "Relocation",
+    title: "Choosing a Nova Scotia community when relocating",
+    date: "August 22, 2026",
+    readTime: "4 min read",
+    image: "/images/nova-scotia-coast.webp",
+    excerpt:
+      "Community fit should connect the property search to commute, schools, services, lifestyle, and the kind of daily rhythm you want.",
+    takeaways: [
+      "Compare communities by daily life, not only by property photos.",
+      "Account for commute, services, school needs, and future resale context.",
+      "Use a shortlist that balances lifestyle goals with budget discipline.",
+    ],
+    sections: [
+      {
+        heading: "Define the life around the home",
+        body: [
+          "Relocation decisions become clearer when the search starts with daily routines. Commute, schools, services, transportation, recreation, and community pace should all shape the shortlist.",
+          "This is especially important in Nova Scotia, where urban, suburban, rural, and coastal communities can offer very different ownership experiences.",
+        ],
+      },
+      {
+        heading: "Balance lifestyle and value",
+        body: [
+          "A lower purchase price in one area may come with different transportation, maintenance, or service tradeoffs. A higher price in another area may be justified by convenience or long-term fit.",
+          "The goal is not to chase one metric. The goal is to understand the whole decision before making an offer.",
+        ],
+      },
+      {
+        heading: "Build a community shortlist",
+        body: [
+          "A practical shortlist usually includes a few priority communities, a few flexible alternatives, and a clear reason why each one belongs.",
+          "That structure keeps the search focused while still leaving room for opportunity.",
+        ],
+      },
+    ],
+  },
+];
+
 export const pageMeta: Record<string, { title: string; description: string }> = {
   about: {
     title: "About Pavneet Singh | Nova Scotia REALTOR®",
@@ -254,6 +387,11 @@ export const pageMeta: Record<string, { title: string; description: string }> = 
     title: "Nova Scotia Buyer & Seller Guides | Pavneet Singh",
     description:
       "Practical guidance for buying, selling, relocating, and investing in Nova Scotia real estate.",
+  },
+  blog: {
+    title: "Nova Scotia Real Estate Blog & Insights | Pavneet Singh",
+    description:
+      "Buyer, seller, relocation, and market insights for informed real estate decisions across Nova Scotia.",
   },
   "buying-guide": {
     title: "Nova Scotia Home Buying Guide | Pavneet Singh",

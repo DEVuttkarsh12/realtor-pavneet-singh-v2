@@ -1,7 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import {
+  blogPosts,
+  type BlogPost,
   buyerSteps,
   communities,
   properties,
@@ -72,7 +75,7 @@ function PageCta({ title, copy = "Tell Pavneet what you are considering and rece
         </div>
         <div className="reveal reveal-delay">
           <p>{copy}</p>
-          <a className="primary-button light-button" href="/contact">Discuss your goals <ArrowUpRight /></a>
+          <Link className="primary-button light-button" href="/contact">Discuss your goals <ArrowUpRight /></Link>
         </div>
       </div>
     </section>
@@ -145,7 +148,7 @@ function AboutPage() {
             />
             <div className="community-collage">
               <figure className="reveal">
-                <img src="/images/pavneet-community-leadership.jpg" alt="Pavneet Singh at a Canadian community leadership event" />
+                <img src="/images/pavneet-community-in-action.jpg" alt="Pavneet Singh, Nova Scotia REALTOR®" />
                 <figcaption><span>01</span>Community leadership</figcaption>
               </figure>
               <figure className="reveal reveal-delay">
@@ -249,7 +252,7 @@ function ServicesPage() {
               copy="Local knowledge becomes valuable when it is applied to a clear understanding of your goals."
             />
             <div className="service-detail-list">
-              {detail.map((item, index) => (
+              {detail.map((item) => (
                 <article className="service-detail reveal" id={item.id} key={item.id}>
                   <div className="service-detail-image"><img src={item.image} alt="" /><span>{item.number}</span></div>
                   <div className="service-detail-content">
@@ -355,16 +358,23 @@ function PropertiesPage() {
     const savedMinimum = params.get("min");
     const savedMaximum = params.get("max");
     const savedBedrooms = params.get("beds");
-    if (savedMarket && realtorMarkets.some((item) => item.id === savedMarket)) {
-      setMarket(savedMarket as (typeof realtorMarkets)[number]["id"]);
-    }
-    if (savedType && realtorPropertyTypes.some((item) => item.id === savedType)) {
-      setPropertyType(savedType as (typeof realtorPropertyTypes)[number]["id"]);
-    }
-    if (savedMinimum && marketPrices.some(([value]) => value === savedMinimum)) setMinimum(savedMinimum);
-    if (savedMaximum && marketMaximums.some(([value]) => value === savedMaximum)) setMaximum(savedMaximum);
-    if (savedBedrooms && ["0", "1", "2", "3", "4", "5"].includes(savedBedrooms)) setBedrooms(savedBedrooms);
-    setSearchReady(true);
+    let mounted = true;
+    window.queueMicrotask(() => {
+      if (!mounted) return;
+      if (savedMarket && realtorMarkets.some((item) => item.id === savedMarket)) {
+        setMarket(savedMarket as (typeof realtorMarkets)[number]["id"]);
+      }
+      if (savedType && realtorPropertyTypes.some((item) => item.id === savedType)) {
+        setPropertyType(savedType as (typeof realtorPropertyTypes)[number]["id"]);
+      }
+      if (savedMinimum && marketPrices.some(([value]) => value === savedMinimum)) setMinimum(savedMinimum);
+      if (savedMaximum && marketMaximums.some(([value]) => value === savedMaximum)) setMaximum(savedMaximum);
+      if (savedBedrooms && ["0", "1", "2", "3", "4", "5"].includes(savedBedrooms)) setBedrooms(savedBedrooms);
+      setSearchReady(true);
+    });
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   useEffect(() => {
@@ -498,13 +508,13 @@ function PropertiesPage() {
             </div>
             <div className="marketplace-grid">
               {filtered.map((property) => (
-                <a className="market-card" href={`/properties/${property.slug}`} key={property.slug} data-cursor-label="View">
+                <Link className="market-card" href={`/properties/${property.slug}`} key={property.slug} data-cursor-label="View">
                   <div className="market-card-image"><img src={property.image} alt={property.title} /><span>{property.category}</span><i><ArrowUpRight /></i></div>
                   <div className="market-card-copy">
                     <p>{property.location}</p><h3>{property.title}</h3><strong>{property.price}</strong>
                     <div><span>{property.beds}</span><span>{property.baths}</span><span>{property.area}</span></div>
                   </div>
-                </a>
+                </Link>
               ))}
             </div>
             <div className="market-disclaimer reveal">
@@ -574,14 +584,14 @@ function GuidesPage() {
           <div className="shell">
             <SectionIntro eyebrow="Choose your path" title={<>Know what comes <em>next.</em></>} copy="Focused roadmaps that connect the key decisions before the process becomes emotional or urgent." />
             <div className="guide-choice-grid">
-              <a className="guide-choice reveal" href="/buying-guide">
+              <Link className="guide-choice reveal" href="/buying-guide">
                 <img src="/images/interior-kitchen.jpg" alt="Modern Nova Scotia home interior" /><div className="guide-choice-film" />
                 <span>01 / Buying</span><h3>From first priorities to the front door.</h3><p>A seven-step roadmap across budget, pre-approval, search, offers, due diligence, and closing.</p><i><ArrowUpRight /></i>
-              </a>
-              <a className="guide-choice reveal reveal-delay" href="/selling-guide">
+              </Link>
+              <Link className="guide-choice reveal reveal-delay" href="/selling-guide">
                 <img src="/images/home-exterior.jpg" alt="Well-presented family home" /><div className="guide-choice-film" />
                 <span>02 / Selling</span><h3>Prepare, position, negotiate, and close.</h3><p>A coordinated approach built to protect leverage, attract serious buyers, and keep the move connected.</p><i><ArrowUpRight /></i>
-              </a>
+              </Link>
             </div>
           </div>
         </section>
@@ -608,6 +618,85 @@ function GuidesPage() {
   );
 }
 
+function BlogPage() {
+  const featured = blogPosts[0];
+  const remaining = blogPosts.slice(1);
+
+  return (
+    <SiteChrome darkHeader>
+      <main>
+        <InnerHero
+          eyebrow="Nova Scotia real estate blog"
+          title={<>Insights for clearer <em>decisions.</em></>}
+          copy="Buyer, seller, relocation, and investment guidance for people planning a real estate move across Nova Scotia."
+          image="/images/halifax-aerial.jpg"
+          index="BLOG / 08"
+        />
+
+        <section className="blog-index-section section-space">
+          <div className="shell">
+            <SectionIntro
+              eyebrow="Latest insights"
+              title={<>Practical reading before the <em>next step.</em></>}
+              copy="Short, structured notes built around the decisions clients ask about most often."
+            />
+            <Link className="blog-featured-card reveal" href={`/blog/${featured.slug}`} data-cursor-label="Read">
+              <div className="blog-featured-image">
+                <img src={featured.image} alt="" />
+                <span>{featured.category}</span>
+              </div>
+              <div className="blog-featured-copy">
+                <p className="eyebrow">{featured.date} / {featured.readTime}</p>
+                <h3>{featured.title}</h3>
+                <p>{featured.excerpt}</p>
+                <strong>Read featured insight <ArrowUpRight /></strong>
+              </div>
+            </Link>
+            <div className="blog-card-grid">
+              {remaining.map((post, index) => (
+                <Link
+                  className={`blog-card reveal reveal-delay-${index + 1}`}
+                  href={`/blog/${post.slug}`}
+                  key={post.slug}
+                  data-cursor-label="Read"
+                >
+                  <img src={post.image} alt="" />
+                  <div>
+                    <span>{post.category} / {post.readTime}</span>
+                    <h3>{post.title}</h3>
+                    <p>{post.excerpt}</p>
+                    <strong>Read insight <ArrowUpRight /></strong>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="decision-notes soft-section section-space">
+          <div className="shell">
+            <SectionIntro eyebrow="Topic tracks" title={<>Built around the questions that <em>repeat.</em></>} />
+            <div className="decision-grid">
+              {[
+                ["Buyers", "What should be clear before the first showing?", "Budget, financing, non-negotiables, community fit, offer conditions, and closing costs."],
+                ["Sellers", "What should be ready before the listing goes live?", "Preparation, pricing evidence, launch timing, showing plan, and negotiation priorities."],
+                ["Relocation", "Which community supports the whole move?", "Commute, services, schools, lifestyle, property type, and future flexibility."],
+                ["Investment", "Does the property fit the objective?", "Cash flow, condition, operations, risk, location, and long-term portfolio value."],
+              ].map((item, index) => (
+                <article className={`reveal reveal-delay-${(index % 3) + 1}`} key={item[0]}>
+                  <span>0{index + 1} / {item[0]}</span><h3>{item[1]}</h3><p>{item[2]}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <PageCta title={<>Need context for a decision you are making <em>now?</em></>} />
+      </main>
+    </SiteChrome>
+  );
+}
+
 function StepGuide({ type }: { type: "buy" | "sell" }) {
   const buying = type === "buy";
   const steps = buying ? buyerSteps : sellerSteps;
@@ -627,7 +716,7 @@ function StepGuide({ type }: { type: "buy" | "sell" }) {
               <p className="eyebrow">The complete roadmap</p>
               <h2>{buying ? <>From brief to <em>keys.</em></> : <>From plan to <em>sold.</em></>}</h2>
               <p>{buying ? "Keep financing, fit, local context, negotiation, and due diligence connected from the beginning." : "Protect your leverage by connecting preparation, position, exposure, offer analysis, and closing."}</p>
-              <a className="primary-button ink-button" href="/contact">Build my plan <ArrowUpRight /></a>
+              <Link className="primary-button ink-button" href="/contact">Build my plan <ArrowUpRight /></Link>
             </div>
             <div className="guide-steps">
               {steps.map((step, index) => (
@@ -664,6 +753,80 @@ function StepGuide({ type }: { type: "buy" | "sell" }) {
           </div>
         </section>
         <PageCta title={buying ? <>Start the search with a <em>stronger brief.</em></> : <>Plan the sale before the listing goes <em>live.</em></>} />
+      </main>
+    </SiteChrome>
+  );
+}
+
+export function BlogArticlePage({ post }: { post: BlogPost }) {
+  const related = blogPosts.filter((item) => item.slug !== post.slug).slice(0, 2);
+
+  return (
+    <SiteChrome darkHeader>
+      <main>
+        <InnerHero
+          eyebrow={`${post.category} insight`}
+          title={post.title}
+          copy={post.excerpt}
+          image={post.image}
+          index="BLOG / READ"
+        />
+
+        <section className="blog-article-section section-space">
+          <div className="shell blog-article-layout">
+            <aside className="blog-article-meta reveal">
+              <p className="eyebrow">Article details</p>
+              <div><span>Category</span><strong>{post.category}</strong></div>
+              <div><span>Published</span><strong>{post.date}</strong></div>
+              <div><span>Reading time</span><strong>{post.readTime}</strong></div>
+              <Link className="line-link" href="/blog">Back to insights <ArrowUpRight /></Link>
+            </aside>
+            <article className="blog-article-copy reveal reveal-delay">
+              <div className="article-takeaways">
+                <span>Key takeaways</span>
+                <ul>
+                  {post.takeaways.map((takeaway) => <li key={takeaway}>{takeaway}</li>)}
+                </ul>
+              </div>
+              {post.sections.map((section) => (
+                <section key={section.heading}>
+                  <h2>{section.heading}</h2>
+                  {section.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                </section>
+              ))}
+              <div className="article-disclaimer">
+                <span>Note</span>
+                <p>This article is general real estate education. Details should be confirmed against current market information, legal documents, financing advice, and property-specific due diligence.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section className="related-insights soft-section section-space">
+          <div className="shell">
+            <SectionIntro eyebrow="Keep reading" title={<>More guidance for the <em>next step.</em></>} />
+            <div className="blog-card-grid">
+              {related.map((item, index) => (
+                <Link
+                  className={`blog-card reveal reveal-delay-${index + 1}`}
+                  href={`/blog/${item.slug}`}
+                  key={item.slug}
+                  data-cursor-label="Read"
+                >
+                  <img src={item.image} alt="" />
+                  <div>
+                    <span>{item.category} / {item.readTime}</span>
+                    <h3>{item.title}</h3>
+                    <p>{item.excerpt}</p>
+                    <strong>Read insight <ArrowUpRight /></strong>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <PageCta title={<>Turn reading into a <em>practical plan.</em></>} />
       </main>
     </SiteChrome>
   );
@@ -868,8 +1031,8 @@ export function PropertyDetail({ property }: { property: (typeof properties)[num
               <p className="lead-copy">{property.summary}</p>
               <p>A strong property decision connects the building, location, budget, timing, and the life or business objective behind the move. Pavneet can help evaluate those elements together and identify the questions that deserve answers before you proceed.</p>
               <div className="property-detail-actions">
-                <a className="primary-button ink-button" href="/contact">Ask about this opportunity <ArrowUpRight /></a>
-                <a className="line-link" href="/properties">Back to marketplace <ArrowUpRight /></a>
+                <Link className="primary-button ink-button" href="/contact">Ask about this opportunity <ArrowUpRight /></Link>
+                <Link className="line-link" href="/properties">Back to marketplace <ArrowUpRight /></Link>
               </div>
               <div className="market-disclaimer"><span>Reference notice</span><p>This page is a design preview using public market reference information. It is not a representation that Pavneet is the listing agent. Availability, price, measurements, condition, features, and all material details must be confirmed through current source documents and appropriate professional review.</p></div>
             </article>
@@ -887,6 +1050,7 @@ export default function ContentPage({ slug }: { slug: string }) {
     case "properties": return <PropertiesPage />;
     case "neighbourhoods": return <NeighbourhoodsPage />;
     case "guides": return <GuidesPage />;
+    case "blog": return <BlogPage />;
     case "buying-guide": return <StepGuide type="buy" />;
     case "selling-guide": return <StepGuide type="sell" />;
     case "contact": return <ContactPage />;

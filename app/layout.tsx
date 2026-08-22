@@ -45,6 +45,9 @@ export const metadata: Metadata = {
     description: "Your next move, made with clarity.",
     images: ["/og.png"],
   },
+  other: {
+    "codex-preview": "development",
+  },
 };
 
 export default function RootLayout({

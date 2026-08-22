@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { journeys, properties, services, site } from "../data";
+import { blogPosts, journeys, properties, services, site } from "../data";
 import { ArrowUpRight, SiteChrome } from "./SiteChrome";
 
 const testimonials = [
@@ -24,6 +25,12 @@ const testimonials = [
     context: "Multi-unit acquisition",
   },
 ];
+
+const reviewHighlights = [
+  ["Buyers", "Step-by-step clarity", "Clients value knowing the costs, conditions, and decisions before pressure enters the process."],
+  ["Sellers", "Practical preparation", "Advice focuses on the work that supports buyer confidence, pricing discipline, and stronger negotiation."],
+  ["Investors", "Numbers with context", "Property, condition, cash flow, and risk are reviewed together before the opportunity is pursued."],
+] as const;
 
 function AnimatedNumber({ end, suffix = "" }: { end: number; suffix?: string }) {
   const [value, setValue] = useState(0);
@@ -186,9 +193,9 @@ export default function HomeExperience() {
                 Buy, sell or invest across Nova Scotia with direct advice, local context and one trusted point of contact from first conversation to closing.
               </p>
               <div className="hero-actions">
-                <a className="primary-button light-button" href="/contact" data-magnetic>
+                <Link className="primary-button light-button" href="/contact" data-magnetic>
                   Request a private consultation <ArrowUpRight />
-                </a>
+                </Link>
                 <a className="hero-call" href={`tel:${site.phoneHref}`}>
                   <span>Direct line</span>{site.phoneDisplay}
                 </a>
@@ -242,7 +249,7 @@ export default function HomeExperience() {
               <p>
                 Pavneet helps families, newcomers, professionals, business owners, and investors navigate Nova Scotia with honest advice, thoughtful strategy, and a relationship built to last beyond closing day.
               </p>
-              <a className="line-link" href="/about">The story behind the service <ArrowUpRight /></a>
+              <Link className="line-link" href="/about">The story behind the service <ArrowUpRight /></Link>
             </div>
           </div>
         </section>
@@ -272,13 +279,43 @@ export default function HomeExperience() {
           <div className="shell"><JourneySwitcher /></div>
         </section>
 
+        <section className="home-guides-section section-space soft-section">
+          <div className="shell section-heading reveal">
+            <div>
+              <p className="eyebrow">Buyer&apos;s Guide & Seller&apos;s Guide</p>
+              <h2>Start with the right <em>roadmap.</em></h2>
+            </div>
+            <p>
+              Two focused guides for the moments where clear sequence, budget, preparation, and timing matter most.
+            </p>
+          </div>
+          <div className="shell guide-choice-grid">
+            <Link className="guide-choice reveal" href="/buying-guide" data-cursor-label="Read">
+              <img src="/images/interior-kitchen.jpg" alt="Modern Nova Scotia home interior" />
+              <div className="guide-choice-film" />
+              <span>01 / Buyer&apos;s Guide</span>
+              <h3>From first priorities to a confident offer.</h3>
+              <p>Plan financing, closing costs, search strategy, due diligence, and closing before the right home appears.</p>
+              <i><ArrowUpRight /></i>
+            </Link>
+            <Link className="guide-choice reveal reveal-delay" href="/selling-guide" data-cursor-label="Read">
+              <img src="/images/home-exterior.jpg" alt="Well-presented Nova Scotia home exterior" />
+              <div className="guide-choice-film" />
+              <span>02 / Seller&apos;s Guide</span>
+              <h3>Prepare, price, launch, and negotiate with purpose.</h3>
+              <p>Connect presentation, market position, offer quality, conditions, and closing into one coordinated sale plan.</p>
+              <i><ArrowUpRight /></i>
+            </Link>
+          </div>
+        </section>
+
         <section className="services-section section-space dark-section">
           <div className="shell section-heading light-heading reveal">
             <div>
               <p className="eyebrow light">The advisory spectrum</p>
               <h2>Strategy for every kind of <em>opportunity.</em></h2>
             </div>
-            <a className="line-link light-link" href="/services">Explore all advisory services <ArrowUpRight /></a>
+            <Link className="line-link light-link" href="/services">Explore all advisory services <ArrowUpRight /></Link>
           </div>
           <div className="shell services-grid">
             {services.map((service, index) => (
@@ -326,7 +363,7 @@ export default function HomeExperience() {
                 <strong>6 languages</strong>
                 <div><span>English</span><span>Punjabi</span><span>Hindi</span><span>Urdu</span><span>Gujarati</span><span>Spanish</span></div>
               </div>
-                <a className="primary-button ink-button" href="/about" data-magnetic>Meet Pavneet <ArrowUpRight /></a>
+                <Link className="primary-button ink-button" href="/about" data-magnetic>Meet Pavneet <ArrowUpRight /></Link>
             </div>
           </div>
         </section>
@@ -337,11 +374,11 @@ export default function HomeExperience() {
               <p className="eyebrow">Curated market preview</p>
               <h2>Opportunities worth a <em>closer look.</em></h2>
             </div>
-            <a className="line-link" href="/properties">Explore the marketplace <ArrowUpRight /></a>
+            <Link className="line-link" href="/properties">Explore the marketplace <ArrowUpRight /></Link>
           </div>
           <div className="shell property-row">
             {properties.slice(0, 3).map((property, index) => (
-              <a
+              <Link
                 className={`property-card reveal reveal-delay-${index + 1}`}
                 href={`/properties/${property.slug}`}
                 key={property.slug}
@@ -358,12 +395,43 @@ export default function HomeExperience() {
                   <strong>{property.price}</strong>
                   <div><span>{property.beds}</span><span>{property.baths}</span><span>{property.area}</span></div>
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
           <p className="property-note shell reveal">
             Public market references for design and discovery. Availability and listing details must be confirmed directly.
           </p>
+        </section>
+
+        <section className="insights-section section-space">
+          <div className="shell section-heading reveal">
+            <div>
+              <p className="eyebrow">Blog / insights</p>
+              <h2>Useful context before the <em>next decision.</em></h2>
+            </div>
+            <Link className="line-link" href="/blog">View all insights <ArrowUpRight /></Link>
+          </div>
+          <div className="shell insight-grid">
+            {blogPosts.slice(0, 3).map((post, index) => (
+              <Link
+                className={`insight-card reveal reveal-delay-${index + 1}`}
+                href={`/blog/${post.slug}`}
+                key={post.slug}
+                data-cursor-label="Read"
+              >
+                <div className="insight-card-image">
+                  <img src={post.image} alt="" />
+                  <span>{post.category}</span>
+                </div>
+                <div className="insight-card-copy">
+                  <div><span>{post.date}</span><span>{post.readTime}</span></div>
+                  <h3>{post.title}</h3>
+                  <p>{post.excerpt}</p>
+                  <strong>Read insight <ArrowUpRight /></strong>
+                </div>
+              </Link>
+            ))}
+          </div>
         </section>
 
         <section className="process-section section-space">
@@ -372,7 +440,7 @@ export default function HomeExperience() {
               <p className="eyebrow">A clear plan of action</p>
               <h2>From ambition to <em>address.</em></h2>
               <p>Thoughtful coordination through negotiation, due diligence, closing day, and everything between.</p>
-              <a className="line-link" href="/contact">Build your plan <ArrowUpRight /></a>
+              <Link className="line-link" href="/contact">Build your plan <ArrowUpRight /></Link>
             </div>
             <div className="process-steps">
               {[
@@ -394,7 +462,7 @@ export default function HomeExperience() {
         <section className="proof-section section-space dark-section">
           <div className="shell proof-layout">
             <div className="proof-image reveal">
-              <img src="/images/pavneet-community-leadership.jpg" alt="Pavneet Singh at a Canadian community leadership event" data-parallax="soft" />
+              <img src="/images/pavneet-community-in-action.jpg" alt="Pavneet Singh, Nova Scotia REALTOR®" data-parallax="soft" />
               <span>Community in action</span>
             </div>
             <div className="proof-content">
@@ -416,10 +484,21 @@ export default function HomeExperience() {
           <div className="shell testimonial-layout">
             <div className="testimonial-heading reveal">
               <p className="eyebrow">Client perspective</p>
-              <h2>Trust is the real <em>result.</em></h2>
+              <h2>Testimonials & reviews from real <em>decisions.</em></h2>
               <div className="five-stars" aria-label="Five star client experiences">★★★★★</div>
             </div>
-            <TestimonialStage />
+            <div className="testimonial-panel">
+              <TestimonialStage />
+              <div className="review-highlight-grid reveal reveal-delay">
+                {reviewHighlights.map((item) => (
+                  <article key={item[0]}>
+                    <span>{item[0]}</span>
+                    <h3>{item[1]}</h3>
+                    <p>{item[2]}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
@@ -433,7 +512,7 @@ export default function HomeExperience() {
             <div className="province-tags">
               {['Halifax', 'Bedford', 'Dartmouth', 'Hammonds Plains', 'Sackville', 'Truro', 'Annapolis Valley', 'Cape Breton'].map((place) => <span key={place}>{place}</span>)}
             </div>
-            <a className="primary-button light-button" href="/neighbourhoods" data-magnetic>Explore communities <ArrowUpRight /></a>
+            <Link className="primary-button light-button" href="/neighbourhoods" data-magnetic>Explore communities <ArrowUpRight /></Link>
           </div>
         </section>
       </main>
