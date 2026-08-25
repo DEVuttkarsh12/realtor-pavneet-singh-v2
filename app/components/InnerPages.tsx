@@ -3,14 +3,18 @@
 import Link from "next/link";
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import {
+  assetClasses,
   blogPosts,
   type BlogPost,
   buyerSteps,
   communities,
+  intelligenceTopics,
+  opportunities,
   properties,
   sellerSteps,
   services,
   site,
+  trackRecord,
 } from "../data";
 import { ArrowUpRight, SiteChrome } from "./SiteChrome";
 
@@ -82,6 +86,478 @@ function PageCta({ title, copy = "Tell Pavneet what you are considering and rece
   );
 }
 
+function mailtoFromForm(form: HTMLFormElement, subjectPrefix: string) {
+  const data = new FormData(form);
+  const rows: string[] = [];
+  data.forEach((value, key) => {
+    const label = key.replace(/([A-Z])/g, " $1").replace(/^./, (letter) => letter.toUpperCase());
+    rows.push(`${label}: ${String(value)}`);
+  });
+  const name = String(data.get("name") || data.get("firstName") || "Website enquiry");
+  const subject = encodeURIComponent(`${subjectPrefix}: ${name}`);
+  const body = encodeURIComponent(rows.join("\n"));
+  window.location.href = `mailto:${site.email}?subject=${subject}&body=${body}`;
+}
+
+function InvestorProfileForm({ compact = false }: { compact?: boolean }) {
+  const [sent, setSent] = useState(false);
+
+  function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setSent(true);
+    mailtoFromForm(event.currentTarget, "Investor profile");
+  }
+
+  return (
+    <form className={`lead-funnel-form ${compact ? "is-compact" : ""}`} onSubmit={submit}>
+      <div className="consultation-form-head">
+        <div>
+          <span>Investor profile</span>
+          <h2>Submit investment criteria.</h2>
+        </div>
+        <p><i />Confidential criteria review</p>
+      </div>
+      <div className="consultation-form-body">
+        <div className="consultation-section-title"><span>01</span><p>About you</p></div>
+        <div className="consultation-fields">
+          <label className="consultation-field"><span>First name *</span><input name="firstName" required autoComplete="given-name" /></label>
+          <label className="consultation-field"><span>Last name *</span><input name="lastName" required autoComplete="family-name" /></label>
+          <label className="consultation-field"><span>Email *</span><input name="email" type="email" required autoComplete="email" /></label>
+          <label className="consultation-field"><span>Mobile *</span><input name="mobile" type="tel" required autoComplete="tel" /></label>
+          <label className="consultation-field"><span>Company / fund</span><input name="company" /></label>
+          <label className="consultation-field"><span>Country</span><input name="country" autoComplete="country-name" /></label>
+          <label className="consultation-field">
+            <span>Investor type</span>
+            <select name="investorType" defaultValue="Private Investor">
+              {["Private Investor", "High-Net-Worth Individual", "Family Office", "Corporation", "Developer", "REIT", "Private Equity", "Institutional Investor", "International Investor"].map((item) => <option key={item}>{item}</option>)}
+            </select>
+          </label>
+          <label className="consultation-field">
+            <span>Investment range</span>
+            <select name="investmentRange" defaultValue="$1M-$5M">
+              {["Under $1M", "$1M-$5M", "$5M-$10M", "$10M-$25M", "$25M-$50M", "$50M-$100M", "$100M+"].map((item) => <option key={item}>{item}</option>)}
+            </select>
+          </label>
+        </div>
+
+        <fieldset className="consultation-goals">
+          <legend><span>02</span>Assets of interest</legend>
+          <div>
+            {["Multifamily", "Commercial", "Industrial", "Retail", "Office", "Development Land", "Self Storage", "Hospitality", "Mixed Use", "Portfolio Acquisition", "Business + Real Estate", "Residential Income"].map((goal, index) => (
+              <label className="consultation-choice" key={goal}>
+                <input type="checkbox" name="assetInterest" value={goal} defaultChecked={index < 3} />
+                <span>{goal}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <div className="consultation-section-title"><span>03</span><p>Strategy</p></div>
+        <div className="consultation-fields consultation-fields-final">
+          <label className="consultation-field">
+            <span>Preferred market</span>
+            <select name="preferredMarket" defaultValue="Anywhere in Nova Scotia">
+              {["Halifax", "HRM", "Dartmouth", "Bedford", "Annapolis Valley", "South Shore", "Northern Nova Scotia", "Cape Breton", "Anywhere in Nova Scotia", "Atlantic Canada"].map((item) => <option key={item}>{item}</option>)}
+            </select>
+          </label>
+          <label className="consultation-field">
+            <span>Timeline</span>
+            <select name="timeline" defaultValue="3-6 months">
+              {["Immediately", "0-3 months", "3-6 months", "6-12 months", "12+ months", "Exploring market"].map((item) => <option key={item}>{item}</option>)}
+            </select>
+          </label>
+          <label className="consultation-field">
+            <span>Capital position</span>
+            <select name="capitalPosition" defaultValue="Financing available">
+              {["Cash", "Financing available", "Institutional capital", "Seeking financing", "To be discussed"].map((item) => <option key={item}>{item}</option>)}
+            </select>
+          </label>
+          <label className="consultation-field">
+            <span>Off-market opportunities?</span>
+            <select name="offMarket" defaultValue="Yes">
+              <option>Yes</option><option>No</option><option>Case by case</option>
+            </select>
+          </label>
+          <label className="consultation-field consultation-message">
+            <span>Additional acquisition criteria</span>
+            <textarea name="message" rows={5} placeholder="Return profile, unit count, square footage, zoning, geography, cap rate, deal size, or other criteria." />
+          </label>
+        </div>
+
+        <label className="consultation-consent">
+          <input type="checkbox" required />
+          <span>I agree to be contacted about investment opportunities and understand this is not legal, tax, securities or financial advice.</span>
+        </label>
+        <button className="primary-button consultation-submit" type="submit">Submit investment criteria <ArrowUpRight /></button>
+        <p className="form-note" aria-live="polite">{sent ? "Your email app is opening with the investor profile prepared." : "Your criteria remain confidential and help Pavneet match relevant opportunities."}</p>
+      </div>
+    </form>
+  );
+}
+
+function AssetReviewForm() {
+  const [sent, setSent] = useState(false);
+
+  function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setSent(true);
+    mailtoFromForm(event.currentTarget, "Confidential asset review");
+  }
+
+  return (
+    <form className="lead-funnel-form" onSubmit={submit}>
+      <div className="consultation-form-head">
+        <div>
+          <span>Confidential asset review</span>
+          <h2>Tell Pavneet about the property.</h2>
+        </div>
+        <p><i />Owner information remains private</p>
+      </div>
+      <div className="consultation-form-body">
+        <div className="consultation-section-title"><span>01</span><p>Your asset</p></div>
+        <div className="consultation-fields">
+          <label className="consultation-field"><span>Property address *</span><input name="propertyAddress" required /></label>
+          <label className="consultation-field">
+            <span>Asset type</span>
+            <select name="assetType" defaultValue="Multifamily">
+              {["Multifamily", "Commercial", "Industrial", "Development Land", "Business + Real Estate", "Retail", "Office", "Residential Income", "Other"].map((item) => <option key={item}>{item}</option>)}
+            </select>
+          </label>
+          <label className="consultation-field"><span>Approx. size / units</span><input name="sizeOrUnits" placeholder="Units, sq ft or acres" /></label>
+          <label className="consultation-field"><span>Current income / NOI optional</span><input name="income" /></label>
+          <label className="consultation-field"><span>Estimated value optional</span><input name="estimatedValue" /></label>
+          <label className="consultation-field">
+            <span>Timeline to sell</span>
+            <select name="timeline" defaultValue="3-6 months">
+              {["Immediately", "0-3 months", "3-6 months", "6-12 months", "12+ months", "Only if price is right"].map((item) => <option key={item}>{item}</option>)}
+            </select>
+          </label>
+          <label className="consultation-field">
+            <span>Consider off-market sale?</span>
+            <select name="offMarketSale" defaultValue="Yes">
+              <option>Yes</option><option>No</option><option>Unsure</option>
+            </select>
+          </label>
+          <label className="consultation-field"><span>Current occupancy</span><input name="occupancy" /></label>
+        </div>
+
+        <div className="consultation-section-title"><span>02</span><p>Your details</p></div>
+        <div className="consultation-fields consultation-fields-final">
+          <label className="consultation-field"><span>Name *</span><input name="name" required autoComplete="name" /></label>
+          <label className="consultation-field"><span>Phone *</span><input name="phone" type="tel" required autoComplete="tel" /></label>
+          <label className="consultation-field"><span>Email *</span><input name="email" type="email" required autoComplete="email" /></label>
+          <label className="consultation-field"><span>Company</span><input name="company" /></label>
+          <label className="consultation-field consultation-message">
+            <span>Comments</span>
+            <textarea name="message" rows={5} placeholder="Zoning, services, rent roll context, reason for selling, mortgage details, or disposition goals." />
+          </label>
+        </div>
+
+        <label className="consultation-consent">
+          <input type="checkbox" required />
+          <span>I agree to be contacted about this confidential property review. Property information is shared for initial discussion only.</span>
+        </label>
+        <button className="primary-button consultation-submit" type="submit">Request confidential review <ArrowUpRight /></button>
+        <p className="form-note" aria-live="polite">{sent ? "Your email app is opening with the asset review prepared." : "Pavneet will contact you directly to discuss potential disposition strategy."}</p>
+      </div>
+    </form>
+  );
+}
+
+function OpportunitiesPage() {
+  const [active, setActive] = useState("All");
+  const categories = ["All", "Multifamily", "Commercial", "Industrial", "Development", "Land", "Business", "Off Market"] as const;
+  const filtered = opportunities.filter((item) => active === "All" || item.assetClass === active || (active === "Off Market" && item.status.toLowerCase().includes("confidential")));
+
+  return (
+    <SiteChrome darkHeader>
+      <main>
+        <InnerHero
+          eyebrow="Private & public opportunities"
+          title={<>Nova Scotia real estate <em>investment opportunities.</em></>}
+          copy="Explore commercial, multifamily, industrial, development land, business and selected confidential opportunities. Financial details are shared only when authorized and appropriate."
+          image="/images/halifax-aerial.jpg"
+          index="OPPS / 01"
+        />
+        <section className="opportunity-index-section section-space">
+          <div className="shell marketplace-toolbar reveal">
+            <div>
+              <p className="eyebrow">Find a property</p>
+              <h2>Filter by asset class and <em>intent.</em></h2>
+            </div>
+            <div className="market-filters" role="group" aria-label="Filter opportunities">
+              {categories.map((category) => (
+                <button type="button" className={active === category ? "is-active" : ""} onClick={() => setActive(category)} key={category}>{category}</button>
+              ))}
+            </div>
+          </div>
+          <div className="shell market-results-summary" aria-live="polite">
+            <strong>{String(filtered.length).padStart(2, "0")}</strong>
+            <span>{filtered.length === 1 ? "opportunity" : "opportunities"}</span>
+            {active !== "All" && <button type="button" onClick={() => setActive("All")}>Show all</button>}
+          </div>
+          <div className="shell opportunity-feature-list">
+            {filtered.map((opportunity, index) => (
+              <Link className={`opportunity-feature-card reveal reveal-delay-${(index % 3) + 1}`} href={`/opportunities/${opportunity.slug}`} key={opportunity.slug} data-cursor-label="Request">
+                <div className="opportunity-feature-image"><img src={opportunity.image} alt="" /><span>{opportunity.assetClass}</span></div>
+                <div className="opportunity-feature-copy">
+                  <p className="eyebrow">{opportunity.transaction}</p>
+                  <h3>{opportunity.title}</h3>
+                  <div className="opportunity-metrics">
+                    <span>{opportunity.location}</span><span>{opportunity.scale}</span><span>{opportunity.price}</span><span>{opportunity.status}</span>
+                  </div>
+                  <p>{opportunity.summary}</p>
+                  <strong className="card-action">Request information <ArrowUpRight /></strong>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="shell investment-disclaimer reveal">
+            <span>Information notice</span>
+            <p>Opportunities shown are for general real estate marketing and initial discussion only. Availability, pricing, financial information, zoning, measurements and all material facts must be independently verified. This is not legal, tax, accounting, securities or investment advice.</p>
+          </div>
+        </section>
+        <PageCta title={<>Want access to suitable <em>private opportunities?</em></>} copy="Submit your acquisition criteria so Pavneet can contact you when relevant opportunities match your mandate." />
+      </main>
+    </SiteChrome>
+  );
+}
+
+function InvestorsPage() {
+  return (
+    <SiteChrome darkHeader>
+      <main>
+        <InnerHero
+          eyebrow="For investors"
+          title={<>Capital looking for the right <em>real estate.</em></>}
+          copy="Access commercial, multifamily, industrial and development opportunities throughout Nova Scotia by submitting clear acquisition criteria."
+          image="/images/halifax-aerial.jpg"
+          index="INVEST / 02"
+        />
+        <section className="investor-page-section section-space">
+          <div className="shell investor-page-grid">
+            <div className="reveal">
+              <p className="eyebrow">Private investor network</p>
+              <h2>Tell Pavneet exactly what you are looking to <em>acquire.</em></h2>
+              <p className="lead-copy">Receive select commercial, multifamily, industrial, land, business and off-market opportunities across Nova Scotia when your criteria match the mandate.</p>
+              <div className="who-grid">
+                {["Private investors", "Family offices", "Business owners", "Developers", "Corporations", "REITs", "Private equity", "International investors"].map((item) => <span key={item}>{item}</span>)}
+              </div>
+            </div>
+            <InvestorProfileForm compact />
+          </div>
+        </section>
+        <section className="decision-notes soft-section section-space">
+          <div className="shell">
+            <SectionIntro eyebrow="Investment process" title={<>From criteria to <em>closing.</em></>} />
+            <div className="decision-grid process-mini-grid">
+              {["Define", "Source", "Analyze", "Negotiate", "Due diligence", "Close", "Repeat"].map((step, index) => (
+                <article className={`reveal reveal-delay-${(index % 3) + 1}`} key={step}>
+                  <span>{String(index + 1).padStart(2, "0")}</span><h3>{step}</h3><p>Move from clear mandate to relevant opportunity review with disciplined transaction coordination.</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+    </SiteChrome>
+  );
+}
+
+function OwnersPage() {
+  return (
+    <SiteChrome darkHeader>
+      <main>
+        <InnerHero
+          eyebrow="For owners & developers"
+          title={<>Own a commercial property? <em>There may already be a buyer looking for it.</em></>}
+          copy="Confidential disposition advisory for multifamily, commercial, industrial, development land, business and income-producing assets across Nova Scotia."
+          image="/images/commercial.jpg"
+          index="OWNERS / 03"
+        />
+        <section className="investor-page-section section-space">
+          <div className="shell investor-page-grid">
+            <div className="reveal">
+              <p className="eyebrow">Sell with Pavneet</p>
+              <h2>Request a confidential commercial property <em>evaluation.</em></h2>
+              <p className="lead-copy">Give owners a specific reason to submit information: private valuation context, buyer matching, disposition strategy and confidentiality from the first conversation.</p>
+              <div className="who-grid">
+                {["Apartment buildings", "Commercial assets", "Industrial properties", "Development land", "Businesses for sale", "Residential income"].map((item) => <span key={item}>{item}</span>)}
+              </div>
+            </div>
+            <AssetReviewForm />
+          </div>
+        </section>
+      </main>
+    </SiteChrome>
+  );
+}
+
+const assetPageMap = {
+  commercial: {
+    eyebrow: "Commercial real estate",
+    title: <>Commercial real estate for business, income and <em>ownership.</em></>,
+    copy: "Commercial properties for sale, commercial properties for lease, investment properties, retail, office, mixed-use and businesses for sale across Nova Scotia.",
+    image: "/images/commercial.jpg",
+    index: "COMM / 04",
+    intro: "A commercial property decision should connect location, income, use, tenancy, operating reality and the business objective behind the transaction.",
+    groups: ["Commercial Properties For Sale", "Commercial Properties For Lease", "Investment Properties", "Retail", "Office", "Mixed-Use", "Businesses For Sale"],
+    markets: ["Commercial Real Estate Halifax", "Commercial Real Estate Dartmouth", "Commercial Real Estate Bedford", "Commercial Property Burnside", "Commercial Real Estate Nova Scotia"],
+  },
+  industrial: {
+    eyebrow: "Industrial real estate",
+    title: <>Industrial property for operators, investors and <em>developers.</em></>,
+    copy: "Warehouse, distribution, manufacturing, flex industrial, industrial development land, owner-occupied buildings, industrial investments and leasing.",
+    image: "/images/industrial.jpg",
+    index: "IND / 05",
+    intro: "Industrial opportunities require clear understanding of access, zoning, loading, ceiling heights, power, land utility, leasing demand and owner-user requirements.",
+    groups: ["Warehouse", "Distribution", "Manufacturing", "Flex Industrial", "Industrial Development Land", "Owner-Occupied Buildings", "Industrial Investments", "Industrial Leasing"],
+    markets: ["Industrial Real Estate Halifax", "Burnside Industrial Properties", "Industrial Property Dartmouth", "Industrial Property Bedford", "Industrial Land HRM", "Industrial Property Nova Scotia"],
+  },
+  multifamily: {
+    eyebrow: "Nova Scotia multifamily",
+    title: <>Apartment buildings and portfolios with an <em>income lens.</em></>,
+    copy: "Multifamily advisory for apartment buildings, 5-20 units, 20-50 units, 50-100 units, 100+ units, portfolios and development opportunities.",
+    image: "/images/halifax-aerial.jpg",
+    index: "MULTI / 06",
+    intro: "Multifamily opportunities should be reviewed through income, operating costs, rent context, unit mix, condition, financing and long-term portfolio fit.",
+    groups: ["Apartment Buildings", "5-20 Units", "20-50 Units", "50-100 Units", "100+ Units", "Multifamily Portfolios", "Development Opportunities"],
+    markets: ["Multifamily For Sale Halifax", "Apartment Buildings For Sale Nova Scotia", "Halifax Rental Market", "Dartmouth Multifamily", "Nova Scotia Apartment Portfolios"],
+  },
+  "development-land": {
+    eyebrow: "Development land",
+    title: <>From land to <em>opportunity.</em></>,
+    copy: "Residential development, commercial development, industrial land, mixed-use development, multifamily sites, institutional opportunities and land assemblies.",
+    image: "/images/development.jpg",
+    index: "LAND / 07",
+    intro: "Development land requires attention to zoning, density, municipal approvals, servicing, development potential, highest-and-best use and buyer/developer targeting.",
+    groups: ["Residential Development", "Commercial Development", "Industrial Land", "Mixed-Use Development", "Multifamily Sites", "Institutional", "Land Assemblies"],
+    markets: ["Development Land Halifax", "Development Land Nova Scotia", "Industrial Land HRM", "Multifamily Sites Halifax", "Land Assemblies Nova Scotia"],
+  },
+  development: {
+    eyebrow: "Development advisory",
+    title: <>Development real estate requires more than a <em>listing.</em></>,
+    copy: "Site sourcing, development land review, commercial sites, redevelopment opportunities, mixed-use projects and professional coordination.",
+    image: "/images/development.jpg",
+    index: "DEV / 08",
+    intro: "Pavneet supports development-led opportunities by coordinating real estate strategy and introducing appropriate professional advisors where legal, planning, engineering or financial expertise is required.",
+    groups: ["Development Land Sourcing", "Commercial Sites", "Redevelopment Opportunities", "Residential Development", "Mixed-Use Projects", "Industrial Land", "Site Acquisition"],
+    markets: ["Halifax Growth Corridors", "Kings County Development", "Annapolis Development Land", "HRM Mixed-Use Sites", "Nova Scotia Development Advisory"],
+  },
+  residential: {
+    eyebrow: "Residential real estate",
+    title: <>Residential remains available, but it does not dominate the <em>brand.</em></>,
+    copy: "Homes for sale, luxury homes, investment homes, income properties, homes with secondary suites, sell your home and home evaluation.",
+    image: "/images/home-exterior.jpg",
+    index: "RES / 09",
+    intro: "Residential service remains an important lead and referral source, with the same clarity around budget, location, condition, timing and long-term value.",
+    groups: ["Homes For Sale", "Luxury Homes", "Investment Homes", "Income Properties", "Homes With Secondary Suites", "Sell Your Home", "Home Evaluation"],
+    markets: ["Homes For Sale Halifax", "Residential Real Estate Nova Scotia", "Income Properties Halifax", "Luxury Homes Nova Scotia", "Sell Your Home"],
+  },
+} as const;
+
+function AssetPage({ type }: { type: keyof typeof assetPageMap }) {
+  const page = assetPageMap[type];
+  return (
+    <SiteChrome darkHeader>
+      <main>
+        <InnerHero eyebrow={page.eyebrow} title={page.title} copy={page.copy} image={page.image} index={page.index} />
+        <section className="asset-page-section section-space">
+          <div className="shell asset-page-grid">
+            <div className="reveal">
+              <p className="eyebrow">Advisory focus</p>
+              <h2>{page.intro.includes("more than") ? <>A stronger transaction starts with the <em>right questions.</em></> : <>Useful structure before the <em>search.</em></>}</h2>
+              <p className="lead-copy">{page.intro}</p>
+              <div className="asset-page-actions">
+                <Link className="primary-button ink-button" href="/opportunities">View opportunities <ArrowUpRight /></Link>
+                <Link className="line-link" href="/contact">Discuss a requirement <ArrowUpRight /></Link>
+              </div>
+            </div>
+            <div className="asset-taxonomy reveal reveal-delay">
+              <span>Sections</span>
+              {page.groups.map((item) => <Link href="/opportunities" key={item}>{item}<ArrowUpRight /></Link>)}
+            </div>
+          </div>
+        </section>
+        <section className="seo-market-section soft-section section-space">
+          <div className="shell">
+            <SectionIntro eyebrow="Local search architecture" title={<>Market pages to build <em>authority.</em></>} copy="Each page should eventually contain useful local content, listings, market information and real expertise." />
+            <div className="who-grid market-keyword-grid">
+              {page.markets.map((item) => <span key={item}>{item}</span>)}
+            </div>
+          </div>
+        </section>
+        <PageCta title={<>Have a {page.eyebrow.toLowerCase()} requirement?</>} copy="Tell Pavneet what you want to acquire, lease, sell or develop and receive a practical next step." />
+      </main>
+    </SiteChrome>
+  );
+}
+
+function TrackRecordPage() {
+  return (
+    <SiteChrome darkHeader>
+      <main>
+        <InnerHero eyebrow="Transaction experience" title={<>Experience measured in <em>transactions.</em></>} copy="Selected real estate acquisitions, dispositions, developments and advisory assignments throughout Nova Scotia." image="/images/development.jpg" index="RECORD / 10" />
+        <section className="track-record-page section-space">
+          <div className="shell track-record-grid">
+            {trackRecord.map((item, index) => (
+              <article className={`track-card reveal reveal-delay-${(index % 3) + 1}`} key={item.slug}>
+                <img src={item.image} alt="" />
+                <div>
+                  <strong>{item.metric}<small>{item.unit}</small></strong>
+                  <span>{item.asset} / {item.location}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.copy}</p>
+                  <div className="case-study-meta"><span>Strategy: {item.strategy}</span><span>Role: {item.role}</span></div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+        <PageCta title={<>Need evidence for your type of <em>transaction?</em></>} />
+      </main>
+    </SiteChrome>
+  );
+}
+
+function IntelligencePage() {
+  return (
+    <SiteChrome darkHeader>
+      <main>
+        <InnerHero eyebrow="Nova Scotia investment intelligence" title={<>Market intelligence for clearer <em>capital decisions.</em></>} copy="Reports, tools and articles designed to establish authority while generating investor and owner conversations." image="/images/halifax-aerial.jpg" index="INTEL / 11" />
+        <section className="blog-index-section section-space">
+          <div className="shell">
+            <SectionIntro eyebrow="Reports to build" title={<>Investor searches deserve <em>real answers.</em></>} copy="The client asked for market reports, calculators, lead magnets and investor-focused SEO. This page is structured for that expansion." />
+            <div className="intelligence-grid">
+              {intelligenceTopics.map((topic, index) => (
+                <article className={`reveal reveal-delay-${(index % 3) + 1}`} key={topic}>
+                  <span>0{index + 1}</span><h3>{topic}</h3><p>Useful market content should end with a specific investor or owner CTA, not a generic contact button.</p>
+                </article>
+              ))}
+            </div>
+            <div className="lead-magnet-card reveal">
+              <div>
+                <p className="eyebrow">Lead magnet</p>
+                <h2>Nova Scotia Real Estate Investment Report 2026</h2>
+                <p>Population, economic indicators, major markets, multifamily, industrial, commercial, development land and investment outlook.</p>
+              </div>
+              <Link className="primary-button ink-button" href="/investors">Get the report <ArrowUpRight /></Link>
+            </div>
+            <div className="blog-card-grid">
+              {blogPosts.map((post, index) => (
+                <Link className={`blog-card reveal reveal-delay-${index + 1}`} href={`/blog/${post.slug}`} key={post.slug} data-cursor-label="Read">
+                  <img src={post.image} alt="" />
+                  <div><span>{post.category} / {post.readTime}</span><h3>{post.title}</h3><p>{post.excerpt}</p><strong className="card-action">Read intelligence <ArrowUpRight /></strong></div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+    </SiteChrome>
+  );
+}
+
 function AboutPage() {
   const faqs = [
     ["What areas does Pavneet serve?", "Pavneet advises clients across Nova Scotia, with strong local context in Halifax, Bedford, Dartmouth, Hammonds Plains, Sackville, Truro, the Annapolis Valley, and Cape Breton."],
@@ -95,10 +571,10 @@ function AboutPage() {
       <main>
         <InnerHero
           eyebrow="About Pavneet Singh"
-          title={<>A relationship built on <em>trust & results.</em></>}
-          copy="Your family REALTOR® with Sutton Group Professional Realty, helping people create opportunity, security, and a future in Nova Scotia."
+          title={<>Commercial real estate. <em>Investment. Development.</em></>}
+          copy="Pavneet Singh works with investors, developers, business owners and property owners across Nova Scotia on commercial acquisitions, dispositions, development land and investment real estate."
           image="/images/pavneet-transparent-headshot.png"
-          imageAlt="Pavneet Singh, Nova Scotia REALTOR®"
+          imageAlt="Pavneet Singh, Nova Scotia commercial real estate advisor"
           index="ABOUT / 01"
           variant="portrait"
         />
@@ -106,14 +582,14 @@ function AboutPage() {
         <section className="about-story section-space">
           <div className="shell about-story-grid">
             <div className="about-story-heading reveal">
-              <p className="eyebrow">More than properties</p>
-              <h2>Real estate shaped around the life you <em>envision.</em></h2>
+              <p className="eyebrow">Local market knowledge. Investment mindset.</p>
+              <h2>Source, analyze, negotiate and <em>execute.</em></h2>
             </div>
             <div className="about-story-copy reveal reveal-delay">
-              <p className="lead-copy">Real estate is about creating opportunity, building security, and helping people achieve the life they envision for themselves and their families.</p>
-              <p>Across Nova Scotia, Pavneet has helped families find a place to call home, supported homeowners through meaningful sales, and guided investors toward opportunities designed to strengthen long-term wealth.</p>
-              <p>As someone who understands the importance of building a future in Canada, he is especially passionate about helping newcomers, families, and investors navigate the market with confidence.</p>
-              <blockquote>“My role is to bring clarity to a meaningful decision, then stay beside you until the opportunity becomes a result.”</blockquote>
+              <p className="lead-copy">Real estate is about connecting property, capital and opportunity with the right local context.</p>
+              <p>Across Nova Scotia, Pavneet supports commercial, multifamily, industrial, development land, investment and select residential transactions with a practical lens shaped by finance, construction, negotiation and local relationships.</p>
+              <p>His work is designed for investors, developers, business owners, property owners, newcomers and families who need clarity before a meaningful real estate decision.</p>
+              <blockquote>“My role is to identify the opportunity, clarify the risk, coordinate the right questions and move the transaction toward a result.”</blockquote>
             </div>
           </div>
         </section>
@@ -122,14 +598,14 @@ function AboutPage() {
           <div className="shell">
             <SectionIntro
               eyebrow="A wider advisory lens"
-              title={<>Three strengths in <em>one advisor.</em></>}
-              copy="Finance, construction, and relocation experience meet in one practical real estate conversation."
+              title={<>Commercial transactions require more than <em>one discipline.</em></>}
+              copy="Finance, construction, market context and professional coordination meet in one practical real estate conversation."
             />
             <div className="expertise-grid">
               {[
                 ["01", "Financial modelling", "Cash flow, investment returns, purchase costs, and operating reality are brought into the property decision."],
                 ["02", "Construction acumen", "A practical eye supports condition reviews, renovation feasibility, and more useful questions during viewings."],
-                ["03", "Multilingual relocation", "A personal understanding of building a life in Canada brings empathy and precision to the newcomer journey."],
+                ["03", "Professional coordination", "Commercial transactions may involve lawyers, accountants, engineers, planners, lenders, appraisers, surveyors and environmental consultants."],
               ].map((item, index) => (
                 <article className={`reveal reveal-delay-${index + 1}`} key={item[0]}>
                   <span>{item[0]}</span><h3>{item[1]}</h3><p>{item[2]}</p>
@@ -445,7 +921,7 @@ function PropertiesPage() {
                 <a className="live-market-source" href="https://www.realtor.ca/ns/real-estate" target="_blank" rel="noreferrer">
                   <span>Current listing source</span>
                   <strong>REALTOR.ca</strong>
-                  <small>Opens in a new tab</small>
+                  <small>Open REALTOR.ca <ArrowUpRight /></small>
                 </a>
               </div>
               <form className="live-search-form" onSubmit={openLiveListings}>
@@ -513,6 +989,7 @@ function PropertiesPage() {
                   <div className="market-card-copy">
                     <p>{property.location}</p><h3>{property.title}</h3><strong>{property.price}</strong>
                     <div><span>{property.beds}</span><span>{property.baths}</span><span>{property.area}</span></div>
+                    <span className="card-action">View property <ArrowUpRight /></span>
                   </div>
                 </Link>
               ))}
@@ -586,11 +1063,19 @@ function GuidesPage() {
             <div className="guide-choice-grid">
               <Link className="guide-choice reveal" href="/buying-guide">
                 <img src="/images/interior-kitchen.jpg" alt="Modern Nova Scotia home interior" /><div className="guide-choice-film" />
-                <span>01 / Buying</span><h3>From first priorities to the front door.</h3><p>A seven-step roadmap across budget, pre-approval, search, offers, due diligence, and closing.</p><i><ArrowUpRight /></i>
+                <span className="guide-choice-kicker">01 / Buyer&apos;s Guide</span>
+                <h3>Buying Guide</h3>
+                <p>Plan your budget, pre-approval, search, offer, due diligence, and closing steps before the right home appears.</p>
+                <span className="guide-choice-cta">Read the buying guide <ArrowUpRight /></span>
+                <i aria-hidden="true"><ArrowUpRight /></i>
               </Link>
               <Link className="guide-choice reveal reveal-delay" href="/selling-guide">
                 <img src="/images/home-exterior.jpg" alt="Well-presented family home" /><div className="guide-choice-film" />
-                <span>02 / Selling</span><h3>Prepare, position, negotiate, and close.</h3><p>A coordinated approach built to protect leverage, attract serious buyers, and keep the move connected.</p><i><ArrowUpRight /></i>
+                <span className="guide-choice-kicker">02 / Seller&apos;s Guide</span>
+                <h3>Selling Guide</h3>
+                <p>Prepare, price, launch, negotiate, and close with a coordinated plan built to protect your leverage.</p>
+                <span className="guide-choice-cta">Read the selling guide <ArrowUpRight /></span>
+                <i aria-hidden="true"><ArrowUpRight /></i>
               </Link>
             </div>
           </div>
@@ -649,7 +1134,7 @@ function BlogPage() {
                 <p className="eyebrow">{featured.date} / {featured.readTime}</p>
                 <h3>{featured.title}</h3>
                 <p>{featured.excerpt}</p>
-                <strong>Read featured insight <ArrowUpRight /></strong>
+                <strong className="card-action">Read featured insight <ArrowUpRight /></strong>
               </div>
             </Link>
             <div className="blog-card-grid">
@@ -665,7 +1150,7 @@ function BlogPage() {
                     <span>{post.category} / {post.readTime}</span>
                     <h3>{post.title}</h3>
                     <p>{post.excerpt}</p>
-                    <strong>Read insight <ArrowUpRight /></strong>
+                    <strong className="card-action">Read insight <ArrowUpRight /></strong>
                   </div>
                 </Link>
               ))}
@@ -818,7 +1303,7 @@ export function BlogArticlePage({ post }: { post: BlogPost }) {
                     <span>{item.category} / {item.readTime}</span>
                     <h3>{item.title}</h3>
                     <p>{item.excerpt}</p>
-                    <strong>Read insight <ArrowUpRight /></strong>
+                    <strong className="card-action">Read insight <ArrowUpRight /></strong>
                   </div>
                 </Link>
               ))}
@@ -1043,8 +1528,69 @@ export function PropertyDetail({ property }: { property: (typeof properties)[num
   );
 }
 
+export function OpportunityDetail({ opportunity }: { opportunity: (typeof opportunities)[number] }) {
+  return (
+    <SiteChrome darkHeader>
+      <main>
+        <section className="property-detail-hero">
+          <img src={opportunity.image} alt={opportunity.title} data-parallax="hero" />
+          <div className="property-detail-film" />
+          <div className="shell property-detail-hero-content">
+            <p className="eyebrow light hero-enter delay-1">{opportunity.assetClass} | {opportunity.transaction}</p>
+            <h1 className="hero-enter delay-2">{opportunity.title}</h1>
+            <div className="property-detail-title-row hero-enter delay-3"><span>{opportunity.location}</span><strong>{opportunity.price}</strong></div>
+          </div>
+        </section>
+        <section className="property-detail-body section-space">
+          <div className="shell property-detail-grid">
+            <aside className="property-detail-aside reveal">
+              <p className="eyebrow">Key metrics</p>
+              <div><span>Asset type</span><strong>{opportunity.assetClass}</strong></div>
+              <div><span>Scale</span><strong>{opportunity.scale}</strong></div>
+              <div><span>Status</span><strong>{opportunity.status}</strong></div>
+              <div><span>Information</span><strong>{opportunity.price}</strong></div>
+            </aside>
+            <article className="blog-article-copy reveal reveal-delay">
+              <p className="eyebrow">Investment highlights</p>
+              <h2>Request the confidential <em>information package.</em></h2>
+              <p className="lead-copy">{opportunity.summary}</p>
+              <div className="article-takeaways">
+                <span>Highlights</span>
+                <ul>{opportunity.highlights.map((item) => <li key={item}>{item}</li>)}</ul>
+              </div>
+              <div className="document-access-card">
+                <h3>Access the investment package</h3>
+                <p>Available information may include offering details, rent roll, financial statements, site plans, environmental reports, survey, development information or photographs when authorized.</p>
+                <div className="property-detail-actions">
+                  <Link className="primary-button ink-button" href="/investors">Request offering information <ArrowUpRight /></Link>
+                  <Link className="line-link" href="/contact">Speak with Pavneet <ArrowUpRight /></Link>
+                </div>
+              </div>
+              <div className="article-disclaimer">
+                <span>Investment disclaimer</span>
+                <p>Information presented on this website is for general informational and real estate marketing purposes and should not be considered investment, legal, tax, accounting or securities advice. Prospective purchasers should conduct independent due diligence and obtain advice from qualified professionals.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </SiteChrome>
+  );
+}
+
 export default function ContentPage({ slug }: { slug: string }) {
   switch (slug) {
+    case "opportunities": return <OpportunitiesPage />;
+    case "investors": return <InvestorsPage />;
+    case "owners": return <OwnersPage />;
+    case "commercial": return <AssetPage type="commercial" />;
+    case "industrial": return <AssetPage type="industrial" />;
+    case "multifamily": return <AssetPage type="multifamily" />;
+    case "development-land": return <AssetPage type="development-land" />;
+    case "development": return <AssetPage type="development" />;
+    case "residential": return <AssetPage type="residential" />;
+    case "track-record": return <TrackRecordPage />;
+    case "intelligence": return <IntelligencePage />;
     case "about": return <AboutPage />;
     case "services": return <ServicesPage />;
     case "properties": return <PropertiesPage />;

@@ -2,38 +2,34 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { blogPosts, journeys, properties, services, site } from "../data";
+import {
+  assetClasses,
+  blogPosts,
+  intelligenceTopics,
+  opportunities,
+  site,
+  trackRecord,
+} from "../data";
 import { ArrowUpRight, SiteChrome } from "./SiteChrome";
 
-const testimonials = [
-  {
-    quote:
-      "Pavneet made a complicated move feel manageable. The advice was direct, patient, and always centred on what was right for our family.",
-    person: "Newcomer family",
-    context: "Relocation to Bedford",
-  },
-  {
-    quote:
-      "Every cost, condition, and next step was explained before we had to make a decision. That clarity changed the entire first-home experience.",
-    person: "First-time buyer",
-    context: "Halifax Regional Municipality",
-  },
-  {
-    quote:
-      "The numbers and the building were evaluated together. We moved forward with confidence because the strategy was grounded in real operating reality.",
-    person: "Property investor",
-    context: "Multi-unit acquisition",
-  },
-];
+const valuePillars = [
+  ["Source", "Identify public and select off-market opportunities aligned with investor, owner and developer criteria."],
+  ["Analyze", "Review market position, income characteristics, site context and development potential before momentum builds."],
+  ["Negotiate", "Structure acquisitions and dispositions with the commercial objective, confidentiality and timeline in mind."],
+  ["Execute", "Coordinate transaction requirements and appropriate professional advisors through due diligence and closing."],
+] as const;
 
-const reviewHighlights = [
-  ["Buyers", "Step-by-step clarity", "Clients value knowing the costs, conditions, and decisions before pressure enters the process."],
-  ["Sellers", "Practical preparation", "Advice focuses on the work that supports buyer confidence, pricing discipline, and stronger negotiation."],
-  ["Investors", "Numbers with context", "Property, condition, cash flow, and risk are reviewed together before the opportunity is pursued."],
+const investorTypes = [
+  "Private investors",
+  "Family offices",
+  "Developers",
+  "Business owners",
+  "Corporations",
+  "International investors",
 ] as const;
 
 function AnimatedNumber({ end, suffix = "" }: { end: number; suffix?: string }) {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(end);
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -48,6 +44,7 @@ function AnimatedNumber({ end, suffix = "" }: { end: number; suffix?: string }) 
           setValue(end);
           return;
         }
+        setValue(0);
         const started = performance.now();
         const tick = (now: number) => {
           const progress = Math.min((now - started) / 1300, 1);
@@ -66,101 +63,11 @@ function AnimatedNumber({ end, suffix = "" }: { end: number; suffix?: string }) 
   return <strong ref={ref}>{value}{suffix}</strong>;
 }
 
-function JourneySwitcher() {
-  const [active, setActive] = useState(0);
-  const journey = journeys[active];
-
-  return (
-    <div className="journey-stage reveal">
-      <div className="journey-image-wrap">
-        {journeys.map((item, index) => (
-          <img
-            key={item.id}
-            className={index === active ? "is-active" : ""}
-            src={item.image}
-            alt=""
-          />
-        ))}
-        <div className="journey-image-label">
-          <span>{journey.number}</span>
-          <small>{journey.eyebrow}</small>
-        </div>
-      </div>
-      <div className="journey-content">
-        <div className="journey-tabs" role="tablist" aria-label="Choose your real estate goal">
-          {journeys.map((item, index) => (
-            <button
-              key={item.id}
-              type="button"
-              role="tab"
-              aria-selected={index === active}
-              className={index === active ? "is-active" : ""}
-              onClick={() => setActive(index)}
-            >
-              <span>{item.number}</span>{item.short}
-            </button>
-          ))}
-        </div>
-        <div className="journey-copy" key={journey.id}>
-          <p className="eyebrow">{journey.eyebrow}</p>
-          <h3>{journey.title}</h3>
-          <p>{journey.copy}</p>
-          <ul>
-            {journey.points.map((point) => <li key={point}>{point}</li>)}
-          </ul>
-          <a className="line-link" href={journey.href}>{journey.cta}<ArrowUpRight /></a>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function TestimonialStage() {
-  const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const timer = window.setInterval(
-      () => setActive((current) => (current + 1) % testimonials.length),
-      6500,
-    );
-    return () => window.clearInterval(timer);
-  }, []);
-
-  const testimonial = testimonials[active];
-
-  return (
-    <div className="testimonial-stage reveal">
-      <div className="testimonial-quote-mark" aria-hidden="true">“</div>
-      <blockquote key={active}>{testimonial.quote}</blockquote>
-      <div className="testimonial-bottom">
-        <div>
-          <strong>{testimonial.person}</strong>
-          <span>{testimonial.context}</span>
-        </div>
-        <div className="testimonial-controls" aria-label="Testimonial controls">
-          <button
-            type="button"
-            aria-label="Previous testimonial"
-            onClick={() => setActive((active - 1 + testimonials.length) % testimonials.length)}
-          >←</button>
-          <span>0{active + 1} / 0{testimonials.length}</span>
-          <button
-            type="button"
-            aria-label="Next testimonial"
-            onClick={() => setActive((active + 1) % testimonials.length)}
-          >→</button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function HomeExperience() {
   return (
     <SiteChrome darkHeader>
       <main>
-        <section className="home-hero" aria-labelledby="hero-title">
+        <section className="home-hero investment-hero" aria-labelledby="hero-title">
           <video
             className="hero-video"
             autoPlay
@@ -182,23 +89,27 @@ export default function HomeExperience() {
 
           <div className="home-hero-content shell">
             <div className="hero-kicker hero-enter delay-1">
-              <i /> Pavneet Singh <span /> Private real estate advisory
+              <i /> Pavneet Singh <span /> Commercial Real Estate & Investment Advisory
             </div>
             <h1 id="hero-title" className="hero-enter delay-2">
-              <span className="hero-line"><span>Your next move,</span></span>
-              <span className="hero-line hero-line-offset"><span>made with <em>clarity.</em></span></span>
+              <span className="hero-line"><span>Capital.</span></span>
+              <span className="hero-line hero-line-offset"><span>Real estate.</span></span>
+              <span className="hero-line"><span><em>Opportunity.</em></span></span>
             </h1>
             <div className="hero-lower hero-enter delay-3">
               <p>
-                Buy, sell or invest across Nova Scotia with direct advice, local context and one trusted point of contact from first conversation to closing.
+                Connecting investors, developers, property owners and businesses with strategic commercial real estate opportunities across Nova Scotia.
               </p>
               <div className="hero-actions">
-                <Link className="primary-button light-button" href="/contact" data-magnetic>
-                  Request a private consultation <ArrowUpRight />
+                <Link className="primary-button light-button" href="/opportunities" data-magnetic>
+                  Explore opportunities <ArrowUpRight />
                 </Link>
-                <a className="hero-call" href={`tel:${site.phoneHref}`}>
-                  <span>Direct line</span>{site.phoneDisplay}
-                </a>
+                <Link className="hero-call hero-link-card" href="/investors">
+                  <span>Deploy capital</span>Submit investment criteria
+                </Link>
+                <Link className="hero-call hero-link-card" href="/owners">
+                  <span>Selling an asset?</span>Request confidential review
+                </Link>
               </div>
             </div>
           </div>
@@ -208,48 +119,27 @@ export default function HomeExperience() {
             <small>Sutton Group Professional Realty</small>
           </div>
 
-          <div className="hero-stats hero-enter delay-4" aria-label="Pavneet Singh at a glance">
+          <div className="hero-stats hero-enter delay-4" aria-label="Pavneet Singh commercial advisory at a glance">
             <div className="hero-stats-topline">
-              <span>Experience at a glance</span>
-              <a href="#introduction">Explore the story <b aria-hidden="true">↓</b></a>
+              <span>Authority at a glance</span>
+              <a href="#asset-classes">Explore asset classes <b aria-hidden="true">↓</b></a>
             </div>
             <div className="hero-stats-grid">
               <div className="hero-stat">
                 <small>01</small>
-                <AnimatedNumber end={100} suffix="+" />
-                <span>Units represented</span>
+                <AnimatedNumber end={330} suffix="+" />
+                <span>Acres acquired</span>
               </div>
               <div className="hero-stat">
                 <small>02</small>
-                <strong>All NS</strong>
-                <span>Province-wide guidance</span>
+                <AnimatedNumber end={100} suffix="+" />
+                <span>Units dealt with</span>
               </div>
               <div className="hero-stat">
                 <small>03</small>
-                <AnimatedNumber end={6} />
-                <span>Languages for clearer advice</span>
+                <strong>All NS</strong>
+                <span>Province-wide coverage</span>
               </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="editorial-intro section-space" id="introduction">
-          <div className="shell intro-layout">
-            <div className="intro-index reveal">
-              <span>01</span>
-              <p>More than property</p>
-            </div>
-            <div className="intro-statement reveal reveal-delay">
-              <p className="eyebrow">Pavneet Singh | REALTOR®</p>
-              <h2>
-                Real estate is a decision about <em>family, freedom,</em> and what comes next.
-              </h2>
-            </div>
-            <div className="intro-body reveal reveal-delay-2">
-              <p>
-                Pavneet helps families, newcomers, professionals, business owners, and investors navigate Nova Scotia with honest advice, thoughtful strategy, and a relationship built to last beyond closing day.
-              </p>
-              <Link className="line-link" href="/about">The story behind the service <ArrowUpRight /></Link>
             </div>
           </div>
         </section>
@@ -258,160 +148,184 @@ export default function HomeExperience() {
           <div className="motion-ribbon-track">
             {[0, 1].map((copy) => (
               <div className="motion-ribbon-group" key={copy}>
-                <span>Nova Scotia</span><i>✦</i><span>Residential</span><i>✦</i>
-                <span>Commercial</span><i>✦</i><span>Investment</span><i>✦</i>
-                <span>Land &amp; development</span><i>✦</i><span>Relocation</span><i>✦</i>
+                <span>Multifamily</span><i>*</i><span>Development land</span><i>*</i>
+                <span>Industrial</span><i>*</i><span>Commercial</span><i>*</i>
+                <span>Self storage</span><i>*</i><span>Off-market assets</span><i>*</i>
+                <span>Portfolio acquisitions</span><i>*</i><span>Residential</span><i>*</i>
               </div>
             ))}
           </div>
         </div>
 
-        <section className="journeys-section section-space">
+        <section className="asset-entry-section section-space" id="asset-classes">
           <div className="shell section-heading reveal">
             <div>
-              <p className="eyebrow">Tailored guidance</p>
-              <h2>What are you looking to <em>achieve?</em></h2>
+              <p className="eyebrow">Asset-class navigation</p>
+              <h2>Choose the opportunity type that fits the <em>mandate.</em></h2>
             </div>
             <p>
-              One considered process, adapted to the decision in front of you.
+              The site now routes visitors by revenue-producing intent: acquire, sell, develop, lease, invest or review residential options.
             </p>
           </div>
-          <div className="shell"><JourneySwitcher /></div>
-        </section>
-
-        <section className="home-guides-section section-space soft-section">
-          <div className="shell section-heading reveal">
-            <div>
-              <p className="eyebrow">Buyer&apos;s Guide & Seller&apos;s Guide</p>
-              <h2>Start with the right <em>roadmap.</em></h2>
-            </div>
-            <p>
-              Two focused guides for the moments where clear sequence, budget, preparation, and timing matter most.
-            </p>
-          </div>
-          <div className="shell guide-choice-grid">
-            <Link className="guide-choice reveal" href="/buying-guide" data-cursor-label="Read">
-              <img src="/images/interior-kitchen.jpg" alt="Modern Nova Scotia home interior" />
-              <div className="guide-choice-film" />
-              <span>01 / Buyer&apos;s Guide</span>
-              <h3>From first priorities to a confident offer.</h3>
-              <p>Plan financing, closing costs, search strategy, due diligence, and closing before the right home appears.</p>
-              <i><ArrowUpRight /></i>
-            </Link>
-            <Link className="guide-choice reveal reveal-delay" href="/selling-guide" data-cursor-label="Read">
-              <img src="/images/home-exterior.jpg" alt="Well-presented Nova Scotia home exterior" />
-              <div className="guide-choice-film" />
-              <span>02 / Seller&apos;s Guide</span>
-              <h3>Prepare, price, launch, and negotiate with purpose.</h3>
-              <p>Connect presentation, market position, offer quality, conditions, and closing into one coordinated sale plan.</p>
-              <i><ArrowUpRight /></i>
-            </Link>
-          </div>
-        </section>
-
-        <section className="services-section section-space dark-section">
-          <div className="shell section-heading light-heading reveal">
-            <div>
-              <p className="eyebrow light">The advisory spectrum</p>
-              <h2>Strategy for every kind of <em>opportunity.</em></h2>
-            </div>
-            <Link className="line-link light-link" href="/services">Explore all advisory services <ArrowUpRight /></Link>
-          </div>
-          <div className="shell services-grid">
-            {services.map((service, index) => (
-              <article className={`service-tile reveal reveal-delay-${(index % 3) + 1}`} key={service.title} data-cursor-label="Explore">
-                <img src={service.image} alt="" data-parallax="soft" />
-                <div className="service-shade" />
-                <div className="service-top"><span>{service.number}</span><ArrowUpRight /></div>
-                <div className="service-copy">
-                  <small>{service.subtitle}</small>
-                  <h3>{service.title}</h3>
-                  <p>{service.copy}</p>
+          <div className="shell asset-class-grid">
+            {assetClasses.map((asset, index) => (
+              <Link
+                className={`asset-class-card reveal reveal-delay-${(index % 3) + 1}`}
+                href={asset.href}
+                key={asset.title}
+                data-cursor-label="Explore"
+              >
+                <img src={asset.image} alt="" />
+                <div className="asset-class-film" />
+                <span>{asset.number}</span>
+                <div>
+                  <small>{asset.subtitle}</small>
+                  <h3>{asset.title}</h3>
+                  <p>{asset.copy}</p>
+                  <strong className="card-action card-action-dark">Explore {asset.title}<ArrowUpRight /></strong>
                 </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="what-we-do-section dark-section section-space">
+          <div className="shell advisory-layout">
+            <div className="reveal">
+              <p className="eyebrow light">What we do</p>
+              <h2>Real estate opportunities are not always listed. <em>Sometimes they have to be found.</em></h2>
+            </div>
+            <div className="advisory-copy reveal reveal-delay">
+              <p>
+                Pavneet Singh provides commercial real estate and investment advisory services for investors, developers, businesses and property owners across Nova Scotia.
+              </p>
+              <p>
+                The focus extends beyond public inventory to strategic acquisitions, development opportunities, commercial assets, land, select off-market transactions and qualified buyer matching.
+              </p>
+            </div>
+          </div>
+          <div className="shell value-pillar-grid">
+            {valuePillars.map((item, index) => (
+              <article className={`reveal reveal-delay-${index + 1}`} key={item[0]}>
+                <span>0{index + 1}</span>
+                <h3>{item[0]}</h3>
+                <p>{item[1]}</p>
               </article>
             ))}
           </div>
         </section>
 
-        <section className="profile-section section-space">
-          <div className="shell profile-layout">
-            <div className="profile-visual reveal">
-              <div className="profile-photo-frame">
-                <img src="/images/pavneet-transparent-headshot.png" alt="Pavneet Singh, Nova Scotia REALTOR®" />
-                <span className="profile-seal"><b>PS</b><small>Trusted family REALTOR®</small></span>
-              </div>
-              <div className="profile-caption">
-                <span>Pavneet Singh</span>
-                <span>Sutton Group Professional Realty</span>
-              </div>
-            </div>
-            <div className="profile-content reveal reveal-delay">
-              <p className="eyebrow">Local knowledge. Straight answers.</p>
-              <h2>A plan built around <em>you.</em></h2>
-              <p className="profile-lead">
-                Every journey is different. You deserve advice that respects both the numbers and the life behind them.
-              </p>
-              <blockquote>
-                “My goal is not simply to complete a transaction. It is to help you make an informed decision that creates lasting value.”
-              </blockquote>
-              <div className="profile-facts">
-                <div><strong>Finance</strong><span>Cash-flow and closing-cost clarity</span></div>
-                <div><strong>Construction</strong><span>A practical eye on condition and feasibility</span></div>
-                <div><strong>Relocation</strong><span>Empathetic guidance for newcomers</span></div>
-              </div>
-              <div className="language-line" aria-label="Six languages spoken">
-                <strong>6 languages</strong>
-                <div><span>English</span><span>Punjabi</span><span>Hindi</span><span>Urdu</span><span>Gujarati</span><span>Spanish</span></div>
-              </div>
-                <Link className="primary-button ink-button" href="/about" data-magnetic>Meet Pavneet <ArrowUpRight /></Link>
-            </div>
-          </div>
-        </section>
-
-        <section className="properties-section section-space soft-section">
+        <section className="featured-opportunities section-space soft-section">
           <div className="shell section-heading reveal">
             <div>
-              <p className="eyebrow">Curated market preview</p>
-              <h2>Opportunities worth a <em>closer look.</em></h2>
+              <p className="eyebrow">Private & public opportunities</p>
+              <h2>Current opportunities built for <em>qualified action.</em></h2>
             </div>
-            <Link className="line-link" href="/properties">Explore the marketplace <ArrowUpRight /></Link>
+            <Link className="line-link" href="/opportunities">View all opportunities <ArrowUpRight /></Link>
           </div>
-          <div className="shell property-row">
-            {properties.slice(0, 3).map((property, index) => (
+          <div className="shell opportunity-feature-list">
+            {opportunities.slice(0, 4).map((opportunity, index) => (
               <Link
-                className={`property-card reveal reveal-delay-${index + 1}`}
-                href={`/properties/${property.slug}`}
-                key={property.slug}
-                data-cursor-label="View"
+                className={`opportunity-feature-card reveal reveal-delay-${(index % 3) + 1}`}
+                href={`/opportunities/${opportunity.slug}`}
+                key={opportunity.slug}
+                data-cursor-label="Request"
               >
-                <div className="property-image">
-                  <img src={property.image} alt={property.title} />
-                  <span>{property.category}</span>
-                  <i><ArrowUpRight /></i>
+                <div className="opportunity-feature-image">
+                  <img src={opportunity.image} alt="" />
+                  <span>{opportunity.assetClass}</span>
                 </div>
-                <div className="property-copy">
-                  <p>{property.location}</p>
-                  <h3>{property.title}</h3>
-                  <strong>{property.price}</strong>
-                  <div><span>{property.beds}</span><span>{property.baths}</span><span>{property.area}</span></div>
+                <div className="opportunity-feature-copy">
+                  <p className="eyebrow">{opportunity.transaction}</p>
+                  <h3>{opportunity.title}</h3>
+                  <div className="opportunity-metrics">
+                    <span>{opportunity.location}</span>
+                    <span>{opportunity.scale}</span>
+                    <span>{opportunity.price}</span>
+                    <span>{opportunity.status}</span>
+                  </div>
+                  <p>{opportunity.summary}</p>
+                  <strong className="card-action">Request information <ArrowUpRight /></strong>
                 </div>
               </Link>
             ))}
           </div>
-          <p className="property-note shell reveal">
-            Public market references for design and discovery. Availability and listing details must be confirmed directly.
-          </p>
         </section>
 
-        <section className="insights-section section-space">
+        <section className="investor-network-band dark-section section-space">
+          <div className="shell investor-network-grid">
+            <div className="reveal">
+              <p className="eyebrow light">Private investor network</p>
+              <h2>Some of the best opportunities never reach the <em>open market.</em></h2>
+            </div>
+            <div className="reveal reveal-delay">
+              <p>
+                Join Pavneet Singh&apos;s private real estate network and submit the acquisition criteria that matter: capital range, asset class, geography, strategy and timeline.
+              </p>
+              <div className="investor-type-row">
+                {investorTypes.map((type) => <span key={type}>{type}</span>)}
+              </div>
+              <Link className="primary-button light-button" href="/investors" data-magnetic>Join private investor network <ArrowUpRight /></Link>
+            </div>
+          </div>
+        </section>
+
+        <section className="track-record-preview section-space">
           <div className="shell section-heading reveal">
             <div>
-              <p className="eyebrow">Blog / insights</p>
-              <h2>Useful context before the <em>next decision.</em></h2>
+              <p className="eyebrow">Transaction experience</p>
+              <h2>Evidence should look like <em>transactions.</em></h2>
             </div>
-            <Link className="line-link" href="/blog">View all insights <ArrowUpRight /></Link>
+            <Link className="line-link" href="/track-record">Explore track record <ArrowUpRight /></Link>
           </div>
-          <div className="shell insight-grid">
+          <div className="shell track-record-grid">
+            {trackRecord.slice(0, 4).map((item, index) => (
+              <Link className={`track-card reveal reveal-delay-${(index % 3) + 1}`} href="/track-record" key={item.title}>
+                <img src={item.image} alt="" />
+                <div>
+                  <strong>{item.metric}<small>{item.unit}</small></strong>
+                  <span>{item.asset} / {item.location}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.copy}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="owner-funnel-section section-space soft-section">
+          <div className="shell owner-funnel-grid">
+            <div className="reveal">
+              <p className="eyebrow">For owners & developers</p>
+              <h2>Own a commercial property? <em>There may already be a buyer looking for it.</em></h2>
+            </div>
+            <div className="reveal reveal-delay">
+              <p>
+                Confidential disposition advisory for multifamily, commercial, industrial, development land, businesses with real estate and select residential income assets throughout Nova Scotia.
+              </p>
+              <Link className="primary-button ink-button" href="/owners" data-magnetic>Request confidential asset review <ArrowUpRight /></Link>
+            </div>
+          </div>
+        </section>
+
+        <section className="intelligence-preview section-space">
+          <div className="shell section-heading reveal">
+            <div>
+              <p className="eyebrow">Nova Scotia intelligence</p>
+              <h2>Market authority should create <em>qualified conversations.</em></h2>
+            </div>
+            <Link className="line-link" href="/intelligence">View intelligence <ArrowUpRight /></Link>
+          </div>
+          <div className="shell intelligence-grid">
+            {intelligenceTopics.map((topic, index) => (
+              <article className={`reveal reveal-delay-${(index % 3) + 1}`} key={topic}>
+                <span>0{index + 1}</span>
+                <h3>{topic}</h3>
+                <p>Investor-focused reporting designed to support acquisition criteria, seller positioning and market confidence.</p>
+              </article>
+            ))}
+          </div>
+          <div className="shell insight-grid intelligence-article-row">
             {blogPosts.slice(0, 3).map((post, index) => (
               <Link
                 className={`insight-card reveal reveal-delay-${index + 1}`}
@@ -427,92 +341,71 @@ export default function HomeExperience() {
                   <div><span>{post.date}</span><span>{post.readTime}</span></div>
                   <h3>{post.title}</h3>
                   <p>{post.excerpt}</p>
-                  <strong>Read insight <ArrowUpRight /></strong>
+                  <strong className="card-action">Read intelligence <ArrowUpRight /></strong>
                 </div>
               </Link>
             ))}
           </div>
         </section>
 
-        <section className="process-section section-space">
-          <div className="shell process-layout">
-            <div className="process-heading reveal">
-              <p className="eyebrow">A clear plan of action</p>
-              <h2>From ambition to <em>address.</em></h2>
-              <p>Thoughtful coordination through negotiation, due diligence, closing day, and everything between.</p>
-              <Link className="line-link" href="/contact">Build your plan <ArrowUpRight /></Link>
-            </div>
-            <div className="process-steps">
-              {[
-                ["01", "Discover", "Define your goals, timing, priorities, and the opportunities that align."],
-                ["02", "Strategize", "Turn market context and careful analysis into a practical next-move plan."],
-                ["03", "Execute", "Coordinate viewings, negotiations, conditions, legal work, and closing."],
-              ].map((step, index) => (
-                <article className={`reveal reveal-delay-${index + 1}`} key={step[0]}>
-                  <span>{step[0]}</span>
-                  <h3>{step[1]}</h3>
-                  <p>{step[2]}</p>
-                  <i aria-hidden="true">↘</i>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="proof-section section-space dark-section">
-          <div className="shell proof-layout">
-            <div className="proof-image reveal">
-              <img src="/images/pavneet-community-in-action.jpg" alt="Pavneet Singh, Nova Scotia REALTOR®" data-parallax="soft" />
-              <span>Community in action</span>
-            </div>
-            <div className="proof-content">
-              <p className="eyebrow light reveal">Experience & community</p>
-              <h2 className="reveal">A record built through <em>service.</em></h2>
-              <div className="proof-stats reveal reveal-delay">
-                <div><strong>100+</strong><span>Units represented</span></div>
-                <div><strong>Top 25</strong><span>RE/MAX Nova, 2023</span></div>
-                <div><strong>2024</strong><span>Good Deeds recognition</span></div>
+        <section className="profile-section section-space dark-section">
+          <div className="shell profile-layout">
+            <div className="profile-visual reveal">
+              <div className="profile-photo-frame">
+                <img src="/images/pavneet-transparent-headshot.png" alt="Pavneet Singh, Nova Scotia commercial real estate advisor" />
+                <span className="profile-seal"><b>PS</b><small>Commercial advisory</small></span>
               </div>
-              <p className="proof-copy reveal reveal-delay-2">
-                Recognition matters most when it reflects consistent work: showing up, protecting the client&apos;s interests, and contributing to the community.
+              <div className="profile-caption">
+                <span>Pavneet Singh</span>
+                <span>Sutton Group Professional Realty</span>
+              </div>
+            </div>
+            <div className="profile-content reveal reveal-delay">
+              <p className="eyebrow light">Commercial real estate. Investment. Development.</p>
+              <h2>Local market knowledge with an <em>investment mindset.</em></h2>
+              <p className="profile-lead">
+                Pavneet works with investors, developers, business owners and property owners across Nova Scotia on commercial acquisitions, dispositions, development land and investment real estate.
               </p>
-            </div>
-          </div>
-        </section>
-
-        <section className="testimonials-section section-space">
-          <div className="shell testimonial-layout">
-            <div className="testimonial-heading reveal">
-              <p className="eyebrow">Client perspective</p>
-              <h2>Testimonials & reviews from real <em>decisions.</em></h2>
-              <div className="five-stars" aria-label="Five star client experiences">★★★★★</div>
-            </div>
-            <div className="testimonial-panel">
-              <TestimonialStage />
-              <div className="review-highlight-grid reveal reveal-delay">
-                {reviewHighlights.map((item) => (
-                  <article key={item[0]}>
-                    <span>{item[0]}</span>
-                    <h3>{item[1]}</h3>
-                    <p>{item[2]}</p>
-                  </article>
-                ))}
+              <div className="profile-facts">
+                <div><strong>Finance</strong><span>Cash-flow, budget and transaction context</span></div>
+                <div><strong>Construction</strong><span>A practical eye on condition and feasibility</span></div>
+                <div><strong>Network</strong><span>Investor, owner and local market relationships</span></div>
               </div>
+              <div className="language-line" aria-label="Six languages spoken">
+                <strong>6 languages</strong>
+                <div><span>English</span><span>Punjabi</span><span>Hindi</span><span>Urdu</span><span>Gujarati</span><span>Spanish</span></div>
+              </div>
+              <Link className="primary-button light-button" href="/about" data-magnetic>Meet Pavneet <ArrowUpRight /></Link>
             </div>
           </div>
         </section>
 
-        <section className="province-section">
-          <img src="/images/nova-scotia-coast.webp" alt="Coastal community in Nova Scotia" data-parallax="wide" />
-          <div className="province-film" />
-          <div className="shell province-content reveal">
-            <p className="eyebrow light">Serving all of Nova Scotia</p>
-            <h2>One province.<br /><em>Many possibilities.</em></h2>
-            <p>From Halifax&apos;s urban core to growing coastal and rural communities, local context turns a search into a confident decision.</p>
-            <div className="province-tags">
-              {['Halifax', 'Bedford', 'Dartmouth', 'Hammonds Plains', 'Sackville', 'Truro', 'Annapolis Valley', 'Cape Breton'].map((place) => <span key={place}>{place}</span>)}
+        <section className="final-pathways section-space">
+          <div className="shell section-heading reveal">
+            <div>
+              <p className="eyebrow">Let&apos;s discuss the opportunity</p>
+              <h2>Every visitor should have a <em>clear path.</em></h2>
             </div>
-            <Link className="primary-button light-button" href="/neighbourhoods" data-magnetic>Explore communities <ArrowUpRight /></Link>
+          </div>
+          <div className="shell pathway-grid">
+            {[
+              ["I want to acquire", "Submit your capital range, target asset classes, markets and acquisition timeline.", "/investors", "Submit investment criteria"],
+              ["I want to sell", "Request a confidential review for a commercial, multifamily, industrial, land or income asset.", "/owners", "Request asset review"],
+              ["I have a requirement", "Tell Pavneet what you need to buy, lease, invest in or develop across Nova Scotia.", "/contact", "Discuss requirement"],
+            ].map((path, index) => (
+              <Link className={`pathway-card reveal reveal-delay-${index + 1}`} href={path[2]} key={path[0]}>
+                <span>0{index + 1}</span>
+                <h3>{path[0]}</h3>
+                <p>{path[1]}</p>
+                <strong className="card-action">{path[3]} <ArrowUpRight /></strong>
+              </Link>
+            ))}
+          </div>
+          <div className="shell final-contact-strip reveal">
+            <a href={`tel:${site.phoneHref}`}>Call {site.phoneDisplay}</a>
+            <a href={`mailto:${site.email}`}>Email Pavneet</a>
+            <a href={site.whatsapp} target="_blank" rel="noreferrer">WhatsApp</a>
+            <Link href="/contact">Book / request a call</Link>
           </div>
         </section>
       </main>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState, type ReactNode } from "react";
-import { navItems, site } from "../data";
+import { navItems, secondaryNavItems, site } from "../data";
 
 function Arrow({ down = false }: { down?: boolean }) {
   return (
@@ -160,7 +160,7 @@ export function SiteChrome({
           </span>
           <span className="brand-copy">
             <strong>Pavneet Singh</strong>
-            <small>Nova Scotia REALTOR®</small>
+            <small>Sutton Group Professional Realty</small>
           </span>
         </Link>
 
@@ -170,8 +170,8 @@ export function SiteChrome({
           ))}
         </nav>
 
-        <Link className="header-contact" href="/contact" data-magnetic>
-          Private consultation <ArrowUpRight />
+        <Link className="header-contact" href="/investors" data-magnetic>
+          Investor network <ArrowUpRight />
         </Link>
 
         <button
@@ -194,8 +194,13 @@ export function SiteChrome({
               <span>0{index + 1}</span>{item.label}<ArrowUpRight />
             </Link>
           ))}
-          <Link className="mobile-menu-cta" href="/contact" onClick={() => setMenuOpen(false)}>
-            Request a consultation <ArrowUpRight />
+          <div className="mobile-menu-secondary">
+            {secondaryNavItems.map((item) => (
+              <Link href={item.href} key={item.href} onClick={() => setMenuOpen(false)}>{item.label}</Link>
+            ))}
+          </div>
+          <Link className="mobile-menu-cta" href="/owners" onClick={() => setMenuOpen(false)}>
+            Sell an asset confidentially <ArrowUpRight />
           </Link>
           <div className="mobile-menu-contact">
             <a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a>
@@ -211,9 +216,9 @@ export function SiteChrome({
         <div className="footer-top shell">
           <div className="footer-pitch reveal">
             <p className="eyebrow light">Your next move</p>
-            <h2>Let&apos;s make it a <em>confident one.</em></h2>
+            <h2>Let&apos;s discuss the <em>opportunity.</em></h2>
             <Link className="circle-link" href="/contact" aria-label="Request a private consultation" data-magnetic>
-              <span>Request<br />a consultation</span><ArrowUpRight />
+              <span>Start<br />a conversation</span><ArrowUpRight />
             </Link>
           </div>
           <div className="footer-info reveal reveal-delay">
@@ -231,11 +236,17 @@ export function SiteChrome({
               <a href={site.instagram} target="_blank" rel="noreferrer">Instagram ↗</a>
               <a href={site.facebook} target="_blank" rel="noreferrer">Facebook ↗</a>
             </div>
+            <div>
+              <p>Primary paths</p>
+              <Link href="/investors">Investor Network</Link>
+              <Link href="/owners">Sell an Asset</Link>
+              <Link href="/opportunities">Opportunities</Link>
+            </div>
           </div>
         </div>
         <div className="footer-bottom shell">
           <span>© 2026 Pavneet Singh</span>
-          <span>REALTOR® | Sutton Group Professional Realty</span>
+          <span>Pavneet Singh, REALTOR® | Sutton Group Professional Realty</span>
           <div>
             <Link href="/privacy-policy">Privacy</Link>
             <Link href="/terms">Terms</Link>
@@ -251,9 +262,15 @@ export function SiteChrome({
           <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 3H4.8C3.8 3 3 3.8 3 4.8 3 13.7 10.3 21 19.2 21c1 0 1.8-.8 1.8-1.8V17l-4.8-1.1-1.2 2a15.6 15.6 0 0 1-8.9-8.9l2-1.2L7 3Z" /></svg>
           <span>Call</span>
         </a>
+        <a href={`sms:${site.phoneHref}`} aria-label="Text Pavneet">
+          <span>Text</span>
+        </a>
         <a className="whatsapp-action" href={site.whatsapp} target="_blank" rel="noreferrer" aria-label="Message Pavneet on WhatsApp">
           <span>WA</span>
         </a>
+        <Link href="/opportunities" aria-label="View opportunities">
+          <span>Opps</span>
+        </Link>
       </div>
     </>
   );
