@@ -6,6 +6,7 @@ import {
   assetClasses,
   blogPosts,
   intelligenceTopics,
+  marketSnapshot,
   opportunities,
   site,
   trackRecord,
@@ -305,6 +306,49 @@ export default function HomeExperience() {
               </p>
               <Link className="primary-button ink-button" href="/owners" data-magnetic>Request confidential asset review <ArrowUpRight /></Link>
             </div>
+          </div>
+        </section>
+
+        <section className="market-snapshot-section section-space dark-section" id="market-stats">
+          <div className="shell market-snapshot-layout">
+            <div className="market-snapshot-copy reveal">
+              <p className="eyebrow light">Weekly market stats</p>
+              <h2>{marketSnapshot.title}: <em>{marketSnapshot.period}</em></h2>
+              <p>{marketSnapshot.summary}</p>
+              <div className="market-source-row">
+                <span>{marketSnapshot.region}</span>
+                <a href={marketSnapshot.sourceHref} target="_blank" rel="noreferrer">
+                  {marketSnapshot.sourceLabel} <ArrowUpRight />
+                </a>
+              </div>
+            </div>
+
+            <div className="market-snapshot-panel reveal reveal-delay">
+              <div className="market-snapshot-panel-header">
+                <span>{marketSnapshot.period}</span>
+                <strong>Halifax pulse</strong>
+              </div>
+              <div className="market-metric-grid">
+                {marketSnapshot.metrics.map((metric) => (
+                  <article key={metric.label}>
+                    <strong>{metric.value}</strong>
+                    <span>{metric.label}</span>
+                    <p>{metric.detail}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="shell market-snapshot-bottom reveal">
+            <div>
+              <span>Compared with the week before</span>
+              {marketSnapshot.weekComparison.map((item) => <p key={item}>{item}</p>)}
+            </div>
+            <p>{marketSnapshot.takeaway}</p>
+            <Link className="primary-button light-button" href="/contact" data-magnetic>
+              Request a street-level breakdown <ArrowUpRight />
+            </Link>
           </div>
         </section>
 

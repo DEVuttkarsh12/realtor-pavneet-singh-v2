@@ -248,6 +248,33 @@ export const intelligenceTopics = [
   "International Investors Buying Canadian Commercial Real Estate",
 ] as const;
 
+export const marketSnapshot = {
+  region: "Halifax real estate",
+  period: "Aug 18 - Aug 24",
+  title: "Halifax weekly market pulse",
+  summary:
+    "A weekly read on sales, new supply, accepted deals, price changes and cancelled listings so buyers and sellers can see where the market is moving before they make a decision.",
+  takeaway:
+    "Sold-over-list activity climbed to 22% from 17%, while new listings slowed to 142 from 194. Pricing right still matters: fewer new listings means well-positioned homes can stand out, but reductions and withdrawals show buyers are still pushing back on optimistic pricing.",
+  sourceLabel: "NSAR / CREA statistics",
+  sourceHref: "https://stats.crea.ca/board/nsar/",
+  metrics: [
+    { value: "130", label: "Homes sold", detail: "Weekly sales this period" },
+    { value: "105", label: "Deals accepted", detail: "Conditional or accepted activity" },
+    { value: "142", label: "New listings", detail: "Fresh supply entering the market" },
+    { value: "22%", label: "Sold over asking", detail: "29 homes sold above list price" },
+    { value: "97.7%", label: "Sale-to-list ratio", detail: "Average sold price vs. asking" },
+    { value: "109", label: "Price reductions", detail: "Listings adjusted downward" },
+    { value: "40", label: "Withdrawn deals", detail: "Fell through or were withdrawn" },
+    { value: "3", label: "New construction sales", detail: "Builder inventory sold" },
+  ],
+  weekComparison: [
+    "Sold-over-list increased from 17% to 22%.",
+    "New listings declined from 194 to 142.",
+    "Cancellations and withdrawals stayed elevated at 40.",
+  ],
+} as const;
+
 export const journeys = [
   {
     id: "buy",
