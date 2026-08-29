@@ -127,20 +127,6 @@ export const opportunities = [
     highlights: ["Strategic acreage", "Mixed-use potential", "Developer-oriented review", "Highest-and-best-use questions"],
   },
   {
-    slug: "greenwood-growth-opportunity",
-    assetClass: "Land",
-    title: "Greenwood growth opportunity",
-    location: "Kings County, Nova Scotia",
-    scale: "Development-oriented land",
-    price: "Request details",
-    status: "Private enquiry",
-    transaction: "Site acquisition",
-    image: "/images/nova-scotia-coast.webp",
-    summary:
-      "Strategically located land suitable for residential, commercial or mixed-use exploration with the right advisory and due-diligence team.",
-    highlights: ["Growth corridor", "Residential and commercial potential", "Site strategy", "Qualified buyer review"],
-  },
-  {
     slug: "income-producing-commercial-asset",
     assetClass: "Commercial",
     title: "Income-producing commercial asset",
@@ -223,19 +209,6 @@ export const trackRecord = [
     image: "/images/industrial.jpg",
     copy:
       "Industrial and storage-related site strategy focused on land characteristics, access, use potential and buyer/developer fit.",
-  },
-  {
-    slug: "greenwood-development-advisory",
-    metric: "20+",
-    unit: "Acres",
-    title: "Development advisory",
-    location: "Greenwood, Nova Scotia",
-    asset: "Development",
-    strategy: "Residential and commercial potential",
-    role: "Land and opportunity advisory",
-    image: "/images/nova-scotia-coast.webp",
-    copy:
-      "Development-oriented advisory for land opportunities requiring local market context, transaction coordination and professional due diligence.",
   },
 ] as const;
 
