@@ -1845,59 +1845,6 @@ a:focus-visible .card-action-dark {
   margin-top: 36px;
 }
 
-.apartment-policy-panel {
-  border-top: 1px solid var(--line);
-  margin-top: clamp(44px, 6vw, 86px);
-  padding-top: clamp(26px, 4vw, 42px);
-}
-
-.apartment-policy-grid {
-  display: grid;
-  gap: 0;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.apartment-policy-grid article {
-  border-right: 1px solid var(--line);
-  min-height: 210px;
-  padding: 28px clamp(22px, 3vw, 38px) 0 0;
-}
-
-.apartment-policy-grid article + article {
-  padding-left: clamp(22px, 3vw, 38px);
-}
-
-.apartment-policy-grid article:last-child {
-  border-right: 0;
-}
-
-.apartment-policy-grid span {
-  color: var(--gold);
-  display: block;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  margin-bottom: 22px;
-  text-transform: uppercase;
-}
-
-.apartment-policy-grid strong {
-  display: block;
-  font-family: var(--serif);
-  font-size: clamp(34px, 4vw, 58px);
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 0.95;
-  margin-bottom: 22px;
-}
-
-.apartment-policy-grid p {
-  color: inherit;
-  font-size: 14px;
-  line-height: 1.75;
-  opacity: 0.68;
-}
-
 .investment-disclaimer,
 .document-access-card,
 .lead-magnet-card {
@@ -2221,19 +2168,6 @@ a:focus-visible .card-action-dark {
     padding: 8px 9px;
   }
   .asset-taxonomy a { font-size: 28px; }
-  .apartment-policy-grid {
-    grid-template-columns: 1fr;
-  }
-  .apartment-policy-grid article,
-  .apartment-policy-grid article + article {
-    border-bottom: 1px solid var(--line);
-    border-right: 0;
-    min-height: 0;
-    padding: 24px 0;
-  }
-  .apartment-policy-grid article:last-child {
-    border-bottom: 0;
-  }
   .asset-page-actions,
   .property-detail-actions {
     align-items: stretch;

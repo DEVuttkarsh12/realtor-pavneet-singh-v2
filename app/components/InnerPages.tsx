@@ -423,11 +423,6 @@ const assetPageMap = {
     intro: "Multifamily opportunities should be reviewed through income, operating costs, rent context, unit mix, condition, financing and long-term portfolio fit.",
     groups: ["Apartment Buildings", "5-20 Units", "20-50 Units", "50-100 Units", "100+ Units", "Multifamily Portfolios", "Development Opportunities"],
     markets: ["Multifamily For Sale Halifax", "Apartment Buildings For Sale Nova Scotia", "Halifax Rental Market", "Dartmouth Multifamily", "Nova Scotia Apartment Portfolios"],
-    policyUpdates: [
-      ["Apartment tenant storage", "$99 per 4 weeks", "Available as an optional storage-unit rental for new apartment leases."],
-      ["Storage-only rental", "$149 per 4 weeks", "For individuals renting a storage unit only, without leasing an apartment at the property."],
-      ["Pet policy", "Up to two cats", "Apartment units now allow up to two cats per unit."],
-    ],
   },
   "development-land": {
     eyebrow: "Development land",
@@ -483,20 +478,6 @@ function AssetPage({ type }: { type: keyof typeof assetPageMap }) {
               {page.groups.map((item) => <Link href="/opportunities" key={item}>{item}<ArrowUpRight /></Link>)}
             </div>
           </div>
-          {"policyUpdates" in page && (
-            <div className="shell apartment-policy-panel reveal">
-              <p className="eyebrow">Apartment leasing update</p>
-              <div className="apartment-policy-grid">
-                {page.policyUpdates.map(([label, value, copy]) => (
-                  <article key={label}>
-                    <span>{label}</span>
-                    <strong>{value}</strong>
-                    <p>{copy}</p>
-                  </article>
-                ))}
-              </div>
-            </div>
-          )}
         </section>
         <section className="seo-market-section soft-section section-space">
           <div className="shell">
