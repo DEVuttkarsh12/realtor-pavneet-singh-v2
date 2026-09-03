@@ -50,6 +50,8 @@ const tourTimes = [
   "Saturday, October 10 · 11:00 AM",
 ] as const;
 
+type TourTime = (typeof tourTimes)[number];
+
 function AnimatedNumber({ end, suffix = "" }: { end: number; suffix?: string }) {
   const [value, setValue] = useState(end);
   const ref = useRef<HTMLElement>(null);
@@ -93,7 +95,7 @@ export default function HomeExperience() {
     email: string;
     apartment: string;
   } | null>(null);
-  const [selectedTourTime, setSelectedTourTime] = useState(tourTimes[0]);
+  const [selectedTourTime, setSelectedTourTime] = useState<TourTime>(tourTimes[0]);
   const tourTimesRef = useRef<HTMLDivElement>(null);
 
   function submitTourRequest(event: FormEvent<HTMLFormElement>) {
