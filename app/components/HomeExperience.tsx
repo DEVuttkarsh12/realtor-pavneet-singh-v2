@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import {
   assetClasses,
   blogPosts,
@@ -27,6 +27,27 @@ const investorTypes = [
   "Business owners",
   "Corporations",
   "International investors",
+] as const;
+
+const availableResidences = [
+  {
+    residence: "1 Bedroom + Den",
+    size: "780 sq. ft.",
+    rent: "From $1,750",
+    availability: "October",
+  },
+  {
+    residence: "2 Bedroom + Den",
+    size: "1,040 sq. ft.",
+    rent: "From $2,100",
+    availability: "October",
+  },
+] as const;
+
+const tourTimes = [
+  "Tuesday, October 6 · 5:30 PM",
+  "Thursday, October 8 · 6:00 PM",
+  "Saturday, October 10 · 11:00 AM",
 ] as const;
 
 function AnimatedNumber({ end, suffix = "" }: { end: number; suffix?: string }) {
@@ -65,18 +86,61 @@ function AnimatedNumber({ end, suffix = "" }: { end: number; suffix?: string }) 
 }
 
 export default function HomeExperience() {
+  const [heroVideoReady, setHeroVideoReady] = useState(false);
+  const [tourRequest, setTourRequest] = useState<{
+    name: string;
+    mobile: string;
+    email: string;
+    apartment: string;
+  } | null>(null);
+  const [selectedTourTime, setSelectedTourTime] = useState(tourTimes[0]);
+  const tourTimesRef = useRef<HTMLDivElement>(null);
+
+  function submitTourRequest(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    setTourRequest({
+      name: String(data.get("name") || ""),
+      mobile: String(data.get("mobile") || ""),
+      email: String(data.get("email") || ""),
+      apartment: String(data.get("apartment") || ""),
+    });
+    window.requestAnimationFrame(() => {
+      tourTimesRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  }
+
+  function confirmTour() {
+    if (!tourRequest) return;
+    const subject = encodeURIComponent(`Tour request: ${tourRequest.apartment}`);
+    const body = encodeURIComponent(
+      `Name: ${tourRequest.name}\nMobile: ${tourRequest.mobile}\nEmail: ${tourRequest.email}\nPreferred apartment: ${tourRequest.apartment}\nPreferred tour time: ${selectedTourTime}`,
+    );
+    window.location.href = `mailto:${site.email}?subject=${subject}&body=${body}`;
+  }
+
   return (
     <SiteChrome darkHeader>
       <main>
         <section className="home-hero investment-hero" aria-labelledby="hero-title">
+          <img
+            className="hero-poster"
+            src="/images/halifax-hero-poster.webp"
+            alt=""
+            fetchPriority="high"
+            decoding="sync"
+            aria-hidden="true"
+          />
           <video
-            className="hero-video"
+            className={`hero-video ${heroVideoReady ? "is-ready" : ""}`}
             autoPlay
             muted
             loop
             playsInline
             preload="metadata"
-            poster="/images/halifax-aerial.jpg"
+            poster="/images/halifax-hero-poster.webp"
+            onCanPlay={() => setHeroVideoReady(true)}
+            onLoadedData={() => setHeroVideoReady(true)}
             aria-hidden="true"
           >
             <source src="/videos/halifax-drone-hero.mp4" type="video/mp4" />
@@ -102,15 +166,12 @@ export default function HomeExperience() {
                 Connecting investors, developers, property owners and businesses with strategic commercial real estate opportunities across Nova Scotia.
               </p>
               <div className="hero-actions">
-                <Link className="primary-button light-button" href="/opportunities" data-magnetic>
-                  Explore opportunities <ArrowUpRight />
-                </Link>
-                <Link className="hero-call hero-link-card" href="/investors">
-                  <span>Deploy capital</span>Submit investment criteria
-                </Link>
-                <Link className="hero-call hero-link-card" href="/owners">
-                  <span>Selling an asset?</span>Request confidential review
-                </Link>
+                <a className="primary-button light-button" href="#tour-booking" data-magnetic>
+                  Book a Tour <ArrowUpRight />
+                </a>
+                <a className="primary-button hero-secondary-button" href="#availability">
+                  Check Availability <ArrowUpRight />
+                </a>
               </div>
             </div>
           </div>
@@ -141,6 +202,96 @@ export default function HomeExperience() {
                 <strong>All NS</strong>
                 <span>Province-wide coverage</span>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="leasing-section section-space" id="availability" aria-labelledby="availability-title">
+          <div className="shell leasing-heading reveal">
+            <div>
+              <p className="eyebrow">Now leasing</p>
+              <h2 id="availability-title">October homes are <em>available now.</em></h2>
+            </div>
+            <p>Compare current layouts, then choose a tour time in one quick step. Pricing and availability are subject to confirmation.</p>
+          </div>
+
+          <div className="shell availability-panel reveal reveal-delay-1">
+            <div className="availability-row availability-header" aria-hidden="true">
+              <span>Residence</span><span>Size</span><span>Rent</span><span>Availability</span><span>Action</span>
+            </div>
+            {availableResidences.map((residence) => (
+              <article className="availability-row" key={residence.residence}>
+                <div data-label="Residence"><strong>{residence.residence}</strong></div>
+                <div data-label="Size"><span>{residence.size}</span></div>
+                <div data-label="Rent"><span>{residence.rent}</span></div>
+                <div data-label="Availability"><span className="availability-status"><i />{residence.availability}</span></div>
+                <div data-label="Action">
+                  <a className="availability-action" href="#tour-booking">Book Tour <ArrowUpRight /></a>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="shell tour-booking-layout" id="tour-booking">
+            <div className="tour-booking-copy reveal">
+              <p className="eyebrow">Book your tour</p>
+              <h2>Four details. Then choose a <em>time.</em></h2>
+              <p>Start with only the essentials. Occupants, pets, parking, smoking preferences and lease details can be confirmed later.</p>
+              <div className="tour-booking-promise">
+                <span>01</span><p>Share your contact details</p>
+                <span>02</span><p>See available tour times</p>
+                <span>03</span><p>Confirm the time that suits you</p>
+              </div>
+            </div>
+
+            <div className="tour-booking-card reveal reveal-delay-1">
+              {!tourRequest ? (
+                <form className="tour-booking-form" onSubmit={submitTourRequest}>
+                  <div className="tour-form-head">
+                    <span>October leasing</span>
+                    <h3>Choose your residence.</h3>
+                    <p>Available tour times appear immediately after this step.</p>
+                  </div>
+                  <div className="tour-fields">
+                    <label><span>Name *</span><input name="name" required autoComplete="name" placeholder="Full name" /></label>
+                    <label><span>Mobile number *</span><input name="mobile" type="tel" required autoComplete="tel" inputMode="tel" placeholder="(902) 555-0123" /></label>
+                    <label><span>Email *</span><input name="email" type="email" required autoComplete="email" placeholder="name@example.com" /></label>
+                    <label>
+                      <span>Preferred apartment *</span>
+                      <select name="apartment" required defaultValue="">
+                        <option value="" disabled>Select a residence</option>
+                        {availableResidences.map((residence) => <option key={residence.residence}>{residence.residence}</option>)}
+                      </select>
+                    </label>
+                  </div>
+                  <button className="primary-button ink-button tour-submit" type="submit">Show Tour Times <ArrowUpRight /></button>
+                  <p className="tour-privacy-note">By continuing, you agree to be contacted about this rental enquiry.</p>
+                </form>
+              ) : (
+                <div className="tour-times" ref={tourTimesRef} aria-live="polite">
+                  <div className="tour-form-head">
+                    <span>Times available</span>
+                    <h3>Choose a tour time.</h3>
+                    <p>Thanks, {tourRequest.name}. Select the time that works best for you.</p>
+                  </div>
+                  <div className="tour-time-options" role="radiogroup" aria-label="Available tour times">
+                    {tourTimes.map((time) => (
+                      <label key={time}>
+                        <input
+                          type="radio"
+                          name="tourTime"
+                          value={time}
+                          checked={selectedTourTime === time}
+                          onChange={() => setSelectedTourTime(time)}
+                        />
+                        <span>{time}</span>
+                      </label>
+                    ))}
+                  </div>
+                  <button className="primary-button ink-button tour-submit" type="button" onClick={confirmTour}>Confirm Tour <ArrowUpRight /></button>
+                  <button className="tour-edit" type="button" onClick={() => setTourRequest(null)}>Edit contact details</button>
+                </div>
+              )}
             </div>
           </div>
         </section>
