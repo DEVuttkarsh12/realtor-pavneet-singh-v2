@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import {
-  assetClasses,
   blogPosts,
   type BlogPost,
   buyerSteps,

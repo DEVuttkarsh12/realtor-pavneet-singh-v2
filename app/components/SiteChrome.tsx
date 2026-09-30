@@ -158,10 +158,7 @@ export function SiteChrome({
           <span className="brand-mark" aria-hidden="true">
             <img src="/images/pavneet-logo-nav.webp" alt="" />
           </span>
-          <span className="brand-copy">
-            <strong>Pavneet Singh</strong>
-            <small>Sutton Group Professional Realty</small>
-          </span>
+          <span className="brand-copy"><strong>Pavneet Singh</strong></span>
         </Link>
 
         <nav className="desktop-nav" aria-label="Primary navigation">
@@ -217,8 +214,8 @@ export function SiteChrome({
           <div className="footer-pitch reveal">
             <p className="eyebrow light">Your next move</p>
             <h2>Let&apos;s discuss the <em>opportunity.</em></h2>
-            <Link className="circle-link" href="/contact" aria-label="Request a private consultation" data-magnetic>
-              <span>Start<br />a conversation</span><ArrowUpRight />
+            <Link className="footer-cta" href="/contact" aria-label="Request a private consultation" data-magnetic>
+              <span>Start a conversation</span><ArrowUpRight />
             </Link>
           </div>
           <div className="footer-info reveal reveal-delay">
@@ -235,6 +232,7 @@ export function SiteChrome({
               <p>Follow</p>
               <a href={site.instagram} target="_blank" rel="noreferrer">Instagram ↗</a>
               <a href={site.facebook} target="_blank" rel="noreferrer">Facebook ↗</a>
+              <a href={site.whatsapp} target="_blank" rel="noreferrer">WhatsApp ↗</a>
             </div>
             <div>
               <p>Primary paths</p>
@@ -257,21 +255,6 @@ export function SiteChrome({
         </div>
       </footer>
 
-      <div className="floating-actions">
-        <a href={`tel:${site.phoneHref}`} aria-label="Call Pavneet">
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 3H4.8C3.8 3 3 3.8 3 4.8 3 13.7 10.3 21 19.2 21c1 0 1.8-.8 1.8-1.8V17l-4.8-1.1-1.2 2a15.6 15.6 0 0 1-8.9-8.9l2-1.2L7 3Z" /></svg>
-          <span>Call</span>
-        </a>
-        <a href={`sms:${site.phoneHref}`} aria-label="Text Pavneet">
-          <span>Text</span>
-        </a>
-        <a className="whatsapp-action" href={site.whatsapp} target="_blank" rel="noreferrer" aria-label="Message Pavneet on WhatsApp">
-          <span>WA</span>
-        </a>
-        <Link href="/opportunities" aria-label="View opportunities">
-          <span>Opps</span>
-        </Link>
-      </div>
     </>
   );
 }

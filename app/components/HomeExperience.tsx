@@ -150,10 +150,6 @@ export default function HomeExperience() {
           <div className="hero-film" aria-hidden="true" />
           <div className="hero-grain" aria-hidden="true" />
 
-          <div className="hero-side-note" aria-hidden="true">
-            <span>44.6488° N</span><i /><span>63.5752° W</span>
-          </div>
-
           <div className="home-hero-content shell">
             <div className="hero-kicker hero-enter delay-1">
               <i /> Pavneet Singh <span /> Commercial Real Estate & Investment Advisory
@@ -176,11 +172,6 @@ export default function HomeExperience() {
                 </a>
               </div>
             </div>
-          </div>
-
-          <div className="hero-brand-signature hero-enter delay-4" aria-label="Pavneet Singh, Sutton Group Professional Realty">
-            <span>PAVNEET SINGH</span>
-            <small>Sutton Group Professional Realty</small>
           </div>
 
           <div className="hero-stats hero-enter delay-4" aria-label="Pavneet Singh commercial advisory at a glance">
