@@ -155,10 +155,7 @@ export function SiteChrome({
         className={`site-header ${darkHeader ? "on-hero" : ""} ${scrolled ? "is-scrolled" : ""}`}
       >
         <Link className="brand" href="/" aria-label="Pavneet Singh home">
-          <span className="brand-mark" aria-hidden="true">
-            <img src="/images/pavneet-logo-nav.webp" alt="" />
-          </span>
-          <span className="brand-copy"><strong>Pavneet Singh</strong></span>
+          <span className="brand-copy"><strong>Sutton Group Professional Realty</strong><small>Pavneet Singh, REALTOR®</small></span>
         </Link>
 
         <nav className="desktop-nav" aria-label="Primary navigation">
@@ -167,9 +164,10 @@ export function SiteChrome({
           ))}
         </nav>
 
-        <Link className="header-contact" href="/investors" data-magnetic>
-          Investor network <ArrowUpRight />
-        </Link>
+        <div className="header-actions">
+          <Link className="header-submit" href="/submit-opportunity">Submit an opportunity</Link>
+          <Link className="header-contact" href="/contact" data-magnetic>Work with Pavneet <ArrowUpRight /></Link>
+        </div>
 
         <button
           type="button"
@@ -196,8 +194,8 @@ export function SiteChrome({
               <Link href={item.href} key={item.href} onClick={() => setMenuOpen(false)}>{item.label}</Link>
             ))}
           </div>
-          <Link className="mobile-menu-cta" href="/owners" onClick={() => setMenuOpen(false)}>
-            Sell an asset confidentially <ArrowUpRight />
+          <Link className="mobile-menu-cta" href="/submit-opportunity" onClick={() => setMenuOpen(false)}>
+            Submit an opportunity <ArrowUpRight />
           </Link>
           <div className="mobile-menu-contact">
             <a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a>
@@ -236,9 +234,9 @@ export function SiteChrome({
             </div>
             <div>
               <p>Primary paths</p>
-              <Link href="/investors">Investor Network</Link>
-              <Link href="/owners">Sell an Asset</Link>
-              <Link href="/opportunities">Opportunities</Link>
+              <Link href="/invest">Investor Network</Link>
+              <Link href="/submit-opportunity">Submit a Property</Link>
+              <Link href="/properties">Properties</Link>
             </div>
           </div>
         </div>
@@ -254,6 +252,12 @@ export function SiteChrome({
           REALTOR® and MLS® are trademarks owned or controlled by the Canadian Real Estate Association and identify real estate professionals and services that meet CREA&apos;s standards. Property information is believed to be reliable but is not guaranteed.
         </div>
       </footer>
+
+      <div className="mobile-contact-bar" aria-label="Quick contact">
+        <a href={`tel:${site.phoneHref}`}>Call</a>
+        <a href={site.whatsapp} target="_blank" rel="noreferrer">WhatsApp</a>
+        <a href={`mailto:${site.email}`}>Email</a>
+      </div>
 
     </>
   );

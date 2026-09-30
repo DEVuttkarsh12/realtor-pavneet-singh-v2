@@ -3,12 +3,22 @@ import { getSiteUrl } from "./site-url";
 import "./globals.css";
 
 const siteUrl = getSiteUrl();
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Pavneet Singh",
+  jobTitle: "REALTOR®",
+  url: siteUrl.toString(),
+  telephone: "+1-902-809-9399",
+  worksFor: { "@type": "Organization", name: "Sutton Group Professional Realty" },
+  areaServed: { "@type": "AdministrativeArea", name: "Nova Scotia" },
+};
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,
-  title: "Pavneet Singh | Nova Scotia Realtor",
+  title: "Pavneet Singh | Nova Scotia Real Estate Advisor",
   description:
-    "Residential, investment, commercial, land, and relocation guidance across Nova Scotia with Pavneet Singh, REALTOR®.",
+    "Investment, commercial, development land and residential real estate representation across Nova Scotia with Pavneet Singh, REALTOR® at Sutton Group Professional Realty.",
   applicationName: "Pavneet Singh Real Estate",
   keywords: [
     "Nova Scotia realtor",
@@ -23,9 +33,9 @@ export const metadata: Metadata = {
     apple: "/images/pavneet-logo-icon.png",
   },
   openGraph: {
-    title: "Pavneet Singh | Nova Scotia Realtor",
+    title: "Pavneet Singh | Nova Scotia Real Estate Advisor",
     description:
-      "Your next move, made with clarity. Real estate guidance across Nova Scotia.",
+      "Real estate strategy for people building something bigger. Investment, commercial, development land and residential representation across Nova Scotia.",
     type: "website",
     locale: "en_CA",
     url: siteUrl,
@@ -35,14 +45,14 @@ export const metadata: Metadata = {
         url: "/og.png",
         width: 1730,
         height: 909,
-        alt: "Pavneet Singh. Your next move, made with clarity.",
+        alt: "Pavneet Singh, Nova Scotia Real Estate Advisor.",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pavneet Singh | Nova Scotia Realtor",
-    description: "Your next move, made with clarity.",
+    title: "Pavneet Singh | Nova Scotia Real Estate Advisor",
+    description: "Investment, commercial, development land and residential representation across Nova Scotia.",
     images: ["/og.png"],
   },
   other: {
@@ -57,7 +67,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en-CA">
-      <body>{children}</body>
+      <body><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />{children}</body>
     </html>
   );
 }

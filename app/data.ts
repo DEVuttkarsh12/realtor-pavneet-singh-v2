@@ -10,243 +10,25 @@ export const site = {
 };
 
 export const navItems = [
-  { label: "Opportunities", href: "/opportunities" },
-  { label: "Investors", href: "/investors" },
-  { label: "Owners", href: "/owners" },
-  { label: "Commercial", href: "/commercial" },
-  { label: "Development", href: "/development" },
-  { label: "Track Record", href: "/track-record" },
+  { label: "Home", href: "/" },
+  { label: "Invest", href: "/invest" },
+  { label: "Commercial", href: "/commercial-real-estate" },
+  { label: "Development & Land", href: "/development-land" },
+  { label: "Residential", href: "/residential" },
+  { label: "Properties", href: "/properties" },
   { label: "Intelligence", href: "/intelligence" },
   { label: "About", href: "/about" },
+  { label: "Media", href: "/media" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export const secondaryNavItems = [
-  { label: "Industrial", href: "/industrial" },
-  { label: "Multifamily", href: "/multifamily" },
-  { label: "Land", href: "/development-land" },
-  { label: "Residential", href: "/residential" },
+  { label: "Submit an Opportunity", href: "/submit-opportunity" },
+  { label: "Selected Transactions", href: "/transactions" },
+  { label: "Investor Network", href: "/invest" },
   { label: "Guides", href: "/guides" },
-  { label: "Neighbourhoods", href: "/neighbourhoods" },
+  { label: "Market Areas", href: "/neighbourhoods" },
 ];
-
-export const assetClasses = [
-  {
-    number: "01",
-    title: "Multifamily",
-    subtitle: "Apartments, portfolios, purpose-built rentals",
-    copy: "Apartment buildings, multi-residential portfolios, 5-20 unit assets, 20-50 unit assets, 50-100 unit opportunities and institutional-scale residential acquisitions.",
-    href: "/multifamily",
-    image: "/images/halifax-aerial.jpg",
-    points: ["Apartment buildings", "Portfolios", "Value-add"],
-  },
-  {
-    number: "02",
-    title: "Industrial",
-    subtitle: "Warehouse, distribution, manufacturing, flex",
-    copy: "Industrial property sourcing and advisory for owner-occupied buildings, industrial leasing, distribution, storage, manufacturing, flex space and industrial development land.",
-    href: "/industrial",
-    image: "/images/industrial.jpg",
-    points: ["Warehouse", "Distribution", "Industrial land"],
-  },
-  {
-    number: "03",
-    title: "Commercial",
-    subtitle: "Retail, office, mixed-use, business assets",
-    copy: "Commercial real estate guidance across retail, office, mixed-use, income-producing properties, businesses for sale and owner-user acquisition or disposition needs.",
-    href: "/commercial",
-    image: "/images/commercial.jpg",
-    points: ["Retail", "Office", "Mixed-use"],
-  },
-  {
-    number: "04",
-    title: "Development Land",
-    subtitle: "Sites, zoning, density, servicing, highest use",
-    copy: "Development land advisory focused on residential, commercial, industrial, mixed-use, multifamily sites, land assemblies and strategic developer targeting.",
-    href: "/development-land",
-    image: "/images/development.jpg",
-    points: ["Zoning context", "Servicing", "Developer targeting"],
-  },
-  {
-    number: "05",
-    title: "Investment Properties",
-    subtitle: "Income-producing and off-market acquisitions",
-    copy: "Private and public acquisition opportunities for investors seeking stabilized income, value-add assets, portfolio acquisitions and strategic Nova Scotia exposure.",
-    href: "/opportunities",
-    image: "/images/interior-kitchen.jpg",
-    points: ["Income", "Cap-rate lens", "Off-market"],
-  },
-  {
-    number: "06",
-    title: "Residential",
-    subtitle: "Homes, luxury, income suites, resale",
-    copy: "Residential service remains available for homes, luxury properties, income properties, secondary suites, selling, valuation and relocation support.",
-    href: "/residential",
-    image: "/images/home-exterior.jpg",
-    points: ["Homes", "Income suites", "Sell your home"],
-  },
-] as const;
-
-export const opportunityTypes = [
-  "All",
-  "Multifamily",
-  "Commercial",
-  "Industrial",
-  "Development",
-  "Land",
-  "Business",
-  "Off Market",
-] as const;
-
-export const opportunities = [
-  {
-    slug: "institutional-scale-residential-portfolio",
-    assetClass: "Multifamily",
-    title: "Institutional-scale residential portfolio",
-    location: "Halifax Regional Municipality",
-    scale: "300+ residential and commercial units",
-    price: "Confidential",
-    status: "NDA required",
-    transaction: "Acquisition opportunity",
-    image: "/images/halifax-aerial.jpg",
-    summary:
-      "A confidential institutional-scale residential and commercial portfolio positioned for qualified investors seeking meaningful Nova Scotia exposure.",
-    highlights: ["Existing income", "Portfolio scale", "HRM market fundamentals", "Private information package"],
-  },
-  {
-    slug: "annapolis-county-mixed-use-development-land",
-    assetClass: "Development",
-    title: "Strategic mixed-use development opportunity",
-    location: "Annapolis County, Nova Scotia",
-    scale: "330+ acres",
-    price: "Confidential",
-    status: "Information available by request",
-    transaction: "Development land",
-    image: "/images/development.jpg",
-    summary:
-      "Large-scale land opportunity with residential, commercial and industrial potential, subject to professional planning and municipal review.",
-    highlights: ["Strategic acreage", "Mixed-use potential", "Developer-oriented review", "Highest-and-best-use questions"],
-  },
-  {
-    slug: "income-producing-commercial-asset",
-    assetClass: "Commercial",
-    title: "Income-producing commercial asset",
-    location: "Nova Scotia",
-    scale: "Commercial investment",
-    price: "Private enquiry",
-    status: "Select buyer review",
-    transaction: "Commercial investment",
-    image: "/images/commercial.jpg",
-    summary:
-      "Commercial asset positioned for investors evaluating income, tenancy, location fundamentals and long-term asset strategy.",
-    highlights: ["Existing income", "Commercial tenancy", "Long-term hold potential", "Confidential review"],
-  },
-  {
-    slug: "industrial-development-land-hrm",
-    assetClass: "Industrial",
-    title: "Industrial development land",
-    location: "Halifax Regional Municipality",
-    scale: "Industrial land requirement",
-    price: "Confidential",
-    status: "Sourcing mandate",
-    transaction: "Buyer / developer requirement",
-    image: "/images/industrial.jpg",
-    summary:
-      "Active industrial land and owner-user requirement for qualified opportunities across HRM and surrounding growth corridors.",
-    highlights: ["Industrial zoning focus", "Owner-user or investor demand", "Development potential", "Requirement capture"],
-  },
-  {
-    slug: "business-with-real-estate",
-    assetClass: "Business",
-    title: "Business with real estate",
-    location: "Nova Scotia",
-    scale: "Operating business and property",
-    price: "Private enquiry",
-    status: "Confidential",
-    transaction: "Business acquisition / disposition",
-    image: "/images/commercial.jpg",
-    summary:
-      "Confidential business and real estate opportunities for buyers and sellers in retail, service, hospitality, automotive and industrial categories.",
-    highlights: ["Business sale", "Real estate component", "Confidential marketing", "Qualified buyer matching"],
-  },
-] as const;
-
-export const trackRecord = [
-  {
-    slug: "330-acre-strategic-land-acquisition",
-    metric: "330+",
-    unit: "Acres",
-    title: "Strategic land acquisition",
-    location: "Annapolis County",
-    asset: "Development Land",
-    strategy: "Mixed-use opportunity",
-    role: "Acquisition advisory",
-    image: "/images/development.jpg",
-    copy:
-      "Strategic land acquisition involving large-scale acreage and development-oriented questions across residential, commercial and industrial potential.",
-  },
-  {
-    slug: "multifamily-apartment-portfolio-advisory",
-    metric: "100+",
-    unit: "Units",
-    title: "Apartment and portfolio advisory",
-    location: "Nova Scotia",
-    asset: "Multifamily",
-    strategy: "Income-producing assets",
-    role: "Acquisition and disposition lens",
-    image: "/images/halifax-aerial.jpg",
-    copy:
-      "Multifamily and income-property advisory across unit economics, operating context, market position and qualified investor requirements.",
-  },
-  {
-    slug: "industrial-storage-land-strategy",
-    metric: "6.5",
-    unit: "Acres",
-    title: "Industrial and storage land strategy",
-    location: "Wilmot, Nova Scotia",
-    asset: "Industrial / Storage",
-    strategy: "Site acquisition",
-    role: "Strategic acquisition support",
-    image: "/images/industrial.jpg",
-    copy:
-      "Industrial and storage-related site strategy focused on land characteristics, access, use potential and buyer/developer fit.",
-  },
-] as const;
-
-export const intelligenceTopics = [
-  "Halifax Multifamily Market Report",
-  "Burnside Industrial Market Report",
-  "Nova Scotia Development Land Guide",
-  "Commercial Cap Rate Update",
-  "Major Commercial Transactions in Nova Scotia",
-  "International Investors Buying Canadian Commercial Real Estate",
-] as const;
-
-export const marketSnapshot = {
-  region: "Halifax real estate",
-  period: "Aug 18 - Aug 24",
-  title: "Halifax weekly market pulse",
-  summary:
-    "A weekly read on sales, new supply, accepted deals, price changes and cancelled listings so buyers and sellers can see where the market is moving before they make a decision.",
-  takeaway:
-    "Sold-over-list activity climbed to 22% from 17%, while new listings slowed to 142 from 194. Pricing right still matters: fewer new listings means well-positioned homes can stand out, but reductions and withdrawals show buyers are still pushing back on optimistic pricing.",
-  sourceLabel: "NSAR / CREA statistics",
-  sourceHref: "https://stats.crea.ca/board/nsar/",
-  metrics: [
-    { value: "130", label: "Homes sold", detail: "Weekly sales this period" },
-    { value: "105", label: "Deals accepted", detail: "Conditional or accepted activity" },
-    { value: "142", label: "New listings", detail: "Fresh supply entering the market" },
-    { value: "22%", label: "Sold over asking", detail: "29 homes sold above list price" },
-    { value: "97.7%", label: "Sale-to-list ratio", detail: "Average sold price vs. asking" },
-    { value: "109", label: "Price reductions", detail: "Listings adjusted downward" },
-    { value: "40", label: "Withdrawn deals", detail: "Fell through or were withdrawn" },
-    { value: "3", label: "New construction sales", detail: "Builder inventory sold" },
-  ],
-  weekComparison: [
-    "Sold-over-list increased from 17% to 22%.",
-    "New listings declined from 194 to 142.",
-    "Cancellations and withdrawals stayed elevated at 40.",
-  ],
-} as const;
 
 export const journeys = [
   {
@@ -256,7 +38,7 @@ export const journeys = [
     eyebrow: "For buyers & newcomers",
     title: "Find a home that fits the life ahead.",
     copy: "Get clear on financing, communities, closing costs, and offer strategy before emotion enters the decision.",
-    image: "/images/interior-kitchen.jpg",
+    image: "/images/halifax-aerial.jpg",
     href: "/buying-guide",
     cta: "Explore the buyer roadmap",
     points: ["Property shortlist", "Offer strategy", "Due diligence"],
@@ -268,7 +50,7 @@ export const journeys = [
     eyebrow: "For homeowners",
     title: "Position your property for its strongest outcome.",
     copy: "Build a coordinated plan across preparation, pricing, launch, negotiations, and the move that follows.",
-    image: "/images/home-exterior.jpg",
+    image: "/images/nova-scotia-coast.webp",
     href: "/selling-guide",
     cta: "See the selling strategy",
     points: ["Market positioning", "Launch plan", "Offer analysis"],
@@ -280,7 +62,7 @@ export const journeys = [
     eyebrow: "For investors & builders",
     title: "Make the opportunity fit the objective.",
     copy: "Evaluate income, risk, location, operations, and long-term portfolio fit with one disciplined advisory lens.",
-    image: "/images/development.jpg",
+    image: "/images/halifax-hero-poster.webp",
     href: "/services#investment",
     cta: "Explore investment advisory",
     points: ["Cash-flow analysis", "Site context", "Portfolio strategy"],
@@ -293,28 +75,28 @@ export const services = [
     title: "Residential",
     subtitle: "Buying, selling & relocating",
     copy: "Clear advice grounded in your lifestyle, complete budget, and long-term goals.",
-    image: "/images/home-exterior.jpg",
+    image: "/images/nova-scotia-coast.webp",
   },
   {
     number: "02",
     title: "Investment",
     subtitle: "Income & multi-unit property",
     copy: "Yield-aware guidance for acquiring, evaluating, and growing durable assets.",
-    image: "/images/interior-kitchen.jpg",
+    image: "/images/halifax-aerial.jpg",
   },
   {
     number: "03",
     title: "Commercial",
     subtitle: "Business & owner-occupied",
     copy: "Strategic support for retail, office, mixed-use, and commercial property decisions.",
-    image: "/images/commercial.jpg",
+    image: "/images/halifax-hero-poster.webp",
   },
   {
     number: "04",
     title: "Land & development",
     subtitle: "Sites, feasibility & growth",
     copy: "Local context for strategic land, industrial sites, and development-led opportunity.",
-    image: "/images/industrial.jpg",
+    image: "/images/halifax-aerial.jpg",
   },
 ];
 
@@ -330,7 +112,7 @@ export const communities = [
   {
     name: "Bedford",
     type: "Family community",
-    image: "/images/home-exterior.jpg",
+    image: "/images/nova-scotia-coast.webp",
     description:
       "A sought-after community on the Bedford Basin with schools, parks, established services, and strong highway access.",
     tags: ["Schools", "Parks", "Bedford Basin"],
@@ -346,7 +128,7 @@ export const communities = [
   {
     name: "Hammonds Plains",
     type: "Rural-suburban",
-    image: "/images/development.jpg",
+    image: "/images/halifax-hero-poster.webp",
     description:
       "Larger lots, newer homes, family-focused communities, and room to grow within commuting distance of Halifax.",
     tags: ["Space", "New builds", "Families"],
@@ -354,7 +136,7 @@ export const communities = [
   {
     name: "Sackville",
     type: "Accessible suburb",
-    image: "/images/interior-kitchen.jpg",
+    image: "/images/halifax-aerial.jpg",
     description:
       "An established suburban hub with approachable entry points, schools, services, trails, and highway connections.",
     tags: ["First homes", "Services", "Trails"],
@@ -370,7 +152,7 @@ export const communities = [
   {
     name: "Truro",
     type: "Regional hub",
-    image: "/images/home-exterior.jpg",
+    image: "/images/nova-scotia-coast.webp",
     description:
       "A connected small-city lifestyle with value, a vibrant centre, regional services, and access across northern Nova Scotia.",
     tags: ["Value", "Connected", "Community"],
@@ -382,61 +164,6 @@ export const communities = [
     description:
       "Dramatic landscapes, strong culture, approachable real estate, and lifestyle opportunities across Cape Breton Island.",
     tags: ["Coast", "Culture", "Opportunity"],
-  },
-];
-
-export const properties = [
-  {
-    slug: "cambridge-street-halifax",
-    category: "Residential",
-    title: "South End residence",
-    location: "1777 Cambridge Street, Halifax",
-    price: "$1,599,000",
-    beds: "6 beds",
-    baths: "3 baths",
-    area: "Approx. 3,600 sq ft",
-    image: "/images/home-exterior.jpg",
-    summary:
-      "A substantial family residence in one of Halifax's most established neighbourhoods, presented as a public market reference.",
-  },
-  {
-    slug: "south-park-street-halifax",
-    category: "Residential",
-    title: "The Trillium city residence",
-    location: "1445 South Park Street, Halifax",
-    price: "$579,900",
-    beds: "1 bed",
-    baths: "1 bath",
-    area: "Approx. 888 sq ft",
-    image: "/images/interior-kitchen.jpg",
-    summary:
-      "A polished city residence close to universities, hospitals, parks, and the energy of downtown Halifax.",
-  },
-  {
-    slug: "anchor-drive-halifax",
-    category: "Residential",
-    title: "Waterfront district townhouse",
-    location: "125 Anchor Drive, Halifax",
-    price: "$949,900",
-    beds: "3 beds",
-    baths: "4 baths",
-    area: "Waterfront district",
-    image: "/images/nova-scotia-coast.webp",
-    summary:
-      "Contemporary townhome living connected to Halifax's coastal character and everyday city convenience.",
-  },
-  {
-    slug: "regional-commercial-opportunity",
-    category: "Commercial",
-    title: "Regional business opportunity",
-    location: "Halifax Regional Municipality",
-    price: "Private enquiry",
-    beds: "Commercial",
-    baths: "Owner-user",
-    area: "Flexible use",
-    image: "/images/commercial.jpg",
-    summary:
-      "A reference opportunity for entrepreneurs evaluating location, ownership, operating fit, and long-term asset value.",
   },
 ];
 
@@ -482,7 +209,7 @@ export const blogPosts: BlogPost[] = [
     title: "Nova Scotia home buying costs to plan before the search",
     date: "August 22, 2026",
     readTime: "4 min read",
-    image: "/images/interior-kitchen.jpg",
+    image: "/images/halifax-aerial.jpg",
     excerpt:
       "A stronger home search starts with the full ownership budget, not only the down payment or monthly mortgage payment.",
     takeaways: [
@@ -520,7 +247,7 @@ export const blogPosts: BlogPost[] = [
     title: "How to prepare your property before listing in Nova Scotia",
     date: "August 22, 2026",
     readTime: "5 min read",
-    image: "/images/home-exterior.jpg",
+    image: "/images/nova-scotia-coast.webp",
     excerpt:
       "Preparation works best when presentation, pricing, launch timing, and negotiation strategy are planned as one sequence.",
     takeaways: [
@@ -593,10 +320,15 @@ export const blogPosts: BlogPost[] = [
 ];
 
 export const pageMeta: Record<string, { title: string; description: string }> = {
+  invest: { title: "Invest in Nova Scotia Real Estate | Pavneet Singh", description: "Investment property, multifamily, commercial and development land brokerage representation across Nova Scotia." },
+  "submit-opportunity": { title: "Submit a Property Opportunity | Pavneet Singh", description: "Introduce development land, multifamily or commercial property for a confidential real estate discussion." },
+  "commercial-real-estate": { title: "Commercial Real Estate Nova Scotia | Pavneet Singh", description: "Commercial property acquisition, disposition and leasing representation in Nova Scotia." },
+  transactions: { title: "Selected Transactions | Pavneet Singh", description: "Discuss relevant real estate transaction experience with Pavneet Singh in Nova Scotia." },
+  media: { title: "Media and Perspectives | Pavneet Singh", description: "Nova Scotia real estate perspectives on markets, property and development." },
   about: {
-    title: "About Pavneet Singh | Commercial Real Estate Advisor",
+    title: "About Pavneet Singh | Nova Scotia Real Estate Advisor",
     description:
-      "Meet Pavneet Singh, a Nova Scotia commercial real estate and investment advisor working across commercial, multifamily, industrial, development land and residential assets.",
+      "Meet Pavneet Singh, a Nova Scotia REALTOR® with Sutton Group Professional Realty serving investors, developers, business owners and families.",
   },
   services: {
     title: "Real Estate Advisory | Pavneet Singh",
@@ -606,17 +338,17 @@ export const pageMeta: Record<string, { title: string; description: string }> = 
   properties: {
     title: "Nova Scotia Property Search | Pavneet Singh",
     description:
-      "Explore a curated preview of residential, investment, commercial, and development opportunities across Nova Scotia.",
+      "Start a Nova Scotia property search and discuss residential, commercial, investment or development requirements with Pavneet Singh.",
   },
   opportunities: {
-    title: "Investment Opportunities Nova Scotia | Pavneet Singh",
+    title: "Nova Scotia Property Search | Pavneet Singh",
     description:
-      "Explore commercial, multifamily, industrial, development land and confidential real estate opportunities across Nova Scotia.",
+      "Discuss your investment property criteria with Pavneet Singh and browse current public real estate inventory.",
   },
   investors: {
-    title: "Private Investor Network | Pavneet Singh",
+    title: "Nova Scotia Investment Property | Pavneet Singh",
     description:
-      "Submit acquisition criteria and join Pavneet Singh's private investor network for select Nova Scotia real estate opportunities.",
+      "Share investment criteria for a direct conversation about Nova Scotia multifamily, commercial, industrial and development property.",
   },
   owners: {
     title: "Sell Commercial Property Confidentially | Pavneet Singh",
@@ -651,12 +383,12 @@ export const pageMeta: Record<string, { title: string; description: string }> = 
   "track-record": {
     title: "Transaction Experience | Pavneet Singh",
     description:
-      "Selected real estate acquisitions, dispositions, land transactions and commercial advisory experience across Nova Scotia.",
+      "Ask Pavneet Singh about relevant real estate transaction experience in Nova Scotia.",
   },
   intelligence: {
     title: "Nova Scotia Real Estate Intelligence | Pavneet Singh",
     description:
-      "Market intelligence, investment reports and commercial real estate insights for Nova Scotia investors, developers and owners.",
+      "Practical perspective on buying, selling, investing and real estate decisions across Nova Scotia.",
   },
   residential: {
     title: "Residential Real Estate Nova Scotia | Pavneet Singh",

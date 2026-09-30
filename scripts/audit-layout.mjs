@@ -8,12 +8,11 @@ const fullScreenshots = process.argv.includes("--full");
 
 const allRoutes = [
   "/",
-  "/opportunities",
-  "/investors",
-  "/owners",
-  "/commercial",
-  "/development",
-  "/track-record",
+  "/invest",
+  "/commercial-real-estate",
+  "/submit-opportunity",
+  "/transactions",
+  "/media",
   "/intelligence",
   "/about",
   "/industrial",
@@ -30,19 +29,20 @@ const allRoutes = [
   "/contact",
   "/privacy-policy",
   "/terms",
-  "/properties/cambridge-street-halifax",
-  "/opportunities/institutional-scale-residential-portfolio",
 ];
 
 const representativeRoutes = [
   "/",
-  "/owners",
+  "/invest",
+  "/submit-opportunity",
+  "/commercial-real-estate",
+  "/transactions",
+  "/media",
   "/contact",
   "/properties",
   "/about",
-  "/guides",
-  "/properties/cambridge-street-halifax",
-  "/opportunities/institutional-scale-residential-portfolio",
+  "/development-land",
+  "/residential",
 ];
 
 const cases = mode === "single"
@@ -240,7 +240,7 @@ const auditExpression = String.raw`
     const node = walker.currentNode;
     const text = node.textContent.replace(/\s+/g, " ").trim();
     const parent = node.parentElement;
-    if (!text || !parent || !visible(parent) || parent.closest(".motion-ribbon")) continue;
+    if (!text || !parent || !visible(parent) || parent.closest(".motion-ribbon, .mobile-contact-bar")) continue;
     const range = document.createRange();
     range.selectNodeContents(node);
     for (const rect of range.getClientRects()) {

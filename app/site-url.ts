@@ -1,4 +1,4 @@
-const DEFAULT_SITE_HOST = "realtor-pavneet-singh-v2.vercel.app";
+const DEFAULT_SITE_HOST = "realtorpavneetsingh.ca";
 
 export function getSiteUrl(): URL {
   const configuredUrl =
