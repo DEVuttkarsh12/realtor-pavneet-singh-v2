@@ -15,12 +15,14 @@ export const navItems = [
   { label: "Land & Build", href: "/development-land" },
   { label: "Commercial", href: "/commercial-real-estate" },
   { label: "Invest", href: "/invest" },
-  { label: "About", href: "/about" },
+  { label: "Guides", href: "/guides" },
+  { label: "About Pavneet", href: "/about-pavneet-singh" },
 ];
 
 export const secondaryNavItems = [
   { label: "Contact Pavneet", href: "/contact" },
-  { label: "Sell a Property", href: "/selling-guide" },
+  { label: "Buying a home guide", href: "/buying-a-home-guide" },
+  { label: "Selling a home guide", href: "/selling-a-home-guide" },
   { label: "Submit a Property", href: "/submit-opportunity" },
   { label: "Guides", href: "/guides" },
   { label: "Insights", href: "/intelligence" },
@@ -38,7 +40,7 @@ export const journeys = [
     title: "Find a home that fits the life ahead.",
     copy: "Get clear on financing, communities, closing costs, and offer strategy before emotion enters the decision.",
     image: "/images/halifax-aerial.jpg",
-    href: "/buying-guide",
+    href: "/buying-a-home-guide",
     cta: "Explore the buyer roadmap",
     points: ["Property shortlist", "Offer strategy", "Due diligence"],
   },
@@ -50,7 +52,7 @@ export const journeys = [
     title: "Position your property for its strongest outcome.",
     copy: "Build a coordinated plan across preparation, pricing, launch, negotiations, and the move that follows.",
     image: "/images/nova-scotia-coast.webp",
-    href: "/selling-guide",
+    href: "/selling-a-home-guide",
     cta: "See the selling strategy",
     points: ["Market positioning", "Launch plan", "Offer analysis"],
   },
@@ -432,4 +434,17 @@ export const pageMeta: Record<string, { title: string; description: string }> = 
     title: "Terms of Use | Pavneet Singh",
     description: "Terms governing use of the Pavneet Singh real estate website.",
   },
+};
+
+// Keep the published site's URLs and the redesign's shorter links working.
+export const pageAliases: Record<string, string> = {
+  "about-pavneet-singh": "about",
+  "buying-a-home-guide": "buying-guide",
+  "selling-a-home-guide": "selling-guide",
+};
+
+export const canonicalPagePaths: Record<string, string> = {
+  about: "/about-pavneet-singh",
+  "buying-guide": "/buying-a-home-guide",
+  "selling-guide": "/selling-a-home-guide",
 };

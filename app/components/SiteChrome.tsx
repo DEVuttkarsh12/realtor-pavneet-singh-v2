@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
-import { navItems, secondaryNavItems, site } from "../data";
+import { canonicalPagePaths, navItems, secondaryNavItems, site } from "../data";
 
 function Arrow({ down = false }: { down?: boolean }) {
   return (
@@ -29,6 +29,7 @@ export function SiteChrome({
   darkHeader?: boolean;
 }) {
   const pathname = usePathname();
+  const activePath = canonicalPagePaths[pathname.slice(1)] ?? pathname;
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -99,7 +100,7 @@ export function SiteChrome({
 
         <nav className="desktop-nav" aria-label="Primary navigation">
           {navItems.map((item) => (
-            <Link href={item.href} key={item.href} aria-current={pathname === item.href ? "page" : undefined}>{item.label}</Link>
+            <Link href={item.href} key={item.href} aria-current={activePath === item.href || (item.href === "/guides" && ["/buying-a-home-guide", "/selling-a-home-guide"].includes(activePath)) ? "page" : undefined}>{item.label}</Link>
           ))}
         </nav>
 
@@ -177,6 +178,9 @@ export function SiteChrome({
               <Link href="/invest">Investment enquiry</Link>
               <Link href="/submit-opportunity">Submit a Property</Link>
               <Link href="/properties">Properties</Link>
+              <Link href="/about-pavneet-singh">About Pavneet</Link>
+              <Link href="/buying-a-home-guide">Buying a home guide</Link>
+              <Link href="/selling-a-home-guide">Selling a home guide</Link>
             </div>
           </div>
         </div>

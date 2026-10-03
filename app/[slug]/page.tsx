@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ContentPage from "../components/InnerPages";
-import { pageMeta } from "../data";
+import { canonicalPagePaths, pageAliases, pageMeta } from "../data";
 
 export function generateStaticParams() {
-  return Object.keys(pageMeta).map((slug) => ({ slug }));
+  return [...Object.keys(pageMeta), ...Object.keys(pageAliases)].map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -13,16 +13,19 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const meta = pageMeta[slug];
+  const pageSlug = pageAliases[slug] ?? slug;
+  const meta = pageMeta[pageSlug];
   if (!meta) return {};
   return {
     title: meta.title,
     description: meta.description,
+    alternates: { canonical: canonicalPagePaths[pageSlug] ?? `/${pageSlug}` },
     openGraph: {
       title: meta.title,
       description: meta.description,
       type: "website",
       locale: "en_CA",
+      url: canonicalPagePaths[pageSlug] ?? `/${pageSlug}`,
     },
     twitter: {
       card: "summary_large_image",
@@ -34,6 +37,7 @@ export async function generateMetadata({
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  if (!pageMeta[slug]) notFound();
-  return <ContentPage slug={slug} />;
+  const pageSlug = pageAliases[slug] ?? slug;
+  if (!pageMeta[pageSlug]) notFound();
+  return <ContentPage slug={pageSlug} />;
 }

@@ -30,7 +30,7 @@ body .site-header,body .site-header.on-hero,body .site-header.is-scrolled {
 .brand { grid-column: 1; grid-row: 1; gap: 0; }
 .brand-copy strong { font-size: 17px; font-weight: 800; letter-spacing: -.025em; }
 .brand-copy small { font-size: 14px; letter-spacing: 0; text-transform: none; margin-top: 5px; }
-.desktop-nav { grid-column: 2; grid-row: 1; gap: clamp(16px,1.7vw,26px); }
+.desktop-nav { grid-column: 2; grid-row: 1; gap: clamp(12px,1.15vw,22px); }
 .desktop-nav a { font-size: 14px; font-weight: 700; text-transform: none; letter-spacing: -.015em; white-space: nowrap; }
 .desktop-nav a[aria-current="page"] { color: var(--gold); }
 .header-actions { grid-column: 3; grid-row: 1; }
@@ -136,6 +136,15 @@ body .advisory-form h2,body .consultation-form-head h2 { font-size: clamp(26px,2
 .advisory-simple .revamp-actions { margin-top: 28px; }
 body .about-story-grid,body .credentials-grid,body .faq-grid { gap: clamp(36px,6vw,90px); }
 .about-story-copy p { margin-bottom: 20px; }
+.about-story-copy h3 { margin-block: 28px 16px; }
+.about-story-copy .property-disclosure { margin-top: 28px; }
+.about-help-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 22px; }
+.about-help-card { display: flex; flex-direction: column; padding: 30px; border: 1px solid var(--line); background: var(--paper); transition: border-color .2s; }
+.about-help-card:hover { border-color: var(--gold); }
+.about-help-card h3 { margin-bottom: 16px; }
+.about-help-card p { color: #56646d; margin-bottom: 24px; }
+.about-help-link { display: flex; align-items: center; gap: 18px; margin-top: auto; font-size: 15px; font-weight: 700; }
+.about-help-link svg { width: 20px; height: 20px; }
 .community-collage { grid-template-columns: repeat(3,minmax(0,1fr)); align-items: start; gap: 24px; }
 .community-collage figure:nth-child(n) { margin-top: 0; }
 .community-collage figure:nth-child(n) > img { width: 100%; height: auto; aspect-ratio: auto; object-fit: contain; filter: none; }
@@ -155,6 +164,20 @@ body .blog-card h3,body .decision-grid h3,body .checklist-grid h3 { font-size: 2
 body .guide-choice h3 { font-size: 34px; }
 body .guide-steps h3 { font-size: 28px; margin-top: 20px; }
 .guide-steps article { min-height: 0; padding-block: 28px; }
+.guide-phase-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 32px; }
+.guide-phase-grid article { border-top: 1px solid var(--line); padding-top: 26px; }
+.guide-phase-grid h3 { margin-bottom: 16px; }
+.guide-phase-grid p { color: #56646d; }
+body .step-guide-intro { position: static; }
+.guide-step-nav { display: grid; gap: 0; margin-top: 28px; border-top: 1px solid var(--line); }
+.guide-step-nav a { display: flex; gap: 14px; padding-block: 12px; border-bottom: 1px solid var(--line); font-size: 15px; line-height: 1.5; }
+.guide-step-nav a span { color: var(--gold); font-weight: 700; }
+.guide-step-nav a:hover { color: var(--gold); }
+.guide-steps article[id] { scroll-margin-top: 120px; }
+.guide-step-checklist { display: grid; gap: 12px; margin: 22px 0 0; padding-left: 22px; list-style: disc; color: #56646d; font-size: 16px; line-height: 1.65; }
+.guide-step-checklist li::marker { color: var(--gold); }
+.guide-related { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 40px; }
+.guide-related .line-link { flex-shrink: 0; }
 .checklist-grid article { min-height: 0; }
 .checklist-grid h3 { margin-top: 30px; }
 body .contact-hero { min-height: 0; padding-block: 64px; }
@@ -189,6 +212,7 @@ body .footer-bottom,body .footer-disclaimer { font-size: 14px; letter-spacing: 0
   body .menu-toggle { display: block; grid-column: 2; grid-row: 1; justify-self: end; }
 }
 @media(max-width:900px) {
+  .about-help-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
   body .shared-hero-grid,body .asset-page-grid,body .contact-hero-grid { grid-template-columns: 1fr; }
   .shared-hero-image img { max-height: 380px; }
   .has-portrait-media .shared-hero-image img { max-height: 380px; }
@@ -200,6 +224,8 @@ body .footer-bottom,body .footer-disclaimer { font-size: 14px; letter-spacing: 0
   .contact-direct { grid-template-columns: repeat(2,minmax(0,1fr)); }
 }
 @media(max-width:600px) {
+  .about-help-grid,.guide-phase-grid { grid-template-columns: 1fr; }
+  .guide-related { align-items: start; flex-direction: column; }
   :root { --heading-1: clamp(35px,9vw,46px); --heading-2: clamp(30px,7.8vw,39px); --heading-3: 24px; }
   body .site-header,body .site-header.on-hero,body .site-header.is-scrolled { min-height: 86px; padding-block: 16px; gap: 12px; }
   .brand-copy strong { font-size: 14px; }

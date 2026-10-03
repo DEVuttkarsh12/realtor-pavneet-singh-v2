@@ -83,3 +83,19 @@ If it has stopped, run `npm run dev -- --host 127.0.0.1 --port 3011`.
 - Disk space is tight. With approval, removed approximately 301 MB of regenerable `.sites-runtime/npm-cache/_cacache` to complete the work. Installed dependencies and source were retained.
 - Browser checks used agent-browser and the existing Chrome DevTools layout audit.
 - No deployment was performed. The existing handoff documents future listing-feed, CRM, approved proof and original media work.
+
+
+## October 3, 2026 — published About and guide content restored
+
+Compared the published site’s [About Pavneet](https://realtorpavneetsingh.ca/about-pavneet-singh), [buying guide](https://realtorpavneetsingh.ca/buying-a-home-guide), and [selling guide](https://realtorpavneetsingh.ca/selling-a-home-guide) against the local redesign.
+
+- Expanded About with Pavneet’s family and newcomer focus, trust-based approach, longer-term goals and six linked service areas. Retained his local portraits, community section, brokerage information and existing development disclosure.
+- Expanded both seven-step guides with 21 practical checklist items, three preparation phases, step navigation and links between the guides.
+- Added Guides and About Pavneet to the primary navigation and direct buyer/seller links in the mobile menu and footer. Updated home and guide-hub links.
+- Added the original published URLs while preserving /about, /buying-guide and /selling-guide. All versions share canonical metadata pointing to the original published URLs.
+- Made the expanded guide sidebar scroll with the page so its full step navigation remains reachable.
+- Added production-rendering regression coverage for the original URLs, shorter links, canonical metadata and shared navigation.
+
+Validation: TypeScript and full lint passed; final production build and rendered HTML tests passed. Browser checks passed on all seven affected routes at 390px and 1280px (14 checks), with no overflow, broken loaded images, error overlays or page errors. Desktop navigation, step anchors, related-guide links, contact CTA and mobile menu links passed. Navigation automation used reduced motion to avoid clicks racing smooth scrolling. Screenshots are in /tmp/pavneet-*-390.png and /tmp/pavneet-*-1280.png. The temporary verification script is /tmp/check-pavneet-guides.mjs.
+
+Preview is running at http://127.0.0.1:3011/ (dev process session 42146). Changes are local; no deployment or GitHub push was performed for this request.

@@ -15,6 +15,7 @@ import { ArrowUpRight, SiteChrome } from "./SiteChrome";
 import AdvisoryPage from "./AdvisoryPages";
 import PageHero from "./PageHero";
 import SiteImage from "./SiteImage";
+import { buyerChecklists, buyerPhases, sellerChecklists, sellerPhases } from "../guide-content";
 
 type HeroProps = {
   eyebrow: string;
@@ -176,9 +177,9 @@ function AboutPage() {
         <InnerHero
           eyebrow="About Pavneet Singh"
           title={<>Meet <em>Pavneet Singh.</em></>}
-          copy="Pavneet Singh represents investors, developers, business owners and families in Nova Scotia real estate through Sutton Group Professional Realty."
+          copy="Your family REALTOR® with Sutton Group Professional Realty. Helping families, newcomers, investors and business owners build their future in Nova Scotia."
           image="/images/pavneet-studio-portrait.jpg"
-          imageAlt="Pavneet Singh, Nova Scotia commercial real estate advisor"
+          imageAlt="Pavneet Singh, REALTOR® with Sutton Group Professional Realty in Nova Scotia"
           index="ABOUT / 01"
           variant="portrait"
         />
@@ -186,14 +187,38 @@ function AboutPage() {
         <section className="about-story section-space">
           <div className="shell about-story-grid">
             <div className="about-story-heading reveal">
-              <p className="eyebrow">Local market knowledge. Investment mindset.</p>
-              <h2>Real estate. <em>Personal.</em></h2>
+              <p className="eyebrow">Your family REALTOR®</p>
+              <h2>A relationship built on <em>trust.</em></h2>
             </div>
             <div className="about-story-copy reveal reveal-delay">
-              <p className="lead-copy">A practical approach to buying, selling and developing property across Nova Scotia.</p>
-              <p>From family homes to commercial acquisitions, Pavneet brings local relationships and a perspective shaped by property, finance and construction.</p>
+              <p className="lead-copy">A home can mean stability. An investment can open new possibilities. Every move deserves advice that starts with you.</p>
+              <p>Pavneet helps families find homes, homeowners plan their next chapter, and investors explore opportunities across Nova Scotia. His approach connects your immediate needs with the future you want to build.</p>
+              <p>Whether you are purchasing your first home in Canada, relocating, selling, or growing a portfolio, you can expect local knowledge, honest advice and personal guidance throughout the process.</p>
+              <h3>Creating opportunities for generations.</h3>
+              <p>From a first home to an income property, commercial space or development land, Pavneet helps you consider how each decision supports your longer-term goals.</p>
+              <Link className="line-link" href="/contact">Talk with Pavneet <ArrowUpRight /></Link>
 
               <p className="property-disclosure">In addition to his brokerage practice, Pavneet has separate real estate development interests. Those activities are not real estate trading services offered through Sutton Group Professional Realty. NSREC consumer protections for brokerage trading, including regulatory oversight, Errors and Omissions Insurance and the Real Estate Recovery Fund, do not apply to those separate non-trading activities.</p>
+            </div>
+          </div>
+        </section>
+
+        <section className="about-help soft-section section-space">
+          <div className="shell">
+            <SectionIntro eyebrow="How can I help?" title={<>Guidance for your <em>next chapter.</em></>} copy="Start with the decision in front of you and a conversation about what you want to achieve." />
+            <div className="about-help-grid">
+              {[
+                ["Find the right home", "A search shaped around your lifestyle and future.", "/buying-a-home-guide"],
+                ["Sell with confidence", "Preparation, marketing and representation for your sale.", "/selling-a-home-guide"],
+                ["Build wealth through real estate", "Explore income property and multi-unit opportunities.", "/invest"],
+                ["Commercial real estate", "Find space for your business or portfolio.", "/commercial-real-estate"],
+                ["Industrial real estate", "Explore warehouses, facilities and industrial sites.", "/industrial"],
+                ["Invest in your future", "Discuss land and opportunities for development.", "/development-land"],
+              ].map(([title, copy, href], index) => (
+                <Link className="about-help-card" href={href} key={href}>
+                  <span className="eyebrow">0{index + 1}</span><h3>{title}</h3><p>{copy}</p><span className="about-help-link">Explore <ArrowUpRight /></span>
+                </Link>
+              ))}
             </div>
           </div>
         </section>
@@ -417,7 +442,7 @@ function GuidesPage() {
           <div className="shell">
             <SectionIntro eyebrow="Choose your path" title={<>Know what comes <em>next.</em></>} copy="Focused roadmaps that connect the key decisions before the process becomes emotional or urgent." />
             <div className="guide-choice-grid">
-              <Link className="guide-choice reveal" href="/buying-guide">
+              <Link className="guide-choice reveal" href="/buying-a-home-guide">
                 <SiteImage src="/images/halifax-aerial.jpg" alt="Halifax waterfront and neighbourhoods" /><div className="guide-choice-film" />
                 <span className="guide-choice-kicker">01 / Buyer&apos;s Guide</span>
                 <h3>Buying Guide</h3>
@@ -425,7 +450,7 @@ function GuidesPage() {
                 <span className="guide-choice-cta">Read the buying guide <ArrowUpRight /></span>
                 <i aria-hidden="true"><ArrowUpRight /></i>
               </Link>
-              <Link className="guide-choice reveal reveal-delay" href="/selling-guide">
+              <Link className="guide-choice reveal reveal-delay" href="/selling-a-home-guide">
                 <SiteImage src="/images/nova-scotia-coast.webp" alt="Nova Scotia coastal community" /><div className="guide-choice-film" />
                 <span className="guide-choice-kicker">02 / Seller&apos;s Guide</span>
                 <h3>Selling Guide</h3>
@@ -541,16 +566,25 @@ function BlogPage() {
 function StepGuide({ type }: { type: "buy" | "sell" }) {
   const buying = type === "buy";
   const steps = buying ? buyerSteps : sellerSteps;
+  const checklists = buying ? buyerChecklists : sellerChecklists;
+  const phases = buying ? buyerPhases : sellerPhases;
   return (
     <SiteChrome darkHeader>
       <main id="main-content">
         <InnerHero
           eyebrow={buying ? "Nova Scotia home buying guide" : "Nova Scotia home selling guide"}
-          title={buying ? <>A clearer path to <em>homeownership.</em></> : <>Position your home for its <em>best outcome.</em></>}
+          title={buying ? <>Home <em>Buying Guide.</em></> : <>Home <em>Selling Guide.</em></>}
           copy={buying ? "From first priorities to closing day, understand the steps that turn a home search into a confident purchase." : "A considered strategy across preparation, pricing, marketing, negotiation, and closing, designed around your goals."}
-          image={buying ? "/images/halifax-aerial.jpg" : "/images/nova-scotia-coast.webp"}
+          image={buying ? "/images/home-exterior.jpg" : "/images/interior-kitchen.jpg"}
+          imageAlt={buying ? "A home exterior with a welcoming front entrance" : "A bright home interior prepared for presentation"}
           index={buying ? "BUY / 06" : "SELL / 07"}
         />
+        <section className="guide-overview soft-section section-space">
+          <div className="shell">
+            <SectionIntro eyebrow={buying ? "Buying a home in Nova Scotia" : "Selling a home in Nova Scotia"} title={buying ? <>Start with <em>confidence.</em></> : <>Make your next move with <em>confidence.</em></>} copy={buying ? "For first-time buyers, newcomers and those ready for their next home, a clear process makes each decision easier to understand." : "Whether you are upgrading, downsizing or moving to a new community, your sale starts with your goals and a considered plan."} />
+            <div className="guide-phase-grid">{phases.map(([title, copy], index) => <article key={title}><span className="eyebrow">0{index + 1}</span><h3>{title}</h3><p>{copy}</p></article>)}</div>
+          </div>
+        </section>
         <section className="step-guide section-space">
           <div className="shell step-guide-layout">
             <div className="step-guide-intro reveal">
@@ -558,11 +592,15 @@ function StepGuide({ type }: { type: "buy" | "sell" }) {
               <h2>{buying ? <>From brief to <em>keys.</em></> : <>From plan to <em>sold.</em></>}</h2>
               <p>{buying ? "Keep financing, fit, local context, negotiation, and due diligence connected from the beginning." : "Protect your leverage by connecting preparation, position, exposure, offer analysis, and closing."}</p>
               <Link className="primary-button ink-button" href="/contact">Build my plan <ArrowUpRight /></Link>
+              <nav className="guide-step-nav" aria-label={buying ? "Buying guide steps" : "Selling guide steps"}>
+                {steps.map((step) => <a href={`#step-${step[0]}`} key={step[0]}><span>{step[0]}</span>{step[1]}</a>)}
+              </nav>
             </div>
             <div className="guide-steps">
               {steps.map((step, index) => (
-                <article className={`reveal reveal-delay-${(index % 3) + 1}`} key={step[0]}>
+                <article id={`step-${step[0]}`} className={`reveal reveal-delay-${(index % 3) + 1}`} key={step[0]}>
                   <span>Step {step[0]}</span><h3>{step[1]}</h3><p>{step[2]}</p><i aria-hidden="true">↘</i>
+                  <ul className="guide-step-checklist">{checklists[index].map((item) => <li key={item}>{item}</li>)}</ul>
                 </article>
               ))}
             </div>
@@ -592,6 +630,10 @@ function StepGuide({ type }: { type: "buy" | "sell" }) {
               ))}
             </div>
           </div>
+        </section>
+        <section className="guide-related shell">
+          <p>{buying ? "Selling a property before your next purchase?" : "Looking for your next home after the sale?"}</p>
+          <Link className="line-link" href={buying ? "/selling-a-home-guide" : "/buying-a-home-guide"}>{buying ? "Read the selling guide" : "Read the buying guide"} <ArrowUpRight /></Link>
         </section>
         <PageCta title={buying ? <>Start the search with a <em>stronger brief.</em></> : <>Plan the sale before the listing goes <em>live.</em></>} />
       </main>
