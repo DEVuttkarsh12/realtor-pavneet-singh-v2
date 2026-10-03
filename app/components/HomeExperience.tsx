@@ -15,8 +15,9 @@ export default function HomeExperience() {
       <main className="property-home" id="main-content">
         <section className="property-hero" aria-labelledby="home-title">
           <div className="property-hero-media">
-            <video autoPlay muted loop playsInline preload="metadata" poster="/images/halifax-hero-poster.webp" aria-hidden="true">
-              <source src="/videos/halifax-drone-hero.mp4" type="video/mp4" />
+            <video autoPlay muted loop playsInline preload="metadata" poster="/images/halifax-hero-poster-hd.webp" aria-hidden="true">
+              <source src="/videos/halifax-drone-hero-hd.mp4" type="video/mp4" media="(min-width: 601px) and (prefers-reduced-motion: no-preference)" />
+              <source src="/videos/halifax-drone-hero-mobile.mp4" type="video/mp4" media="(prefers-reduced-motion: no-preference)" />
             </video>
             <div className="property-hero-shade" />
           </div>

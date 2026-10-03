@@ -56,6 +56,18 @@ const cases = mode === "single"
       height: Number(process.env.AUDIT_HEIGHT ?? 844),
       routes: [process.env.AUDIT_ROUTE ?? "/owners"],
     }]
+  : mode === "devices" || mode === "hero"
+  ? [
+      { name: "small-phone", width: 320, height: 568, routes: allRoutes },
+      { name: "phone", width: 390, height: 844, routes: representativeRoutes },
+      { name: "large-phone", width: 600, height: 900, routes: ["/", "/contact", "/properties"] },
+      { name: "tablet", width: 768, height: 1024, routes: representativeRoutes },
+      { name: "landscape-phone", width: 844, height: 390, routes: representativeRoutes },
+      { name: "tablet-landscape", width: 1024, height: 768, routes: representativeRoutes },
+      { name: "desktop", width: 1440, height: 900, routes: representativeRoutes },
+      { name: "wide-desktop", width: 1920, height: 1080, routes: representativeRoutes },
+      { name: "ultrawide", width: 2560, height: 1440, routes: ["/", "/about", "/contact", "/properties"] },
+    ].map(viewport => mode === "hero" ? { ...viewport, routes: ["/"] } : viewport)
   : mode === "mobile"
   ? [{ name: "mobile", width: 390, height: 844, routes: allRoutes }]
   : mode === "responsive"
@@ -283,6 +295,11 @@ const auditExpression = String.raw`
     .slice(0, 12);
 
   const overlay = document.querySelector("[data-nextjs-dialog], .vite-error-overlay, #webpack-dev-server-client-overlay");
+  const heroAlignment = Array.from(document.querySelectorAll(".property-hero-content > h1, .property-hero-content > p, .property-hero-content > .revamp-actions"))
+    .map((element) => {
+      const rect = element.getBoundingClientRect();
+      return { selector: selector(element), offset: Math.round(Math.abs(rect.left + rect.width / 2 - document.documentElement.clientWidth / 2) * 100) / 100 };
+    });
   return {
     title: document.title,
     textLength: document.body.innerText.trim().length,
@@ -291,6 +308,7 @@ const auditExpression = String.raw`
     viewportWidth: document.documentElement.clientWidth,
     documentHeight: document.documentElement.scrollHeight,
     overlay: overlay ? summarize(overlay.textContent) : null,
+    heroAlignment,
     smallText,
     headingFonts: Array.from(document.querySelectorAll("h1,h2,h3,h4"), element => ({ family: getComputedStyle(element).fontFamily, weight: getComputedStyle(element).fontWeight })),
     tightLineHeight,
@@ -380,6 +398,7 @@ async function main() {
   const failures = results.filter((result) =>
     !result.textLength ||
     result.overlay ||
+    result.heroAlignment.some(item => item.offset > 1) ||
     result.documentWidth > result.viewportWidth + 1 ||
     result.smallText.length ||
     result.headingFonts.some(font => !font.family.startsWith("Manrope") || Number(font.weight) < 700) ||

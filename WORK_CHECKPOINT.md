@@ -6,6 +6,17 @@ Saved: 2026-10-03 (Asia/Kolkata)
 
 The builder and REALTOR® visual redesign is complete. The user's request was to make the entire website consistent, bold, readable and concise, fix cropped photographs, and give it a clear residential, commercial and development identity.
 
+### Latest refinement: centered hero, sharper footage, more devices
+
+- Centered the homepage heading, eyebrow, supporting copy and buttons. Balanced vertical spacing and replaced the one-sided overlay with an even gradient.
+- Added genuine 1080p Halifax drone footage from Max Medyk / Pexels, an optimized 7.8 MB desktop video, a 4.2 MB portrait video for phones and a sharp matching poster. Source and license details are in `public/videos/SOURCES.md`.
+- Native video source media queries select the phone or desktop version. Reduced-motion mode uses the poster and downloads neither video in current supporting browsers.
+- Added short landscape hero spacing and expanded the responsive audit to 320, 390, 600, 768, 844, 1024, 1440, 1920 and 2560px screens.
+- Final combined responsive report: 99 layout checks passed, including 26 routes on a 320px phone and representative routes on tablets, landscape phones and large desktops. Nine additional homepage checks confirmed exact centering. The centering measurement uses available document width so browser scrollbars do not create false failures.
+- Desktop and phone video selection, autoplay progression, muted inline playback, reduced-motion poster and zero video downloads passed. No playback console errors.
+- TypeScript and ESLint passed again. Visually reviewed phone and desktop screenshots.
+- Reports: `/tmp/realtor-responsive-final.json`, `/tmp/realtor-hero-audit.log`. Playback check: `/tmp/realtor-video-check.mjs`.
+
 ## Implemented
 
 - Rebuilt the homepage around buying a home, selling a property, land and development, and commercial and investment property.
@@ -43,9 +54,9 @@ The builder and REALTOR® visual redesign is complete. The user's request was to
 
 ## Preview
 
-The local Vite preview was left running at `http://127.0.0.1:3010/`.
+The local Vite preview is running at `http://127.0.0.1:3011/` (session 4032). Port 3010 was already occupied.
 
-If it has stopped, run `npm run dev -- --host 127.0.0.1 --port 3010`.
+If it has stopped, run `npm run dev -- --host 127.0.0.1 --port 3011`.
 
 ## Source files
 
@@ -68,6 +79,7 @@ If it has stopped, run `npm run dev -- --host 127.0.0.1 --port 3010`.
 ## Environment notes
 
 - This directory does not expose a Git worktree. Source files and this checkpoint are the durable record.
+- GitHub push uses the real checkout at `/tmp/realtor-github-push`, remote `DEVuttkarsh12/realtor-pavneet-singh-v2`, branch `main`. The initial redesign was pushed in commit `12ce83e`; refinements are copied into this checkout for subsequent commits.
 - Disk space is tight. With approval, removed approximately 301 MB of regenerable `.sites-runtime/npm-cache/_cacache` to complete the work. Installed dependencies and source were retained.
 - Browser checks used agent-browser and the existing Chrome DevTools layout audit.
 - No deployment was performed. The existing handoff documents future listing-feed, CRM, approved proof and original media work.

@@ -54,13 +54,16 @@ body svg { flex-shrink: 0; }
 
 /* Property first: concise paths, development and personal service. */
 .property-hero { position: relative; background: var(--ink-deep); color: white; }
-.property-hero-media { position: absolute; inset: 0; overflow: hidden; }
+.property-hero-media { position: absolute; inset: 0; overflow: hidden; background: url('/images/halifax-hero-poster-hd.webp') center/cover; }
 .property-hero-media video { width: 100%; height: 100%; object-fit: cover; object-position: center; }
-.property-hero-shade { position: absolute; inset: 0; background: linear-gradient(90deg,#0c202de6 0%,#0c202d99 52%,#0c202d1a 100%),linear-gradient(0deg,#0c202d99,transparent 45%); }
-.property-hero-content { position: relative; padding-block: clamp(80px,9vw,130px) 75px; }
-.property-hero h1 { font-size: clamp(40px,5.4vw,80px); max-width: 1100px; margin-bottom: 28px; letter-spacing: -.055em; text-wrap: initial; }
+.property-hero-shade { position: absolute; inset: 0; background: linear-gradient(180deg,#0c202d66 0%,#0c202d80 48%,#0c202db3 100%); }
+.property-hero-content { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: clamp(560px,calc(100svh - 160px),820px); padding-block: clamp(64px,7vw,100px); text-align: center; }
+.property-hero-content .eyebrow { justify-content: center; max-width: 100%; }
+.property-hero-content .eyebrow::before { display: none; }
+.property-hero h1 { font-size: clamp(40px,5.4vw,80px); max-width: 1100px; margin: 0 auto 28px; letter-spacing: -.055em; text-wrap: initial; }
 .property-hero h1 em { color: #e3c48b; }
-.property-hero-content > p:not(.eyebrow) { color: #f0f0eb; max-width: 580px; margin-bottom: 32px; }
+.property-hero-content > p:not(.eyebrow) { color: #f0f0eb; max-width: 580px; margin: 0 auto 32px; }
+.property-hero .revamp-actions { justify-content: center; margin-inline: auto; }
 .property-hero-bottom { position: relative; display: flex; justify-content: space-between; gap: 20px; padding-block: 22px; font-size: 14px; font-weight: 600; border-top: 1px solid #ffffff33; }
 .property-hero-bottom a { display: flex; gap: 22px; }
 .property-hero-bottom a span { color: var(--gold-soft); }
@@ -203,13 +206,11 @@ body .footer-bottom,body .footer-disclaimer { font-size: 14px; letter-spacing: 0
   .brand-copy small { font-size: 14px; }
   .brand-copy { max-width: 270px; }
   .menu-toggle { width: 34px; }
-  .property-hero-content { padding-block: 62px 48px; }
-  .property-hero h1 { font-size: clamp(32px,8.5vw,48px); letter-spacing: -.045em; }
-  .property-hero h1 br { display: none; }
-  .property-hero h1 em { display: block; }
-  .property-hero .revamp-actions { flex-direction: column; align-items: stretch; max-width: 340px; }
-  .property-hero-bottom { flex-wrap: wrap; font-size: 14px; }
-  .property-hero-media video { object-position: 62% center; }
+  .property-hero-content { min-height: clamp(520px,calc(100svh - 230px),680px); padding-block: 52px; }
+  .property-hero h1 { font-size: clamp(28px,7.8vw,44px); letter-spacing: -.045em; }
+  .property-hero .revamp-actions { flex-direction: column; align-items: stretch; width: 100%; max-width: 340px; }
+  .property-hero .revamp-button { justify-content: space-between; }
+  .property-hero-bottom { flex-direction: column; align-items: center; gap: 10px; font-size: 14px; text-align: center; }
   .property-section-heading { align-items: start; flex-direction: column; gap: 20px; margin-bottom: 30px; }
   .property-path-grid,.property-profile,.property-resource-grid { grid-template-columns: 1fr; }
   .property-profile-image { max-width: 360px; margin-inline: auto; }
@@ -234,11 +235,10 @@ body .footer-bottom,body .footer-disclaimer { font-size: 14px; letter-spacing: 0
   body .footer-info { gap: 25px; }
   .footer-bottom { align-items: start; flex-direction: column; }
 }
-@media(prefers-reduced-motion:reduce) { .property-hero-media video { display: none; } .property-hero-media { background: url('/images/halifax-hero-poster.webp') center/cover; } }
-@media(max-width:600px) {
-  .property-hero h1 { font-size: clamp(28px,7.8vw,44px); }
-  .property-hero h1 br { display: initial; }
-  .property-hero h1 em { display: inline; }
+@media(prefers-reduced-motion:reduce) { .property-hero-media video { display: none; } }
+@media(max-height:500px) and (min-width:601px) {
+  .property-hero-content { min-height: 0; padding-block: 44px; }
+  .property-hero h1 { font-size: clamp(36px,5vw,52px); }
 }
 .advisory-check > span { flex: 1; min-width: 0; }
 body .inner-hero.has-portrait-media .inner-hero-content { padding: 0; }
