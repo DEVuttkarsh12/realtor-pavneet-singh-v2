@@ -1,59 +1,73 @@
-# Realtor Pavneet Singh website cleanup checkpoint
+# Pavneet Singh website checkpoint
 
-Saved: 2026-09-30 (Asia/Kolkata)
+Saved: 2026-10-03 (Asia/Kolkata)
 
-## Status
+## Current status
 
-The visual-cleanup pass is complete. The full responsive audit, source cleanup, lockfile-exact install, production build, and rendered-HTML test all pass.
+The builder and REALTOR® visual redesign is complete. The user's request was to make the entire website consistent, bold, readable and concise, fix cropped photographs, and give it a clear residential, commercial and development identity.
 
-## Completed changes
+## Implemented
 
-- Removed the small `Sutton Group Professional Realty` subtitle under the navbar name.
-- Replaced the circular footer `Start a conversation` link with a rectangular `footer-cta` button.
-- Removed the fixed four-button action dock that covered home-page content. WhatsApp remains in the footer.
-- Removed the decorative hero coordinate note and duplicate hero brokerage signature.
-- Raised CSS text declarations below `11px` to a readable minimum and relaxed display-heading line heights that could clip wrapped text.
-- Increased the shared eyebrow label to `12px` and protected its decorative line from shrinking into the text.
-- Tightened the desktop navigation so it fits common laptop widths.
-- Fixed the shared `.lead-copy` spacing that caused headings and paragraphs to touch on owner, investor, and asset pages.
-- Fixed the market-snapshot paragraph selector so it no longer removes the eyebrow's bottom spacing.
-- Increased footer contact, copyright, and legal text to `12px`, with less crowded letter spacing.
-- Removed all obsolete `.hero-side-note`, `.hero-brand-signature`, and `.floating-actions` CSS, including the mobile body padding that only supported the removed dock.
-- Removed the unused `assetClasses` import reported by lint.
-- Added `scripts/audit-layout.mjs`, a reusable Chrome DevTools layout audit with smoke, mobile, responsive, and single-route modes.
+- Rebuilt the homepage around buying a home, selling a property, land and development, and commercial and investment property.
+- Retained the Halifax drone video, added straightforward calls to action, a development section, Pavneet's larger studio portrait and three concise resource cards.
+- Installed the official self-hosted Manrope variable font, including its OFL license. Every audited heading uses Manrope at weight 800.
+- Established a shared navy, warm white and brass visual palette with one responsive type scale. Body copy is generally 17px, controls 15–16px, and smaller labels and disclosure text have a 14px minimum.
+- Added `app/site-design.css` for the shared design system and normalized the earlier CSS font declarations and heading scales.
+- Added `PageHero.tsx` so service, about, article and advisory pages share the same hero hierarchy and image framing.
+- Added `SiteImage.tsx` with intrinsic local image dimensions using the Vinext-compatible unoptimized image component. Updated inner page images to use it.
+- Replaced overly tall and zoomed image frames with full portrait, landscape and intrinsic image ratios. Removed the old portrait padding that narrowed the about-page copy.
+- Simplified navigation to Properties, Homes, Land & Build, Commercial, Invest and About, with additional resources available in the mobile menu and footer.
+- Added active navigation states, a skip link, keyboard menu closing and focus trapping. The closed menu uses `inert`.
+- Removed the custom cursor and parallax JavaScript. Kept the Halifax video with a reduced-motion poster fallback.
+- Shortened prominent copy and removed repetitive keyword sections and duplicate homepage sections.
+- Simplified investment and property forms to the details needed for an initial conversation. The forms prepare an email; visitors must review and send it themselves.
+- Kept public property search linked to REALTOR.ca. The site does not present sample properties as live listings or invent completed projects.
+- Retained the separation between Sutton brokerage services and separate development interests.
 
-Source files intentionally modified across the cleanup:
+## Verification
 
-- `app/components/SiteChrome.tsx`
+- TypeScript: passed.
+- ESLint: passed with zero warnings or errors after the image component changes.
+- Production build: passed with Vinext / Vite.
+- `node --test tests/rendered-html.test.mjs`: passed.
+- Responsive audit: 48 checks passed, zero failures. This covers 26 public pages at 390px and 11 representative layouts each at 768px and 1280px.
+- The audit checks horizontal overflow, escaped text, small text below 14px, text collisions, heading font and bold weight, broken images, framework overlays and console errors.
+- Visually reviewed the homepage, about, investment and contact layouts, including mobile and desktop screenshots.
+- Mobile menu: open, Escape close, inert state and Land & Build navigation passed.
+- Investment, property submission and contact forms: required-field validation and prepared email payloads passed. No message was sent.
+- Public property search destination link verified.
+- Corrected an audit-induced hydration warning by scrolling to load lazy images without mutating their server-rendered loading attributes.
+- Final audit report: `/tmp/realtor-layout-final.log`.
+- Browser captures: `/tmp/pavneet-layout-audit/`.
+- Temporary interaction check: `/tmp/realtor-interactions.mjs`.
+
+## Preview
+
+The local Vite preview was left running at `http://127.0.0.1:3010/`.
+
+If it has stopped, run `npm run dev -- --host 127.0.0.1 --port 3010`.
+
+## Source files
+
 - `app/components/HomeExperience.tsx`
+- `app/components/SiteChrome.tsx`
 - `app/components/InnerPages.tsx`
+- `app/components/AdvisoryPages.tsx`
+- `app/components/PageHero.tsx` (new)
+- `app/components/SiteImage.tsx` (new)
+- `app/data.ts`
+- `app/layout.tsx`
 - `app/globals.css`
+- `app/site-design.css` (new)
+- `public/fonts/manrope-variable.ttf` (new)
+- `public/fonts/manrope-OFL.txt` (new)
 - `scripts/audit-layout.mjs`
 - `WORK_CHECKPOINT.md`
-
-## Verification completed
-
-- Browser preview returned HTTP 200 on every audited route.
-- 390px audit: 25 routes passed with no horizontal page overflow, escaped/clipped text, text collisions, sub-11px text, broken images, framework overlays, or console errors.
-- 768px audit: home plus seven representative layouts passed.
-- 1280px audit: the same eight representative layouts passed.
-- Visually inspected `/`, `/owners`, `/contact`, `/properties`, `/about`, `/guides`, one property detail page, and one opportunity detail page across mobile, tablet, and desktop captures.
-- Confirmed the footer CTA has square corners and the removed floating dock no longer covers content.
-- Final searches found no font sizes below `11px`, line heights below `1`, or leftover removed-element selectors/labels.
-- Installed the exact `package-lock.json` dependency set successfully; `node_modules` is now a real local directory and includes Vinext.
-- `npm run build`: passed with Vinext/Vite 8.0.13.
-- `node --test tests/rendered-html.test.mjs`: passed.
-- `node_modules/.bin/tsc --noEmit --pretty false`: passed.
-- `npm run lint`: passed with zero errors. The remaining 25 warnings are the existing `@next/next/no-img-element` recommendations.
+- `REVAMP_HANDOFF.md`
 
 ## Environment notes
 
-- The temporary borrowed `node_modules` symlink and `.next` preview-cache symlink have been removed.
-- The project now uses its lockfile-exact local dependencies.
-- `dist/`, `node_modules/`, and `.sites-runtime/` are generated or disposable local directories.
-- The root filesystem remains tight on space after the exact install, so avoid duplicate dependency installs.
-- This directory still does not expose a Git worktree; the source files and this checkpoint are the durable record.
-
-## Optional future work
-
-- Evaluate migrating raw `<img>` elements to an image component compatible with the Vinext runtime. This is an optimization pass, not a blocker; current lint, build, browser, and rendered-output checks pass.
+- This directory does not expose a Git worktree. Source files and this checkpoint are the durable record.
+- Disk space is tight. With approval, removed approximately 301 MB of regenerable `.sites-runtime/npm-cache/_cacache` to complete the work. Installed dependencies and source were retained.
+- Browser checks used agent-browser and the existing Chrome DevTools layout audit.
+- No deployment was performed. The existing handoff documents future listing-feed, CRM, approved proof and original media work.

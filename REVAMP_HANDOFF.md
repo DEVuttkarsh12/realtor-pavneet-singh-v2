@@ -1,3 +1,7 @@
+# October 3, 2026 design update
+
+The builder and REALTOR® visual redesign is complete. See `WORK_CHECKPOINT.md` for the current implementation, verification and preview instructions. The September handoff below remains background for listing feeds, approved transaction records and future integrations.
+
 # Pavneet Singh website revamp handoff
 
 ## Implemented in this repository

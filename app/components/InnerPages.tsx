@@ -13,6 +13,8 @@ import {
 } from "../data";
 import { ArrowUpRight, SiteChrome } from "./SiteChrome";
 import AdvisoryPage from "./AdvisoryPages";
+import PageHero from "./PageHero";
+import SiteImage from "./SiteImage";
 
 type HeroProps = {
   eyebrow: string;
@@ -25,32 +27,8 @@ type HeroProps = {
   variant?: "default" | "portrait";
 };
 
-function InnerHero({ eyebrow, title, copy, image, imageAlt = "", index = "PS / NS", align = "left", variant = "default" }: HeroProps) {
-  return (
-    <section className={`inner-hero ${align === "center" ? "is-centered" : ""} ${variant === "portrait" ? "has-portrait-media" : ""}`}>
-      {variant === "portrait" ? (
-        <div className="inner-portrait-stage">
-          <i className="inner-portrait-orbit" aria-hidden="true" />
-          <img src={image} alt={imageAlt} />
-          <div className="inner-portrait-meta" aria-hidden="true">
-            <span>REALTOR®</span><i /><span>Nova Scotia</span>
-          </div>
-        </div>
-      ) : (
-        <img src={image} alt={imageAlt} data-parallax="hero" />
-      )}
-      <div className="inner-hero-film" />
-      <div className="inner-hero-grid" aria-hidden="true"><i /><i /><i /></div>
-      <div className="shell inner-hero-content">
-        <p className="eyebrow light hero-enter delay-1">{eyebrow}</p>
-        <h1 className="hero-enter delay-2">{title}</h1>
-        <p className="hero-enter delay-3">{copy}</p>
-      </div>
-      <div className="inner-hero-index hero-enter delay-4">
-        <span>{index}</span><i /><span>Nova Scotia</span>
-      </div>
-    </section>
-  );
+function InnerHero({ eyebrow, title, copy, image, imageAlt = "", variant = "default" }: HeroProps) {
+  return <PageHero eyebrow={eyebrow} title={title} copy={copy} image={image} imageAlt={imageAlt} portrait={variant === "portrait"} />;
 }
 
 function SectionIntro({ eyebrow, title, copy }: { eyebrow: string; title: ReactNode; copy?: string }) {
@@ -95,8 +73,8 @@ const assetPageMap = {
   },
   industrial: {
     eyebrow: "Industrial real estate",
-    title: <>Industrial property for operators, investors and <em>developers.</em></>,
-    copy: "Warehouse, distribution, manufacturing, flex industrial, industrial development land, owner-occupied buildings, industrial investments and leasing.",
+    title: <>Industrial property. <em>Built for business.</em></>,
+    copy: "Buy, sell or lease warehouses, industrial buildings and sites across Nova Scotia.",
     image: "/images/halifax-aerial.jpg",
     index: "IND / 05",
     intro: "Industrial opportunities require clear understanding of access, zoning, loading, ceiling heights, power, land utility, leasing demand and owner-user requirements.",
@@ -105,8 +83,8 @@ const assetPageMap = {
   },
   multifamily: {
     eyebrow: "Nova Scotia multifamily",
-    title: <>Apartment buildings and portfolios with an <em>income lens.</em></>,
-    copy: "Multifamily advisory for apartment buildings, 5-20 units, 20-50 units, 50-100 units, 100+ units, portfolios and development opportunities.",
+    title: <>Multifamily. <em>More potential.</em></>,
+    copy: "Find apartment buildings, income properties and portfolios that fit your investment goals.",
     image: "/images/halifax-aerial.jpg",
     index: "MULTI / 06",
     intro: "Multifamily opportunities should be reviewed through income, operating costs, rent context, unit mix, condition, financing and long-term portfolio fit.",
@@ -115,9 +93,9 @@ const assetPageMap = {
   },
   "development-land": {
     eyebrow: "Development land",
-    title: <>From land to <em>opportunity.</em></>,
-    copy: "Residential development, commercial development, industrial land, mixed-use development, multifamily sites, institutional opportunities and land assemblies.",
-    image: "/images/halifax-aerial.jpg",
+    title: <>Land for your <em>next vision.</em></>,
+    copy: "Site acquisition, land sales and new construction opportunities across Nova Scotia.",
+    image: "/images/development.jpg",
     index: "LAND / 07",
     intro: "Development land requires attention to zoning, density, municipal approvals, servicing, development potential, highest-and-best use and buyer/developer targeting.",
     groups: ["Residential Development", "Commercial Development", "Industrial Land", "Mixed-Use Development", "Multifamily Sites", "Institutional", "Land Assemblies"],
@@ -125,7 +103,7 @@ const assetPageMap = {
   },
   development: {
     eyebrow: "Development advisory",
-    title: <>Development real estate requires more than a <em>listing.</em></>,
+    title: <>A foundation for <em>what’s next.</em></>,
     copy: "Site sourcing, development land review, commercial sites, redevelopment opportunities, mixed-use projects and professional coordination.",
     image: "/images/halifax-hero-poster.webp",
     index: "DEV / 08",
@@ -135,9 +113,9 @@ const assetPageMap = {
   },
   residential: {
     eyebrow: "Residential real estate",
-    title: <>Your home. Your investment. <em>Your next chapter.</em></>,
+    title: <>Find your <em>place to call home.</em></>,
     copy: "Thoughtful representation for buyers, sellers, relocation clients and residential investors across Nova Scotia.",
-    image: "/images/nova-scotia-coast.webp",
+    image: "/images/home-exterior.jpg",
     index: "RES / 09",
     intro: "A residential decision should bring together your daily life, complete budget, location, property condition, timing and long-term plans.",
     groups: ["Luxury & executive homes", "Relocation to Nova Scotia", "First-time buyers", "Move-up families", "Downsizers", "Waterfront", "New construction", "Residential investment"],
@@ -149,13 +127,13 @@ function AssetPage({ type }: { type: keyof typeof assetPageMap }) {
   const page = assetPageMap[type];
   return (
     <SiteChrome darkHeader>
-      <main>
+      <main id="main-content">
         <InnerHero eyebrow={page.eyebrow} title={page.title} copy={page.copy} image={page.image} index={page.index} />
         <section className="asset-page-section section-space">
           <div className="shell asset-page-grid">
             <div className="reveal">
               <p className="eyebrow">Advisory focus</p>
-              <h2>{page.intro.includes("more than") ? <>A stronger transaction starts with the <em>right questions.</em></> : <>Useful structure before the <em>search.</em></>}</h2>
+              <h2>Start with <em>a clear plan.</em></h2>
               <p className="lead-copy">{page.intro}</p>
               <div className="asset-page-actions">
                 <Link className="primary-button ink-button" href="/properties">Explore properties <ArrowUpRight /></Link>
@@ -163,16 +141,8 @@ function AssetPage({ type }: { type: keyof typeof assetPageMap }) {
               </div>
             </div>
             <div className="asset-taxonomy reveal reveal-delay">
-              <span>Sections</span>
+              <span>How Pavneet can help</span>
               {page.groups.map((item) => <Link href="/contact" key={item}>{item}<ArrowUpRight /></Link>)}
-            </div>
-          </div>
-        </section>
-        <section className="seo-market-section soft-section section-space">
-          <div className="shell">
-            <SectionIntro eyebrow="Across Nova Scotia" title={<>Local context changes the <em>decision.</em></>} copy="The right approach depends on the market, property type and your reason for buying or selling. These are some of the searches we can discuss together." />
-            <div className="who-grid market-keyword-grid">
-              {page.markets.map((item) => <span key={item}>{item}</span>)}
             </div>
           </div>
         </section>
@@ -183,11 +153,11 @@ function AssetPage({ type }: { type: keyof typeof assetPageMap }) {
 }
 
 function IntelligencePage() {
-  return <SiteChrome darkHeader><main>
-    <InnerHero eyebrow="Nova Scotia real estate intelligence" title={<>Better questions. <em>Clearer property decisions.</em></>} copy="Practical perspective on investment, commercial, development and residential real estate in Nova Scotia." image="/images/halifax-aerial.jpg" index="INTELLIGENCE / 08" />
+  return <SiteChrome darkHeader><main id="main-content">
+    <InnerHero eyebrow="Nova Scotia real estate intelligence" title={<>Real estate <em>insights.</em></>} copy="Practical perspective on investment, commercial, development and residential real estate in Nova Scotia." image="/images/halifax-aerial.jpg" index="INTELLIGENCE / 08" />
     <section className="blog-index-section section-space"><div className="shell">
       <SectionIntro eyebrow="Read the market" title={<>Ideas grounded in <em>real decisions.</em></>} copy="Explore the considerations behind buying, selling and investing, then discuss how they apply to your specific situation." />
-      <div className="blog-card-grid">{blogPosts.map((post, index) => <Link className={`blog-card reveal reveal-delay-${index + 1}`} href={`/blog/${post.slug}`} key={post.slug} data-cursor-label="Read"><img src={post.image} alt="" /><div><span>{post.category} / {post.readTime}</span><h3>{post.title}</h3><p>{post.excerpt}</p><strong className="card-action">Read the article <ArrowUpRight /></strong></div></Link>)}</div>
+      <div className="blog-card-grid">{blogPosts.map((post, index) => <Link className={`blog-card reveal reveal-delay-${index + 1}`} href={`/blog/${post.slug}`} key={post.slug} data-cursor-label="Read"><SiteImage src={post.image} alt="" /><div><span>{post.category} / {post.readTime}</span><h3>{post.title}</h3><p>{post.excerpt}</p><strong className="card-action">Read the article <ArrowUpRight /></strong></div></Link>)}</div>
     </div></section>
     <PageCta title={<>Need a market view for your <em>specific property?</em></>} copy="Share the property, location and decision you are considering. Pavneet can help identify the useful market questions." />
   </main></SiteChrome>;
@@ -202,12 +172,12 @@ function AboutPage() {
 
   return (
     <SiteChrome darkHeader>
-      <main>
+      <main id="main-content">
         <InnerHero
           eyebrow="About Pavneet Singh"
-          title={<>Property decisions with a <em>broader perspective.</em></>}
+          title={<>Meet <em>Pavneet Singh.</em></>}
           copy="Pavneet Singh represents investors, developers, business owners and families in Nova Scotia real estate through Sutton Group Professional Realty."
-          image="/images/pavneet-transparent-headshot.png"
+          image="/images/pavneet-studio-portrait.jpg"
           imageAlt="Pavneet Singh, Nova Scotia commercial real estate advisor"
           index="ABOUT / 01"
           variant="portrait"
@@ -217,34 +187,13 @@ function AboutPage() {
           <div className="shell about-story-grid">
             <div className="about-story-heading reveal">
               <p className="eyebrow">Local market knowledge. Investment mindset.</p>
-              <h2>Source, analyze, negotiate and <em>execute.</em></h2>
+              <h2>Real estate. <em>Personal.</em></h2>
             </div>
             <div className="about-story-copy reveal reveal-delay">
-              <p className="lead-copy">Real estate is about connecting property, capital and opportunity with the right local context.</p>
-              <p>Across Nova Scotia, Pavneet supports commercial, multifamily, industrial, development land, investment and select residential transactions with a practical lens shaped by finance, construction, negotiation and local relationships.</p>
-              <p>His work is designed for investors, developers, business owners, property owners, newcomers and families who need clarity before a meaningful real estate decision.</p>
-              <p>In addition to his brokerage practice, Pavneet has separate real estate development interests. Those activities are not real estate trading services offered through Sutton Group Professional Realty. NSREC consumer protections for brokerage trading, including regulatory oversight, Errors and Omissions Insurance and the Real Estate Recovery Fund, do not apply to those separate non-trading activities.</p>
-            </div>
-          </div>
-        </section>
+              <p className="lead-copy">A practical approach to buying, selling and developing property across Nova Scotia.</p>
+              <p>From family homes to commercial acquisitions, Pavneet brings local relationships and a perspective shaped by property, finance and construction.</p>
 
-        <section className="expertise-band dark-section section-space">
-          <div className="shell">
-            <SectionIntro
-              eyebrow="A wider advisory lens"
-              title={<>Commercial transactions require more than <em>one discipline.</em></>}
-              copy="Finance, construction, market context and professional coordination meet in one practical real estate conversation."
-            />
-            <div className="expertise-grid">
-              {[
-                ["01", "Investment context", "Income, expenses, purchase costs and operating questions belong in the property discussion, with specialist advice when needed."],
-                ["02", "Development perspective", "Exposure to development projects helps frame better questions about a site, its use and the work ahead."],
-                ["03", "Professional coordination", "Commercial transactions may involve lawyers, accountants, engineers, planners, lenders, appraisers, surveyors and environmental consultants."],
-              ].map((item, index) => (
-                <article className={`reveal reveal-delay-${index + 1}`} key={item[0]}>
-                  <span>{item[0]}</span><h3>{item[1]}</h3><p>{item[2]}</p>
-                </article>
-              ))}
+              <p className="property-disclosure">In addition to his brokerage practice, Pavneet has separate real estate development interests. Those activities are not real estate trading services offered through Sutton Group Professional Realty. NSREC consumer protections for brokerage trading, including regulatory oversight, Errors and Omissions Insurance and the Real Estate Recovery Fund, do not apply to those separate non-trading activities.</p>
             </div>
           </div>
         </section>
@@ -258,15 +207,15 @@ function AboutPage() {
             />
             <div className="community-collage">
               <figure className="reveal">
-                <img src="/images/pavneet-community-in-action.jpg" alt="Pavneet Singh, Nova Scotia REALTOR®" />
+                <SiteImage src="/images/pavneet-community-in-action.jpg" alt="Pavneet Singh, Nova Scotia REALTOR®" />
                 <figcaption><span>01</span>Community leadership</figcaption>
               </figure>
               <figure className="reveal reveal-delay">
-                <img src="/images/pavneet-community.jpg" alt="Pavneet Singh supporting a local community initiative" />
+                <SiteImage src="/images/pavneet-community.jpg" alt="Pavneet Singh supporting a local community initiative" />
                 <figcaption><span>02</span>Showing up locally</figcaption>
               </figure>
               <figure className="community-portrait-card reveal reveal-delay-2">
-                <div className="community-portrait-media"><img src="/images/pavneet-transparent-headshot.png" alt="Pavneet Singh" /></div>
+                <div className="community-portrait-media"><SiteImage src="/images/pavneet-transparent-headshot.png" alt="Pavneet Singh" /></div>
                 <figcaption><span>03</span>Serving all of Nova Scotia</figcaption>
               </figure>
             </div>
@@ -344,7 +293,7 @@ function ServicesPage() {
 
   return (
     <SiteChrome darkHeader>
-      <main>
+      <main id="main-content">
         <InnerHero
           eyebrow="Real estate advisory in Nova Scotia"
           title={<>Strategy for every stage of your <em>journey.</em></>}
@@ -363,7 +312,7 @@ function ServicesPage() {
             <div className="service-detail-list">
               {detail.map((item) => (
                 <article className="service-detail reveal" id={item.id} key={item.id}>
-                  <div className="service-detail-image"><img src={item.image} alt="" /><span>{item.number}</span></div>
+                  <div className="service-detail-image"><SiteImage src={item.image} alt="" /><span>{item.number}</span></div>
                   <div className="service-detail-content">
                     <p className="eyebrow">{item.subtitle}</p>
                     <h3>{item.title}</h3>
@@ -409,9 +358,9 @@ function ServicesPage() {
 }
 
 function PropertiesPage() {
-  return <SiteChrome darkHeader><main>
+  return <SiteChrome darkHeader><main id="main-content">
     <InnerHero eyebrow="Properties / Nova Scotia" title={<>Find property with a <em>clear brief.</em></>} copy="Tell Pavneet what you are looking for, or search current public inventory through REALTOR.ca while an approved on-site listing feed is being arranged." image="/images/halifax-aerial.jpg" index="PROPERTIES / 06" />
-    <section className="advisory-simple shell"><p className="revamp-kicker">Current properties</p><h2>Start with the <em>right search.</em></h2><p>Browse active public listings on REALTOR.ca. For commercial, investment or development requirements, share your criteria so Pavneet can help define a more focused search.</p><div className="revamp-actions"><a className="revamp-button dark" href="https://www.realtor.ca/ns/real-estate" target="_blank" rel="noreferrer">Search current listings <ArrowUpRight /></a><Link className="revamp-button dark" href="/invest">Submit your criteria <ArrowUpRight /></Link></div><p className="advisory-note">An integrated property search will require a licensed CREA/DDF or IDX feed and listing permissions. Public inventory is not reproduced here until those are in place.</p></section>
+    <section className="advisory-simple shell"><p className="revamp-kicker">Current properties</p><h2>Start with the <em>right search.</em></h2><p>Browse active public listings on REALTOR.ca. For commercial, investment or development requirements, share your criteria so Pavneet can help define a more focused search.</p><div className="revamp-actions"><a className="revamp-button dark" href="https://www.realtor.ca/ns/real-estate" target="_blank" rel="noreferrer">Search current listings <ArrowUpRight /></a><Link className="revamp-button dark" href="/invest">Submit your criteria <ArrowUpRight /></Link></div></section>
     <PageCta title={<>Looking for a property with a <em>specific purpose?</em></>} copy="Share your budget, location, asset type and timeline with Pavneet to begin a tailored search." />
   </main></SiteChrome>;
 }
@@ -419,7 +368,7 @@ function PropertiesPage() {
 function NeighbourhoodsPage() {
   return (
     <SiteChrome darkHeader>
-      <main>
+      <main id="main-content">
         <InnerHero
           eyebrow="Nova Scotia neighbourhood guides"
           title={<>Find the community that fits your <em>life.</em></>}
@@ -437,7 +386,7 @@ function NeighbourhoodsPage() {
             <div className="communities-grid">
               {communities.map((community, index) => (
                 <article className={`community-card reveal reveal-delay-${(index % 3) + 1}`} key={community.name}>
-                  <div className="community-card-image"><img src={community.image} alt={community.name} /><span>0{index + 1}</span></div>
+                  <div className="community-card-image"><SiteImage src={community.image} alt={community.name} /><span>0{index + 1}</span></div>
                   <div className="community-card-copy">
                     <small>{community.type}</small><h3>{community.name}</h3><p>{community.description}</p>
                     <div>{community.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
@@ -456,7 +405,7 @@ function NeighbourhoodsPage() {
 function GuidesPage() {
   return (
     <SiteChrome darkHeader>
-      <main>
+      <main id="main-content">
         <InnerHero
           eyebrow="Buyer & seller resources"
           title={<>Two journeys. One clear place to <em>begin.</em></>}
@@ -469,7 +418,7 @@ function GuidesPage() {
             <SectionIntro eyebrow="Choose your path" title={<>Know what comes <em>next.</em></>} copy="Focused roadmaps that connect the key decisions before the process becomes emotional or urgent." />
             <div className="guide-choice-grid">
               <Link className="guide-choice reveal" href="/buying-guide">
-                <img src="/images/halifax-aerial.jpg" alt="Halifax waterfront and neighbourhoods" /><div className="guide-choice-film" />
+                <SiteImage src="/images/halifax-aerial.jpg" alt="Halifax waterfront and neighbourhoods" /><div className="guide-choice-film" />
                 <span className="guide-choice-kicker">01 / Buyer&apos;s Guide</span>
                 <h3>Buying Guide</h3>
                 <p>Plan your budget, pre-approval, search, offer, due diligence, and closing steps before the right home appears.</p>
@@ -477,7 +426,7 @@ function GuidesPage() {
                 <i aria-hidden="true"><ArrowUpRight /></i>
               </Link>
               <Link className="guide-choice reveal reveal-delay" href="/selling-guide">
-                <img src="/images/nova-scotia-coast.webp" alt="Nova Scotia coastal community" /><div className="guide-choice-film" />
+                <SiteImage src="/images/nova-scotia-coast.webp" alt="Nova Scotia coastal community" /><div className="guide-choice-film" />
                 <span className="guide-choice-kicker">02 / Seller&apos;s Guide</span>
                 <h3>Selling Guide</h3>
                 <p>Prepare, price, launch, negotiate, and close with a coordinated plan built to protect your leverage.</p>
@@ -516,7 +465,7 @@ function BlogPage() {
 
   return (
     <SiteChrome darkHeader>
-      <main>
+      <main id="main-content">
         <InnerHero
           eyebrow="Nova Scotia real estate blog"
           title={<>Insights for clearer <em>decisions.</em></>}
@@ -534,7 +483,7 @@ function BlogPage() {
             />
             <Link className="blog-featured-card reveal" href={`/blog/${featured.slug}`} data-cursor-label="Read">
               <div className="blog-featured-image">
-                <img src={featured.image} alt="" />
+                <SiteImage src={featured.image} alt="" />
                 <span>{featured.category}</span>
               </div>
               <div className="blog-featured-copy">
@@ -552,7 +501,7 @@ function BlogPage() {
                   key={post.slug}
                   data-cursor-label="Read"
                 >
-                  <img src={post.image} alt="" />
+                  <SiteImage src={post.image} alt="" />
                   <div>
                     <span>{post.category} / {post.readTime}</span>
                     <h3>{post.title}</h3>
@@ -594,7 +543,7 @@ function StepGuide({ type }: { type: "buy" | "sell" }) {
   const steps = buying ? buyerSteps : sellerSteps;
   return (
     <SiteChrome darkHeader>
-      <main>
+      <main id="main-content">
         <InnerHero
           eyebrow={buying ? "Nova Scotia home buying guide" : "Nova Scotia home selling guide"}
           title={buying ? <>A clearer path to <em>homeownership.</em></> : <>Position your home for its <em>best outcome.</em></>}
@@ -655,7 +604,7 @@ export function BlogArticlePage({ post }: { post: BlogPost }) {
 
   return (
     <SiteChrome darkHeader>
-      <main>
+      <main id="main-content">
         <InnerHero
           eyebrow={`${post.category} insight`}
           title={post.title}
@@ -705,7 +654,7 @@ export function BlogArticlePage({ post }: { post: BlogPost }) {
                   key={item.slug}
                   data-cursor-label="Read"
                 >
-                  <img src={item.image} alt="" />
+                  <SiteImage src={item.image} alt="" />
                   <div>
                     <span>{item.category} / {item.readTime}</span>
                     <h3>{item.title}</h3>
@@ -753,7 +702,7 @@ function ContactPage() {
 
   return (
     <SiteChrome darkHeader>
-      <main>
+      <main id="main-content">
         <section className="contact-hero dark-section">
           <div className="contact-orbits" aria-hidden="true"><i /><i /><i /></div>
           <div className="shell contact-hero-grid">
@@ -778,7 +727,7 @@ function ContactPage() {
                   <span>Private consultation</span>
                   <h2>Tell Pavneet what comes next.</h2>
                 </div>
-                <p><i />Typically replies within one business day</p>
+                <p><i />A direct conversation with Pavneet</p>
               </div>
               <div className="consultation-form-body">
                 <div className="consultation-section-title"><span>01</span><p>Your details</p></div>
@@ -851,7 +800,7 @@ function LegalPage({ type }: { type: "privacy" | "terms" }) {
   const privacy = type === "privacy";
   return (
     <SiteChrome darkHeader>
-      <main>
+      <main id="main-content">
         <InnerHero
           eyebrow="Website information"
           title={privacy ? <>Privacy <em>policy.</em></> : <>Terms of <em>use.</em></>}

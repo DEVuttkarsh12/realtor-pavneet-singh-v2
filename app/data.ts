@@ -10,24 +10,23 @@ export const site = {
 };
 
 export const navItems = [
-  { label: "Home", href: "/" },
-  { label: "Invest", href: "/invest" },
-  { label: "Commercial", href: "/commercial-real-estate" },
-  { label: "Development & Land", href: "/development-land" },
-  { label: "Residential", href: "/residential" },
   { label: "Properties", href: "/properties" },
-  { label: "Intelligence", href: "/intelligence" },
+  { label: "Homes", href: "/residential" },
+  { label: "Land & Build", href: "/development-land" },
+  { label: "Commercial", href: "/commercial-real-estate" },
+  { label: "Invest", href: "/invest" },
   { label: "About", href: "/about" },
-  { label: "Media", href: "/media" },
-  { label: "Contact", href: "/contact" },
 ];
 
 export const secondaryNavItems = [
-  { label: "Submit an Opportunity", href: "/submit-opportunity" },
-  { label: "Selected Transactions", href: "/transactions" },
-  { label: "Investor Network", href: "/invest" },
+  { label: "Contact Pavneet", href: "/contact" },
+  { label: "Sell a Property", href: "/selling-guide" },
+  { label: "Submit a Property", href: "/submit-opportunity" },
   { label: "Guides", href: "/guides" },
+  { label: "Insights", href: "/intelligence" },
   { label: "Market Areas", href: "/neighbourhoods" },
+  { label: "Selected Transactions", href: "/transactions" },
+  { label: "Media", href: "/media" },
 ];
 
 export const journeys = [

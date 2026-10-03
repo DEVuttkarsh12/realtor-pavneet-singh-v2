@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { navItems, secondaryNavItems, site } from "../data";
 
@@ -27,34 +28,12 @@ export function SiteChrome({
   children: ReactNode;
   darkHeader?: boolean;
 }) {
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const parallaxElements = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-parallax]"),
-    );
-
-    const update = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = max > 0 ? window.scrollY / max : 0;
-      document.documentElement.style.setProperty("--scroll-progress", String(progress));
-      setScrolled(window.scrollY > 28);
-
-      if (!reduced) {
-        parallaxElements.forEach((element) => {
-          const rect = element.getBoundingClientRect();
-          if (rect.bottom < -80 || rect.top > window.innerHeight + 80) return;
-          const mode = element.dataset.parallax;
-          const speed = mode === "wide" ? 0.045 : mode === "hero" ? 0.03 : 0.018;
-          const limit = mode === "wide" ? 38 : mode === "hero" ? 32 : 16;
-          const distance = rect.top + rect.height / 2 - window.innerHeight / 2;
-          const offset = Math.max(-limit, Math.min(limit, distance * -speed));
-          element.style.setProperty("--parallax-y", `${offset}px`);
-        });
-      }
-    };
+    const update = () => setScrolled(window.scrollY > 28);
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -84,72 +63,32 @@ export function SiteChrome({
   }, []);
 
   useEffect(() => {
-    const finePointer = window.matchMedia("(pointer: fine)").matches;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!finePointer || reduced) return;
-
-    const root = document.documentElement;
-    const ring = document.querySelector<HTMLElement>(".cursor-ring");
-    document.body.classList.add("has-premium-cursor");
-
-    const move = (event: MouseEvent) => {
-      root.style.setProperty("--cursor-x", `${event.clientX}px`);
-      root.style.setProperty("--cursor-y", `${event.clientY}px`);
-      root.style.setProperty("--spotlight-x", `${(event.clientX / window.innerWidth) * 100}%`);
-      root.style.setProperty("--spotlight-y", `${(event.clientY / window.innerHeight) * 100}%`);
-
-      const magnetic = (event.target as HTMLElement).closest("[data-magnetic]") as HTMLElement | null;
-      if (magnetic) {
-        const rect = magnetic.getBoundingClientRect();
-        const x = (event.clientX - rect.left - rect.width / 2) * 0.1;
-        const y = (event.clientY - rect.top - rect.height / 2) * 0.12;
-        magnetic.style.setProperty("--magnetic-x", `${x}px`);
-        magnetic.style.setProperty("--magnetic-y", `${y}px`);
-      }
-    };
-
-    const over = (event: MouseEvent) => {
-      const target = (event.target as HTMLElement).closest(
-        "a, button, [data-cursor-label]",
-      ) as HTMLElement | null;
-      document.body.classList.toggle("cursor-is-active", Boolean(target));
-      const labelTarget = (event.target as HTMLElement).closest(
-        "[data-cursor-label]",
-      ) as HTMLElement | null;
-      if (ring) ring.dataset.label = labelTarget?.dataset.cursorLabel ?? "";
-    };
-
-    const out = (event: MouseEvent) => {
-      const magnetic = (event.target as HTMLElement).closest("[data-magnetic]") as HTMLElement | null;
-      if (magnetic) {
-        magnetic.style.setProperty("--magnetic-x", "0px");
-        magnetic.style.setProperty("--magnetic-y", "0px");
-      }
-    };
-
-    window.addEventListener("mousemove", move, { passive: true });
-    document.addEventListener("mouseover", over, { passive: true });
-    document.addEventListener("mouseout", out, { passive: true });
-    return () => {
-      document.body.classList.remove("has-premium-cursor", "cursor-is-active");
-      window.removeEventListener("mousemove", move);
-      document.removeEventListener("mouseover", over);
-      document.removeEventListener("mouseout", out);
-    };
-  }, []);
-
-  useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
+    if (!menuOpen) return;
+    const menu = document.querySelector<HTMLElement>(".mobile-menu");
+    const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
+    const links = Array.from(menu?.querySelectorAll<HTMLAnchorElement>("a") ?? []);
+    links[0]?.focus();
+    const keydown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") { setMenuOpen(false); toggle?.focus(); }
+      if (event.key === "Tab") {
+        const controls = [toggle, ...links].filter((element): element is HTMLButtonElement | HTMLAnchorElement => element !== null);
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      }
+    };
+    document.addEventListener("keydown", keydown);
     return () => {
       document.body.style.overflow = "";
+      document.removeEventListener("keydown", keydown);
     };
   }, [menuOpen]);
 
   return (
     <>
-      <div className="scroll-progress" aria-hidden="true" />
-      <div className="cursor-dot" aria-hidden="true" />
-      <div className="cursor-ring" aria-hidden="true" data-label="" />
+      <a className="skip-link" href="#main-content">Skip to content</a>
 
       <header
         className={`site-header ${darkHeader ? "on-hero" : ""} ${scrolled ? "is-scrolled" : ""}`}
@@ -160,13 +99,13 @@ export function SiteChrome({
 
         <nav className="desktop-nav" aria-label="Primary navigation">
           {navItems.map((item) => (
-            <Link href={item.href} key={item.href}>{item.label}</Link>
+            <Link href={item.href} key={item.href} aria-current={pathname === item.href ? "page" : undefined}>{item.label}</Link>
           ))}
         </nav>
 
         <div className="header-actions">
-          <Link className="header-submit" href="/submit-opportunity">Submit an opportunity</Link>
-          <Link className="header-contact" href="/contact" data-magnetic>Work with Pavneet <ArrowUpRight /></Link>
+
+          <Link className="header-contact" href="/contact" data-magnetic>Let’s talk <ArrowUpRight /></Link>
         </div>
 
         <button
@@ -174,6 +113,7 @@ export function SiteChrome({
           className={`menu-toggle ${menuOpen ? "is-open" : ""}`}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
+          aria-controls="site-menu"
           onClick={() => setMenuOpen((current) => !current)}
         >
           <i />
@@ -181,9 +121,9 @@ export function SiteChrome({
         </button>
       </header>
 
-      <div className={`mobile-menu ${menuOpen ? "is-open" : ""}`} aria-hidden={!menuOpen}>
+      <div id="site-menu" className={`mobile-menu ${menuOpen ? "is-open" : ""}`} aria-hidden={!menuOpen} inert={!menuOpen}>
         <div className="mobile-menu-inner">
-          <p>Navigate</p>
+          <p>Your next move</p>
           {navItems.map((item, index) => (
             <Link href={item.href} key={item.href} onClick={() => setMenuOpen(false)}>
               <span>0{index + 1}</span>{item.label}<ArrowUpRight />
@@ -211,7 +151,7 @@ export function SiteChrome({
         <div className="footer-top shell">
           <div className="footer-pitch reveal">
             <p className="eyebrow light">Your next move</p>
-            <h2>Let&apos;s discuss the <em>opportunity.</em></h2>
+            <h2>Let’s make your <em>next move.</em></h2>
             <Link className="footer-cta" href="/contact" aria-label="Request a private consultation" data-magnetic>
               <span>Start a conversation</span><ArrowUpRight />
             </Link>
@@ -233,8 +173,8 @@ export function SiteChrome({
               <a href={site.whatsapp} target="_blank" rel="noreferrer">WhatsApp ↗</a>
             </div>
             <div>
-              <p>Primary paths</p>
-              <Link href="/invest">Investor Network</Link>
+              <p>Explore</p>
+              <Link href="/invest">Investment enquiry</Link>
               <Link href="/submit-opportunity">Submit a Property</Link>
               <Link href="/properties">Properties</Link>
             </div>

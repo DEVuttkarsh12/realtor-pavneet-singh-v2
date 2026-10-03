@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getSiteUrl } from "./site-url";
 import "./globals.css";
+import "./site-design.css";
 
 const siteUrl = getSiteUrl();
 const personSchema = {

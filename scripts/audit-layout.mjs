@@ -29,6 +29,10 @@ const allRoutes = [
   "/contact",
   "/privacy-policy",
   "/terms",
+  "/development",
+  "/blog/nova-scotia-home-buying-costs",
+  "/blog/prepare-your-property-before-listing",
+  "/blog/choosing-a-nova-scotia-community",
 ];
 
 const representativeRoutes = [
@@ -142,14 +146,7 @@ class CdpClient {
 const auditExpression = String.raw`
 (async () => {
   await document.fonts.ready;
-  await Promise.all(Array.from(document.images, (image) => {
-    if (image.complete) return Promise.resolve();
-    return new Promise((resolve) => {
-      image.addEventListener("load", resolve, { once: true });
-      image.addEventListener("error", resolve, { once: true });
-      setTimeout(resolve, 2500);
-    });
-  }));
+
 
   const pause = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   for (let y = 0; y < document.documentElement.scrollHeight; y += Math.max(600, innerHeight * 0.8)) {
@@ -158,6 +155,14 @@ const auditExpression = String.raw`
   }
   scrollTo(0, 0);
   await pause(500);
+  await Promise.all(Array.from(document.images, (image) => {
+    if (image.complete) return Promise.resolve();
+    return new Promise((resolve) => {
+      image.addEventListener("load", resolve, { once: true });
+      image.addEventListener("error", resolve, { once: true });
+      setTimeout(resolve, 2500);
+    });
+  }));
 
   const selector = (element) => {
     if (!element) return "unknown";
@@ -196,7 +201,7 @@ const auditExpression = String.raw`
       text: summarize(directText(element)),
       size: Number.parseFloat(getComputedStyle(element).fontSize),
     }))
-    .filter((item) => item.size < 10.95)
+    .filter((item) => item.size < 13.95)
     .slice(0, 12);
 
   const tightLineHeight = textElements
@@ -287,6 +292,7 @@ const auditExpression = String.raw`
     documentHeight: document.documentElement.scrollHeight,
     overlay: overlay ? summarize(overlay.textContent) : null,
     smallText,
+    headingFonts: Array.from(document.querySelectorAll("h1,h2,h3,h4"), element => ({ family: getComputedStyle(element).fontFamily, weight: getComputedStyle(element).fontWeight })),
     tightLineHeight,
     horizontalEscape,
     nowrapOverflow,
@@ -376,6 +382,7 @@ async function main() {
     result.overlay ||
     result.documentWidth > result.viewportWidth + 1 ||
     result.smallText.length ||
+    result.headingFonts.some(font => !font.family.startsWith("Manrope") || Number(font.weight) < 700) ||
     result.tightLineHeight.length ||
     result.horizontalEscape.length ||
     result.nowrapOverflow.length ||
