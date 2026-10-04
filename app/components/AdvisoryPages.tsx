@@ -6,11 +6,12 @@ import { site } from "../data";
 import { ArrowUpRight, SiteChrome } from "./SiteChrome";
 
 import PageHero from "./PageHero";
+import CommunityGallery from "./CommunityGallery";
 
 type Kind = "invest" | "submit" | "commercial" | "transactions" | "media";
 
-function Intro({ label, title, copy, image }: { label: string; title: string; copy: string; image: string }) {
-  return <PageHero eyebrow={label} title={title} copy={copy} image={image} />;
+function Intro({ label, title, copy, image, imageAlt = "" }: { label: string; title: string; copy: string; image: string; imageAlt?: string }) {
+  return <PageHero eyebrow={label} title={title} copy={copy} image={image} imageAlt={imageAlt} />;
 }
 
 function PageEnd() {
@@ -58,6 +59,19 @@ function Invest() { return <><Intro label="Invest / Nova Scotia" title="Your nex
 function Submit() { return <><Intro label="Submit an opportunity" title="Have land or an investment property?" copy="Owners, brokers and authorized representatives can introduce a property for a confidential initial discussion." image="/images/development.jpg" /><section className="advisory-content shell"><div><p className="revamp-kicker">For owners & brokers</p><h2>Your property. <em>Your plans.</em></h2><p>Share the location, property type and your plans. Pavneet will discuss the next step with you.</p><p className="advisory-note">For sensitive documents such as rent rolls, surveys or an offering memorandum, request a secure transfer method during the initial conversation.</p></div><EmailForm kind="submit" /></section><PageEnd /></>; }
 function Commercial() { return <><Intro label="Commercial real estate" title="Real estate for business growth." copy="Acquire, sell or lease commercial property with attention to the business decision behind the transaction." image="/images/halifax-aerial.jpg" /><section className="advisory-list shell"><div className="revamp-section-head"><p className="revamp-kicker">Commercial pathways</p><h2>Find the right kind of <em>space or asset.</em></h2></div><div>{[["Multifamily", "Apartment buildings, mixed use and rental portfolios."],["Retail & business real estate", "Retail plazas, restaurant space and service commercial property."],["Industrial", "Warehouses, logistics facilities, flex space and industrial land."],["Development", "Land, redevelopment sites and approved projects where information is available."]].map(([title,copy],i)=><article key={title}><span>0{i+1}</span><h3>{title}</h3><p>{copy}</p></article>)}</div><div className="advisory-actions"><Link href="/contact">Buy <ArrowUpRight /></Link><Link href="/submit-opportunity">Sell <ArrowUpRight /></Link><Link href="/contact">Lease <ArrowUpRight /></Link><Link href="/submit-opportunity">Submit opportunity <ArrowUpRight /></Link></div></section><PageEnd /></>; }
 function Transactions() { return <><Intro label="Selected transactions" title="The work should speak for itself." copy="A place for transactions and case studies once each example is documented, permissioned and approved for advertising." image="/images/halifax-aerial.jpg" /><section className="advisory-simple shell"><p className="revamp-kicker">Relevant experience</p><h2>Ask for examples that fit <em>your mandate.</em></h2><p>Pavneet can discuss relevant experience and his role in transactions directly. Public case studies will appear here when details and disclosure rights have been verified.</p><Link className="revamp-button dark" href="/contact">Request a conversation <ArrowUpRight /></Link></section><PageEnd /></>; }
-function Media() { return <><Intro label="Media & perspective" title="Conversations about Nova Scotia real estate." copy="Pavneet's perspective on property, development, business and the communities shaping this province." image="/images/pavneet-community-leadership.jpg" /><section className="advisory-list shell"><div className="revamp-section-head"><p className="revamp-kicker">Editorial formats</p><h2>More useful real estate <em>conversations.</em></h2></div><div>{[["Market Brief", "A concise read on what is changing in Nova Scotia property markets."],["Property Tours", "A closer look at buildings, sites and homes where filming is authorized."],["Development Explained", "The real estate questions behind land, approvals and execution."],["Conversations", "Perspectives from builders, investors and the specialists behind complex decisions."]].map(([title,copy],i)=><article key={title}><span>0{i+1}</span><h3>{title}</h3><p>{copy}</p></article>)}</div><p className="advisory-note">Episodes and interviews will be added when produced and approved for publication.</p></section><PageEnd /></>; }
+function Media() {
+  return <>
+    <Intro label="Media & perspective" title="Conversations that connect us." copy="Pavneet’s perspective on property, development, business and the communities shaping Nova Scotia." image="/images/community/pavneet-sharing-perspectives.webp" imageAlt="Pavneet Singh speaking into a microphone at a community gathering" />
+    <section className="section-space shell" aria-labelledby="community-voice-title">
+      <div className="property-section-heading">
+        <div><p className="eyebrow">In conversation</p><h2 id="community-voice-title">Ideas worth <em>sharing.</em></h2></div>
+        <p>Moments from Pavneet’s speaking engagements and community life.</p>
+      </div>
+      <CommunityGallery speakingOnly />
+      <Link className="line-link community-gallery-link" href="/about-pavneet-singh#community-life">See more community moments <ArrowUpRight /></Link>
+    </section>
+    <PageEnd />
+  </>;
+}
 
 export default function AdvisoryPage({ kind }: { kind: Kind }) { return <SiteChrome darkHeader><main id="main-content" className="advisory-page">{kind === "invest" ? <Invest /> : kind === "submit" ? <Submit /> : kind === "commercial" ? <Commercial /> : kind === "transactions" ? <Transactions /> : <Media />}</main></SiteChrome>; }

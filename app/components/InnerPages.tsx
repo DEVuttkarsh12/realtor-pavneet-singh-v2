@@ -15,6 +15,7 @@ import { ArrowUpRight, SiteChrome } from "./SiteChrome";
 import AdvisoryPage from "./AdvisoryPages";
 import PageHero from "./PageHero";
 import SiteImage from "./SiteImage";
+import CommunityGallery from "./CommunityGallery";
 import { buyerChecklists, buyerPhases, sellerChecklists, sellerPhases } from "../guide-content";
 
 type HeroProps = {
@@ -223,27 +224,14 @@ function AboutPage() {
           </div>
         </section>
 
-        <section className="community-story section-space">
+        <section className="community-story section-space" id="community-life">
           <div className="shell">
             <SectionIntro
               eyebrow="Community in action"
               title={<>Local relationships, <em>lived.</em></>}
               copy="Community service and showing up for people are part of the same long-term approach Pavneet brings to every client relationship."
             />
-            <div className="community-collage">
-              <figure className="reveal">
-                <SiteImage src="/images/pavneet-community-in-action.jpg" alt="Pavneet Singh, Nova Scotia REALTOR®" />
-                <figcaption><span>01</span>Community leadership</figcaption>
-              </figure>
-              <figure className="reveal reveal-delay">
-                <SiteImage src="/images/pavneet-community.jpg" alt="Pavneet Singh supporting a local community initiative" />
-                <figcaption><span>02</span>Showing up locally</figcaption>
-              </figure>
-              <figure className="community-portrait-card reveal reveal-delay-2">
-                <div className="community-portrait-media"><SiteImage src="/images/pavneet-transparent-headshot.png" alt="Pavneet Singh" /></div>
-                <figcaption><span>03</span>Serving all of Nova Scotia</figcaption>
-              </figure>
-            </div>
+            <CommunityGallery />
           </div>
         </section>
 

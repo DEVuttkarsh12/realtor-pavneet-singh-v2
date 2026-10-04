@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight, SiteChrome } from "./SiteChrome";
+import { CommunityHighlights } from "./CommunityGallery";
 
 const pathways = [
   { number: "01", title: "Buy a home", copy: "Find the right place for your next chapter.", href: "/residential", image: "/images/home-exterior.jpg", alt: "A detached home and its landscaped grounds", width: 1600, height: 1067 },
@@ -55,7 +56,9 @@ export default function HomeExperience() {
           <div className="property-profile-copy"><p className="eyebrow">Meet your REALTOR®</p><h2>Local knowledge.<br /><em>Personal commitment.</em></h2><p>Pavneet Singh helps buyers, sellers and investors move forward across Nova Scotia, bringing a practical perspective on property and development to every conversation.</p><div className="property-profile-signature"><strong>Pavneet Singh</strong><span>REALTOR® · Sutton Group Professional Realty</span></div><Link className="revamp-button dark" href="/about-pavneet-singh">Meet Pavneet <ArrowUpRight /></Link><p className="property-disclosure">Separate development interests are outside Sutton’s brokerage services and NSREC protections for real estate trading.</p></div>
         </section>
 
-        <section className="property-resources soft-section"><div className="shell"><div className="property-section-heading"><div><p className="eyebrow">A clear way forward</p><h2>Know what comes <em>next.</em></h2></div><Link className="line-link" href="/guides">All guides <ArrowUpRight /></Link></div><div className="property-resource-grid">{[
+        <CommunityHighlights />
+
+        <section className="property-resources"><div className="shell"><div className="property-section-heading"><div><p className="eyebrow">A clear way forward</p><h2>Know what comes <em>next.</em></h2></div><Link className="line-link" href="/guides">All guides <ArrowUpRight /></Link></div><div className="property-resource-grid">{[
           { number: "01", title: "Buying a home", copy: "Budget, search, offer and closing.", href: "/buying-a-home-guide" },
           { number: "02", title: "Selling a property", copy: "Prepare, price and make your move.", href: "/selling-a-home-guide" },
           { number: "03", title: "Investing in property", copy: "Define your criteria and explore the market.", href: "/invest" },

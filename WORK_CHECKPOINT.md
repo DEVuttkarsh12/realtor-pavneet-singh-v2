@@ -1,8 +1,10 @@
 # Pavneet Singh website checkpoint
 
-Saved: 2026-10-03 (Asia/Kolkata)
+Saved: 2026-10-04 (Asia/Kolkata)
 
 ## Current status
+
+All 13 photographs supplied in `~/Downloads/drive-download-20261004T025855Z-1-001` are now integrated. The About page contains the complete library, grouped into local relationships, community visits and speaking. The homepage has three selected highlights, and Media features the speaking photographs. Details and verification are in the October 4 entry below.
 
 The builder and REALTOR® visual redesign is complete. The user's request was to make the entire website consistent, bold, readable and concise, fix cropped photographs, and give it a clear residential, commercial and development identity.
 
@@ -99,3 +101,29 @@ Compared the published site’s [About Pavneet](https://realtorpavneetsingh.ca/a
 Validation: TypeScript and full lint passed; final production build and rendered HTML tests passed. Browser checks passed on all seven affected routes at 390px and 1280px (14 checks), with no overflow, broken loaded images, error overlays or page errors. Desktop navigation, step anchors, related-guide links, contact CTA and mobile menu links passed. Navigation automation used reduced motion to avoid clicks racing smooth scrolling. Screenshots are in /tmp/pavneet-*-390.png and /tmp/pavneet-*-1280.png. The temporary verification script is /tmp/check-pavneet-guides.mjs.
 
 Preview is running at http://127.0.0.1:3011/ (dev process session 42146). Changes are local; no deployment or GitHub push was performed for this request.
+
+## October 4, 2026 — complete community photo library integrated
+
+Recovered the previous checkpoint and checked GitHub before editing. A fresh checkout of `DEVuttkarsh12/realtor-pavneet-singh-v2`, branch `main`, was at `6ce0163348839113003f20c60d6c9404939e33b6` (Restore About Pavneet and complete buyer and seller guides). Every tracked project file matched, and there were no additional untracked project files. All previous work was already pushed, including the October 3 About and guide restoration.
+
+- Reviewed all 13 supplied JPGs and added full-resolution WebP versions under `public/images/community/`. All retain their complete original framing and orientation; no cropping or subject removal. The library totals approximately 2.54 MB and uses native lazy loading.
+- Added `app/community-photos.ts` with descriptive filenames, original filename mapping, accessible alt text, captions, groups and intrinsic dimensions.
+- Added `app/components/CommunityGallery.tsx` with responsive galleries. The About page displays all 13 in three contextual chapters: local relationships use three columns on desktops; community visits use two balanced columns; speaking photographs sit beside the portrait graphic. All become a single column on phones.
+- Added three homepage highlights and a link to `/about-pavneet-singh#community-life`.
+- Updated Media with an actual speaking photograph in the hero and the three speaking/perspective images in its gallery. Replaced the previous planned editorial-format placeholders with supplied photo content.
+- Retained Pavneet’s studio portrait and the Halifax video. Community photographs appear alongside personal and community content.
+- Added `public/images/community/SOURCES.md` with the complete 13-file placement map. The supplied originals remain untouched in Downloads.
+
+Validation: TypeScript, full ESLint, production build and existing rendered HTML tests passed. All 16 responsive checks passed across `/`, `/about`, `/about-pavneet-singh` and `/media` at 320, 390, 768 and 1440 pixels. Checks explicitly confirmed all 13 About photos and all three Home/Media gallery photos load, have alt text and retain their natural proportions. No overflow, text collisions, small text, broken images, error overlays or browser console errors. Visually reviewed desktop and phone layouts.
+
+Verification report: `/tmp/realtor-photo-layout-results.jsonl`; temporary audit: `/tmp/realtor-photo-layout-audit.mjs`. Screenshots: `/tmp/pavneet-photos-*.png`.
+
+Preview: http://127.0.0.1:3011/ (dev process session 54242). Restart with `npm run dev -- --host 127.0.0.1 --port 3011` if needed. The GitHub follow-up below records the user’s subsequent request to push this completed update. No separate deployment was requested.
+
+Environment: disk space filled during screenshot capture. With approval, removed the regenerable project npm download cache and the temporary GitHub comparison checkout. Source, installed dependencies, supplied originals and imported photographs were retained. This project still does not expose a Git worktree; `.git` is an empty read-only mount. Use a fresh temporary checkout for future Git operations.
+
+### GitHub follow-up
+
+The user requested pushing the verified photo update to GitHub. The target is `DEVuttkarsh12/realtor-pavneet-singh-v2`, branch `main`, with commit message `Add Pavneet community photos across home, About and Media`. This checkpoint accompanies the photo commit.
+
+Git metadata is at `/tmp/realtor-photo-push/.git`; its `core.worktree` points to this project. Use `git -C /tmp/realtor-photo-push` for status and future commits while that temporary directory exists. A duplicate checkout exceeded the available disk space, so its downloaded working files were removed with approval while retaining the metadata and the complete original project.

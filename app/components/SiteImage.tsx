@@ -1,7 +1,9 @@
 import Image from "next/image";
 import type { ComponentProps } from "react";
+import { communityPhotos } from "../community-photos";
 
 const dimensions: Record<string, [number, number]> = {
+  ...Object.fromEntries(communityPhotos.map((photo) => [`${photo.name}.webp`, [photo.width, photo.height] as [number, number]])),
   "halifax-aerial.jpg": [1600, 1200],
   "halifax-hero-poster.webp": [1440, 810],
   "nova-scotia-coast.webp": [1024, 1024],
